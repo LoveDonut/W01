@@ -3,52 +3,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// by Daehee
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Vector2 _jumpDirection;
-    [SerializeField] Vector2 _flyDirection;
+    [Header("Jump")]
+    [SerializeField] Vector2 _jumpDirection = new Vector2(20,40);
     [SerializeField] float _minPower = 1f;
-    [SerializeField] float _maxPower = 100f;
-    [SerializeField] int _flyLeftCount = 10;
-    [SerializeField] float _decreaseSpeed = 1f;
-    [SerializeField] float _holdDownSpeed = -1f;
+    [SerializeField] float _maxPower = 3;
+    [SerializeField] float backOffset = -6f;
+    [SerializeField] float backSpeed = 5f;
+    [SerializeField] float goSpeed = 20f;
+
+    [Header("Fly")]
+    [SerializeField] Vector2 _flyDirection = new Vector2(1,40);
+    [SerializeField] float flyCost = 10f;
+
+    [Header("Hold")]
+    [SerializeField] float _holdDownSpeed = -5f;
+
+    [Header("Damage")]
+    [SerializeField] float damageByTime = 2f;
 
     Rigidbody2D _myRigidbody;
-    Vector2 holdVelocity;
+    FollowCamera _followCamera;
 
-    public bool _isStart;
-    float startTime, endTime;
+    Vector2 _holdVelocity;
+    Vector2 _jumpPosition;
 
-    void Start()
+    public float hp = 100f; 
+    bool _isStart;
+    float _startTime, _endTime;
+
+    bool IsAlive => hp > 0;
+
+    void Awake()
     {
         _myRigidbody = GetComponent<Rigidbody2D>();
+        _followCamera = FindObjectOfType<FollowCamera>();
     }
 
     void Update()
     {
+        if (!IsAlive) return;
         JumpStart();
         Fly();
         Hold();
+        Damage(Time.deltaTime * damageByTime);
     }
 
-    private void Hold()
+    void Hold()
     {
         if (!_isStart) return;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            holdVelocity = _myRigidbody.velocity;
+            _holdVelocity = _myRigidbody.velocity;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         {
             if (_myRigidbody.velocity.y > 0f)
             {
-                _myRigidbody.velocity = new Vector2(holdVelocity.x, holdVelocity.y - _decreaseSpeed * Time.deltaTime);
+                _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdVelocity.y);
                 Debug.Log(_myRigidbody.velocity.y);
             }
             else
             {
-                _myRigidbody.velocity = new Vector2(holdVelocity.x, _holdDownSpeed);
+                _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
         }
     }
@@ -59,27 +79,53 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            startTime = Time.time;
+            _startTime = Time.time;
+            _jumpPosition = transform.position;
+            _followCamera.SetState(FollowCamera.State.back);
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if(transform.position.x > _jumpPosition.x + backOffset)
+            {
+                transform.position -= new Vector3(backSpeed * Time.deltaTime, 0);
+            }
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            endTime = Time.time;
-            float elapsedTime = Mathf.Clamp(endTime - startTime, _minPower, _maxPower);
+            _endTime = Time.time;
+            float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
             Debug.Log(elapsedTime);
-            _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
-            _isStart = true;
+            StartCoroutine(GoJump(elapsedTime));
+            _followCamera.SetState(FollowCamera.State.recover);
         }
     }
 
     void Fly()
     {
-        if(_flyLeftCount <= 0 || !_isStart) return;
+        if(hp < flyCost || !_isStart) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _myRigidbody.AddForce(_flyDirection, ForceMode2D.Impulse);
-            _flyLeftCount--;
+            hp -= flyCost;
         }
     }
 
+    IEnumerator GoJump(float elapsedTime)
+    {
+        while (transform.position.x < _jumpPosition.x)
+        {
+            transform.position += new Vector3(goSpeed * Time.deltaTime, 0);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
+        _isStart = true;
+    }
+
+    public void Damage(float damage)
+    {
+        hp -= damage;
+    }
 }
