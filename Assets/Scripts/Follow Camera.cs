@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,13 +15,17 @@ public class FollowCamera : MonoBehaviour
     Vector3 _followPosition;
     public State _state = State.follow;
     float upSizeSpeed;
+    float shakeDuration = 1f;
+    float shakeMagnitude = 0.2f;
+    float elapsedShakeTime;
 
     public enum State
     {
         follow,
         back,
         recover,
-        toSpace
+        toSpace,
+        shake
     };
 
     void Awake()
@@ -39,18 +42,46 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = _player.position + _followPosition;
-        if(_state == State.back)
+        MoveCamera();
+
+    }
+
+    void MoveCamera()
+    {
+        if (_state == State.shake)
         {
-            DownSize(_backSize);
+            Shake();
         }
-        if(_state == State.recover)
+        else
         {
-            RecoverSize();
+            transform.position = _player.position + _followPosition;
+            switch (_state)
+            {
+                case State.back:
+                    DownSize(_backSize);
+                    break;
+                case State.recover:
+                    RecoverSize();
+                    break;
+                case State.toSpace:
+                    UpSize(_spaceSize);
+                    break;
+                default:
+                    break;
+            }
         }
-        if (_state == State.toSpace)
+    }
+
+    void Shake()
+    {
+        if (elapsedShakeTime < shakeDuration)
         {
-            UpSize(_spaceSize);
+            transform.position = _followPosition + _player.position + (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            elapsedShakeTime += Time.deltaTime;
+        }
+        else
+        {
+            SetState(State.follow);
         }
     }
 
@@ -99,5 +130,11 @@ public class FollowCamera : MonoBehaviour
     public void SetState(State state)
     {
         _state = state;
+    }
+
+    public void HitCameraEffect()
+    {
+        SetState(State.shake);
+        elapsedShakeTime = 0;
     }
 }
