@@ -53,15 +53,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BottomOrigin: -1
+    - _BottomSpread: 1
     - _EnableExternalAlpha: 0
     - _Origin: -0.3
     - _Spread: 0.4
+    - _TopOrigin: 0.1
+    - _TopSpread: 0.5
     m_Colors:
-    - _BottomColor: {r: 0.5309274, g: 0.9016932, b: 0.9150943, a: 0}
+    - _BottomColor: {r: 0.7971698, g: 1, b: 0.9911813, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _MiddleColor: {r: 0, g: 0.5257122, b: 0.6603774, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _TopColor: {r: 0.07542717, g: 0.09081692, b: 0.14150935, a: 0}
+    - _TopColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6948767565791426727
 MonoBehaviour:
