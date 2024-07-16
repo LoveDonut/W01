@@ -9,6 +9,7 @@ public class FollowCamera : MonoBehaviour
     {
         follow,
         back,
+        dash,
         recover,
         toSpace,
         shake
@@ -16,13 +17,14 @@ public class FollowCamera : MonoBehaviour
 
     #region PrivateVariables
     [SerializeField] float _backSize = 5f;
+    [SerializeField] float _dashSize = 6f;
     [SerializeField] float _defaultSize = 7f;
     [SerializeField] float _spaceSize = 10f;
     [SerializeField] float _downSizeSpeed = -2.5f;
 
     Camera _camera;
     Transform _player;
-    Vector3 _followPosition;
+    Vector3 _followPosition, _followDashPosition;
     float upSizeSpeed;
     float shakeDuration = 1f;
     float shakeMagnitude = 0.2f;
@@ -64,13 +66,16 @@ public class FollowCamera : MonoBehaviour
             switch (_state)
             {
                 case State.back:
-                    DownSize(_backSize);
+                    DownSize(_backSize, _downSizeSpeed * Time.deltaTime);
+                    break;
+                case State.dash:
+                    DownSize(_dashSize, _downSizeSpeed * 2f * Time.deltaTime);
                     break;
                 case State.recover:
-                    RecoverSize();
+                    RecoverSize(upSizeSpeed * Time.deltaTime);
                     break;
                 case State.toSpace:
-                    UpSize(_spaceSize);
+                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime);
                     break;
                 default:
                     break;
@@ -91,11 +96,11 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    void DownSize(float targetSize)
+    void DownSize(float targetSize, float delta)
     {
         if(_camera.orthographicSize > targetSize)
         {
-            _camera.orthographicSize += _downSizeSpeed * Time.deltaTime;
+            _camera.orthographicSize += delta;
         }
         else
         {
@@ -103,11 +108,11 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    void UpSize(float targetSize)
+    void UpSize(float targetSize, float delta)
     {
         if(_camera.orthographicSize < targetSize)
         {
-            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+            _camera.orthographicSize += delta;
         }
         else
         {
@@ -116,15 +121,15 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    void RecoverSize()
+    void RecoverSize(float delta)
     {
         if(_camera.orthographicSize < _defaultSize)
         {
-            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+            _camera.orthographicSize += delta;
         }
         else if(_camera.orthographicSize > _defaultSize)
         {
-            _camera.orthographicSize -= upSizeSpeed * Time.deltaTime;
+            _camera.orthographicSize -= delta;
         }
 
         if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)

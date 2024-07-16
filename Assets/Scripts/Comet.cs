@@ -7,7 +7,7 @@ public class Comet : MonoBehaviour
     private Rigidbody2D cometRb;
 
     void Update(){
-        Debug.Log(cometRb.velocity);
+//        Debug.Log(cometRb.velocity);
     }
 
     void Start()
