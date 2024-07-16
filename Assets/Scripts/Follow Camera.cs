@@ -42,45 +42,55 @@ public class FollowCamera : MonoBehaviour
         transform.position = _player.position + _followPosition;
         if(_state == State.back)
         {
-            DownSize();
+            DownSize(_backSize);
         }
         if(_state == State.recover)
         {
-            RecoverFromDownSize();
+            RecoverSize();
         }
         if (_state == State.toSpace)
         {
-            UpSize();
+            UpSize(_spaceSize);
         }
     }
 
-    void DownSize()
+    void DownSize(float targetSize)
     {
-        if(_camera.orthographicSize > _backSize)
+        if(_camera.orthographicSize > targetSize)
         {
             _camera.orthographicSize += _downSizeSpeed * Time.deltaTime;
         }
+        else
+        {
+            _camera.orthographicSize = targetSize;
+        }
     }
 
-    void UpSize()
+    void UpSize(float targetSize)
     {
-        if(_camera.orthographicSize < _spaceSize)
+        if(_camera.orthographicSize < targetSize)
         {
             _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
         }
         else
         {
+            _camera.orthographicSize = targetSize;
             _state = State.follow;
         }
     }
 
-    void RecoverFromDownSize()
+    void RecoverSize()
     {
         if(_camera.orthographicSize < _defaultSize)
         {
             _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
         }
-        else
+        else if(_camera.orthographicSize > _defaultSize)
+        {
+            _camera.orthographicSize -= upSizeSpeed * Time.deltaTime;
+        }
+
+        if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)
         {
             SetState(State.follow);
         }

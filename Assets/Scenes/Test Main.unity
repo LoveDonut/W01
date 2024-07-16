@@ -278,11 +278,8 @@ MonoBehaviour:
   _backSize: 5
   _defaultSize: 7
   _spaceSize: 10
-  _backX: -5
-  _backXSpeed: 5
-  _goXSpeed: 10
-  _defaultX: 11
   _downSizeSpeed: -2.5
+  _state: 0
 --- !u!1 &737681714
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,8 +517,7 @@ MonoBehaviour:
   goSpeed: 20
   _flyDirection: {x: 1, y: 40}
   flyCost: 10
-  _decreaseSpeed: 100
-  _holdDownSpeed: -1
+  _holdDownSpeed: -5
   damageByTime: 2
   hp: 100
 --- !u!50 &980741682
