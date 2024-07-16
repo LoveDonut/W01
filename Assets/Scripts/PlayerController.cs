@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // by Daehee
 public class PlayerController : MonoBehaviour
@@ -29,8 +30,12 @@ public class PlayerController : MonoBehaviour
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
+    public Text featherText;
+    public Text hpText;
 
-    public float hp = 100f; 
+    public float hp = 100; 
+    public int maxHP = 120;
+    public int feather = 0;
     bool _isStart;
     float _startTime, _endTime;
 
@@ -49,6 +54,8 @@ public class PlayerController : MonoBehaviour
         Fly();
         Hold();
         Damage(Time.deltaTime * damageByTime);
+
+        Debug.Log(_myRigidbody.velocity);
     }
 
     void Hold()
@@ -127,5 +134,59 @@ public class PlayerController : MonoBehaviour
     public void Damage(float damage)
     {
         hp -= damage;
+    }
+
+    void updateHPText(){
+        hpText.text = "HP "+(int)hp;
+    }
+
+    void heightDown(){
+        Debug.Log("comet");
+        Vector2 tempVector = _myRigidbody.velocity;
+        _myRigidbody.gravityScale = 0;
+        _myRigidbody.velocity = new Vector2(0, -7f);
+        Debug.Log("코루틴 시작");
+        StartCoroutine(wait2Seconds());
+        Debug.Log("코루틴 끝");
+        _myRigidbody.velocity = tempVector;
+        _myRigidbody.gravityScale = 3;
+    }
+
+    IEnumerator wait2Seconds(){
+        Debug.Log("코루틴 도달");
+        yield return new WaitForSeconds(5.0f);
+        Debug.Log("5초 후");
+    }
+
+    void OnTriggerEnter2D(Collider2D other){
+        if(other.gameObject.CompareTag("Feather")){
+            feather++;
+            featherText.text = "Feather "+feather;
+        }
+
+        if(other.gameObject.CompareTag("Wind")){
+            _myRigidbody.AddForce(_flyDirection, ForceMode2D.Impulse);
+        }
+
+        if(other.gameObject.CompareTag("HPup")){
+            hp += 10;
+            if(hp >= maxHP){
+                hp = maxHP;
+            }
+            updateHPText();
+        }
+
+        if(other.gameObject.CompareTag("HPdown")){
+            hp -= 10;
+            if(hp<=0){
+                //gameover
+                hp = 0;
+            }
+            updateHPText();
+        }
+
+        if(other.gameObject.CompareTag("Comet")){
+            heightDown();
+        }
     }
 }
