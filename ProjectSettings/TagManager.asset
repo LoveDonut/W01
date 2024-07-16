@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - HPup
+  - Feather
+  - Comet
+  - HPdown
+  - Apollon
+  - Wind
   layers:
   - Default
   - TransparentFX
