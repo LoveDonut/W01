@@ -6,6 +6,7 @@ using UnityEngine;
 // by Daehee
 public class PlayerController : MonoBehaviour
 {
+    #region PrivateVariables
     [Header("Jump")]
     [SerializeField] Vector2 _jumpDirection = new Vector2(20,40);
     [SerializeField] float _minPower = 1f;
@@ -31,12 +32,16 @@ public class PlayerController : MonoBehaviour
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
 
-    public float hp = 100f; 
     bool _isStart;
     float _startTime, _endTime;
+    #endregion
 
-    bool IsAlive => hp > 0;
+    #region PublicVariables
+    public bool IsAlive { get { return hp > 0; } set { } }
+    public float hp = 100f;
+    #endregion
 
+    #region PrivateMethods
     void Awake()
     {
         _myRigidbody = GetComponent<Rigidbody2D>();
@@ -124,9 +129,12 @@ public class PlayerController : MonoBehaviour
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
         _isStart = true;
     }
+    #endregion
 
+    #region PublicMethods
     public void Damage(float damage)
     {
         hp -= damage;
     }
+    #endregion
 }
