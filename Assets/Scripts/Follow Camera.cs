@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,13 +15,17 @@ public class FollowCamera : MonoBehaviour
     Vector3 _followPosition;
     public State _state = State.follow;
     float upSizeSpeed;
+    float shakeDuration = 1f;
+    float shakeMagnitude = 0.2f;
+    float elapsedShakeTime;
 
     public enum State
     {
         follow,
         back,
         recover,
-        toSpace
+        toSpace,
+        shake
     };
 
     void Awake()
@@ -39,48 +42,86 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = _player.position + _followPosition;
-        if(_state == State.back)
+        MoveCamera();
+
+    }
+
+    void MoveCamera()
+    {
+        if (_state == State.shake)
         {
-            DownSize();
+            Shake();
         }
-        if(_state == State.recover)
+        else
         {
-            RecoverFromDownSize();
-        }
-        if (_state == State.toSpace)
-        {
-            UpSize();
+            transform.position = _player.position + _followPosition;
+            switch (_state)
+            {
+                case State.back:
+                    DownSize(_backSize);
+                    break;
+                case State.recover:
+                    RecoverSize();
+                    break;
+                case State.toSpace:
+                    UpSize(_spaceSize);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
-    void DownSize()
+    void Shake()
     {
-        if(_camera.orthographicSize > _backSize)
+        if (elapsedShakeTime < shakeDuration)
+        {
+            transform.position = _followPosition + _player.position + (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            elapsedShakeTime += Time.deltaTime;
+        }
+        else
+        {
+            SetState(State.follow);
+        }
+    }
+
+    void DownSize(float targetSize)
+    {
+        if(_camera.orthographicSize > targetSize)
         {
             _camera.orthographicSize += _downSizeSpeed * Time.deltaTime;
         }
+        else
+        {
+            _camera.orthographicSize = targetSize;
+        }
     }
 
-    void UpSize()
+    void UpSize(float targetSize)
     {
-        if(_camera.orthographicSize < _spaceSize)
+        if(_camera.orthographicSize < targetSize)
         {
             _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
         }
         else
         {
+            _camera.orthographicSize = targetSize;
             _state = State.follow;
         }
     }
 
-    void RecoverFromDownSize()
+    void RecoverSize()
     {
         if(_camera.orthographicSize < _defaultSize)
         {
             _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
         }
-        else
+        else if(_camera.orthographicSize > _defaultSize)
+        {
+            _camera.orthographicSize -= upSizeSpeed * Time.deltaTime;
+        }
+
+        if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)
         {
             SetState(State.follow);
         }
@@ -89,5 +130,11 @@ public class FollowCamera : MonoBehaviour
     public void SetState(State state)
     {
         _state = state;
+    }
+
+    public void HitCameraEffect()
+    {
+        SetState(State.shake);
+        elapsedShakeTime = 0;
     }
 }
