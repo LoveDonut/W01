@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Hold")]
     [SerializeField] float _holdDownSpeed = -5f;
+    [SerializeField] float holdCost = 25f;
 
     [Header("Damage")]
     [SerializeField] float damageByTime = 2f;
@@ -71,12 +72,12 @@ public class PlayerController : MonoBehaviour
             if (_myRigidbody.velocity.y > 0f)
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdVelocity.y);
-                Debug.Log(_myRigidbody.velocity.y);
             }
             else
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
+            Damage(Time.deltaTime * holdCost);
         }
     }
 
