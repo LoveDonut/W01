@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 737681715}
   m_Layer: 0
   m_Name: Water
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 980741682}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -828,11 +828,7 @@ MonoBehaviour:
   _holdDownSpeed: -1
   holdCost: 25
   damageByTime: 2
-  featherText: {fileID: 1051346995}
-  hpText: {fileID: 575960055}
   hp: 100
-  maxHP: 120
-  feather: 0
 --- !u!50 &980741682
 Rigidbody2D:
   serializedVersion: 4

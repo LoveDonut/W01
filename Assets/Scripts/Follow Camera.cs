@@ -5,20 +5,6 @@ using UnityEngine;
 // By Daehee
 public class FollowCamera : MonoBehaviour
 {
-    [SerializeField] float _backSize = 5f;
-    [SerializeField] float _defaultSize = 7f;
-    [SerializeField] float _spaceSize = 10f;
-    [SerializeField] float _downSizeSpeed = -2.5f;
-
-    Camera _camera;
-    Transform _player;
-    Vector3 _followPosition;
-    public State _state = State.follow;
-    float upSizeSpeed;
-    float shakeDuration = 1f;
-    float shakeMagnitude = 0.2f;
-    float elapsedShakeTime;
-
     public enum State
     {
         follow,
@@ -28,6 +14,26 @@ public class FollowCamera : MonoBehaviour
         shake
     };
 
+    #region PrivateVariables
+    [SerializeField] float _backSize = 5f;
+    [SerializeField] float _defaultSize = 7f;
+    [SerializeField] float _spaceSize = 10f;
+    [SerializeField] float _downSizeSpeed = -2.5f;
+
+    Camera _camera;
+    Transform _player;
+    Vector3 _followPosition;
+    float upSizeSpeed;
+    float shakeDuration = 1f;
+    float shakeMagnitude = 0.2f;
+    float elapsedShakeTime;
+    #endregion
+
+    #region PublicVariables
+    public State _state = State.follow;
+    #endregion
+
+    #region PrivateMethods
     void Awake()
     {
         _camera = GetComponent<Camera>();
@@ -126,7 +132,9 @@ public class FollowCamera : MonoBehaviour
             SetState(State.follow);
         }
     }
+    #endregion
 
+    #region PublicMethods
     public void SetState(State state)
     {
         _state = state;
@@ -137,4 +145,5 @@ public class FollowCamera : MonoBehaviour
         SetState(State.shake);
         elapsedShakeTime = 0;
     }
+    #endregion
 }
