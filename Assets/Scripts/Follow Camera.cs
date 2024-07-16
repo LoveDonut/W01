@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +5,16 @@ using UnityEngine;
 // By Daehee
 public class FollowCamera : MonoBehaviour
 {
+    public enum State
+    {
+        follow,
+        back,
+        recover,
+        toSpace,
+        shake
+    };
+
+    #region PrivateVariables
     [SerializeField] float _backSize = 5f;
     [SerializeField] float _defaultSize = 7f;
     [SerializeField] float _spaceSize = 10f;
@@ -14,17 +23,17 @@ public class FollowCamera : MonoBehaviour
     Camera _camera;
     Transform _player;
     Vector3 _followPosition;
-    public State _state = State.follow;
     float upSizeSpeed;
+    float shakeDuration = 1f;
+    float shakeMagnitude = 0.2f;
+    float elapsedShakeTime;
+    #endregion
 
-    public enum State
-    {
-        follow,
-        back,
-        recover,
-        toSpace
-    };
+    #region PublicVariables
+    public State _state = State.follow;
+    #endregion
 
+    #region PrivateMethods
     void Awake()
     {
         _camera = GetComponent<Camera>();
@@ -39,46 +48,42 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = _player.position + _followPosition;
-        if(_state == State.back)
-        {
-            DownSize();
-        }
-        if(_state == State.recover)
-        {
-            RecoverFromDownSize();
-        }
-        if (_state == State.toSpace)
-        {
-            UpSize();
-        }
+        MoveCamera();
+
     }
 
-    void DownSize()
+    void MoveCamera()
     {
-        if(_camera.orthographicSize > _backSize)
+        if (_state == State.shake)
         {
-            _camera.orthographicSize += _downSizeSpeed * Time.deltaTime;
-        }
-    }
-
-    void UpSize()
-    {
-        if(_camera.orthographicSize < _spaceSize)
-        {
-            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+            Shake();
         }
         else
         {
-            _state = State.follow;
+            transform.position = _player.position + _followPosition;
+            switch (_state)
+            {
+                case State.back:
+                    DownSize(_backSize);
+                    break;
+                case State.recover:
+                    RecoverSize();
+                    break;
+                case State.toSpace:
+                    UpSize(_spaceSize);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
-    void RecoverFromDownSize()
+    void Shake()
     {
-        if(_camera.orthographicSize < _defaultSize)
+        if (elapsedShakeTime < shakeDuration)
         {
-            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+            transform.position = _followPosition + _player.position + (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            elapsedShakeTime += Time.deltaTime;
         }
         else
         {
@@ -86,8 +91,59 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
+    void DownSize(float targetSize)
+    {
+        if(_camera.orthographicSize > targetSize)
+        {
+            _camera.orthographicSize += _downSizeSpeed * Time.deltaTime;
+        }
+        else
+        {
+            _camera.orthographicSize = targetSize;
+        }
+    }
+
+    void UpSize(float targetSize)
+    {
+        if(_camera.orthographicSize < targetSize)
+        {
+            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+        }
+        else
+        {
+            _camera.orthographicSize = targetSize;
+            _state = State.follow;
+        }
+    }
+
+    void RecoverSize()
+    {
+        if(_camera.orthographicSize < _defaultSize)
+        {
+            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+        }
+        else if(_camera.orthographicSize > _defaultSize)
+        {
+            _camera.orthographicSize -= upSizeSpeed * Time.deltaTime;
+        }
+
+        if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)
+        {
+            SetState(State.follow);
+        }
+    }
+    #endregion
+
+    #region PublicMethods
     public void SetState(State state)
     {
         _state = state;
     }
+
+    public void HitCameraEffect()
+    {
+        SetState(State.shake);
+        elapsedShakeTime = 0;
+    }
+    #endregion
 }
