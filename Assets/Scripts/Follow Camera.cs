@@ -3,23 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// By Daehee
 public class FollowCamera : MonoBehaviour
 {
-    [SerializeField] float _minSize = 5f;
+    [SerializeField] float _backSize = 5f;
     [SerializeField] float _defaultSize = 7f;
-    [SerializeField] float _maxSize = 10f;
-    [SerializeField] float _minX = 9f;
-    [SerializeField] float _defaultX = 11f;
+    [SerializeField] float _spaceSize = 10f;
+    [SerializeField] float _downSizeSpeed = -2.5f;
 
     Camera _camera;
     Transform _player;
     Vector3 _followPosition;
-    State _state = State.follow;
+    public State _state = State.follow;
+    float upSizeSpeed;
 
-    enum State
+    public enum State
     {
         follow,
-        changing
+        back,
+        recover,
+        toSpace
     };
 
     void Awake()
@@ -31,35 +34,60 @@ public class FollowCamera : MonoBehaviour
     void Start()
     {
         _followPosition = new Vector3(11f, 0f, -10f);
+        upSizeSpeed = _downSizeSpeed * -2f;
     }
 
     void LateUpdate()
     {
-        if (_state == State.follow)
+        transform.position = _player.position + _followPosition;
+        if(_state == State.back)
         {
-            transform.position = _player.position + _followPosition;
+            DownSize();
         }
-        else 
+        if(_state == State.recover)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _followPosition, Time.deltaTime);
-            _camera.orthographicSize += _camera.orthographicSize > _defaultSize ? -Time.deltaTime : Time.deltaTime;
-            if (transform.position == _followPosition && _camera.orthographicSize == _defaultSize)
-            {
-                _state = State.follow;
-            }
+            RecoverFromDownSize();
+        }
+        if (_state == State.toSpace)
+        {
+            UpSize();
         }
     }
 
-    public void DownSize()
+    void DownSize()
     {
-        _state = State.changing;
-        transform.position = Vector3.MoveTowards(transform.position, _player.position + new Vector3(_minX, 0f), Time.deltaTime);
-        _camera.orthographicSize = Math.Clamp(_camera.orthographicSize - Time.deltaTime, _minSize, _defaultSize);
+        if(_camera.orthographicSize > _backSize)
+        {
+            _camera.orthographicSize += _downSizeSpeed * Time.deltaTime;
+        }
     }
 
-    public void UpSize()
+    void UpSize()
     {
-        _state = State.changing;
-        _camera.orthographicSize = Math.Clamp(_camera.orthographicSize + Time.deltaTime, _defaultSize, _maxSize);
+        if(_camera.orthographicSize < _spaceSize)
+        {
+            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+        }
+        else
+        {
+            _state = State.follow;
+        }
+    }
+
+    void RecoverFromDownSize()
+    {
+        if(_camera.orthographicSize < _defaultSize)
+        {
+            _camera.orthographicSize += upSizeSpeed * Time.deltaTime;
+        }
+        else
+        {
+            SetState(State.follow);
+        }
+    }
+
+    public void SetState(State state)
+    {
+        _state = state;
     }
 }
