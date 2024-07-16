@@ -510,54 +510,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dash Particle System
       objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: lengthInSec
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.8314109
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: InitialModule.startLifetime.minScalar
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -597,10 +549,6 @@ PrefabInstance:
     - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6122569235248376908, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -979,11 +927,11 @@ MonoBehaviour:
   _backOffset: -6
   _backSpeed: 5
   _goSpeed: 20
-  _flyPower: 40
+  _flyPower: {x: 5, y: 40}
   _flyCost: 10
   _flyEffect: {fileID: 1966694824}
   _holdDownSpeed: -1
-  _holdCost: 25
+  _holdCost: 20
   _damageByTime: 2
   featherText: {fileID: 0}
   hpText: {fileID: 0}
@@ -1003,7 +951,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.01
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 0}
