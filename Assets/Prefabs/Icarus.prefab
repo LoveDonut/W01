@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 8657959479673111575}
   m_Layer: 0
   m_Name: Icarus
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -370,10 +370,9 @@ MonoBehaviour:
   _holdDownSpeed: -5
   _holdCost: 25
   _damageByTime: 2
-  featherText: {fileID: 0}
-  hpText: {fileID: 0}
   maxHP: 120
   feather: 0
+  _isGameStart: 0
   hp: 0
 --- !u!114 &2059752341964166071
 MonoBehaviour:

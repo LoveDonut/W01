@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         Hold();
         Damage(Time.deltaTime * _damageByTime);
 
-//        Debug.Log(_myRigidbody.velocity);
+        Debug.Log(_myRigidbody.velocity);
     }
 
     void Hold()
@@ -183,15 +183,7 @@ public class PlayerController : MonoBehaviour
 
     void heightDown(){
         tempVector = _myRigidbody.velocity;
-        _myRigidbody.gravityScale = 0;
-        _myRigidbody.velocity = new Vector2(0, -7f);
-        StartCoroutine(wait2Seconds());
-    }
-
-    IEnumerator wait2Seconds(){
-        yield return new WaitForSeconds(1.0f);
-        _myRigidbody.velocity = tempVector;
-        _myRigidbody.gravityScale = 3;
+        _myRigidbody.velocity = new Vector2(tempVector.x-0.5f, tempVector.y-1);
     }
 
     void OnTriggerEnter2D(Collider2D other){
