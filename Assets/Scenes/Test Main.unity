@@ -522,13 +522,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _backSize: 5
   _defaultSize: 7
-  _spaceSize: 10
   _downSizeSpeed: -2.5
-  _cameraMoveSpeed: 0.7
+  _spaceSize: 15
+  _sizeReductionInSpace: 4
+  _downSizeSpeedInSpace: -10
+  _downSizeSpeedWhenDash: -5
   _sunBelowPosition: {x: -10, y: -10, z: 0}
   _sunTransform: {fileID: 234669234}
   _startDelay: 0.5
   _lookUpSunDuration: 2
+  _cameraMoveSpeed: 0.7
 --- !u!114 &178096495
 MonoBehaviour:
   m_ObjectHideFlags: 0

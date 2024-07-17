@@ -21,7 +21,7 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] float _downSizeSpeed = -2.5f;
 
     [Header("When Space")]
-    [SerializeField] float _spaceSize = 20f;
+    [SerializeField] float _spaceSize = 15f;
     [SerializeField] float _sizeReductionInSpace = 4f;
     [SerializeField] float _downSizeSpeedInSpace = -10f;
 
