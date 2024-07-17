@@ -76,7 +76,7 @@ public class UIController : MonoBehaviour
         playerHeight = player.transform.position.y;
         if(StrengthenData.instance != null)
         {
-            firstJumpPower = (StrengthenData.instance.jumpDirection.x + StrengthenData.instance.jumpDirection.y) / 2f;
+            firstJumpPower = (StrengthenData.instance.jumpDirection.x + StrengthenData.instance.jumpDirection.y) / 2;
         }
         else
         {
