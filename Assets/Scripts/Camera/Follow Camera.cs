@@ -63,7 +63,7 @@ public class FollowCamera : MonoBehaviour
     private void MoveCamera()
     {
         if (cameraState == CameraState.notStart)
-        {
+        {   
             if (Input.GetKey(KeyCode.Space))
             {
                 StartCoroutine(CameraStateChangeDelay(_startDelay, CameraState.moveToSun));
