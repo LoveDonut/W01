@@ -15,7 +15,7 @@ public class HeightManager : MonoBehaviour
     public float _spaceHeight;
     public float _sunHeight;
     public float _cometHeight;
-    public float backPowerInSpace = 10f;
+    public float _backPowerInSpace = 10f;
 
 
     PlayerController _playerController;
