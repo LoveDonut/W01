@@ -15,12 +15,14 @@ public class UIController : MonoBehaviour
     float addMaxHP;
     float addJumpPower;
     float currentJumpPower;
+    float staminaTime = 3;
 
     public GameObject player;
     public GameObject heightManager;
     public GameObject spaceLongTutorial;
     public GameObject spaceShortTutorial;
     public GameObject shiftTutorial;
+    public GameObject staminaObject;
 
     [Header("Animator")]
     public Animator SpaceLongKey;
@@ -38,6 +40,7 @@ public class UIController : MonoBehaviour
     public Slider bestHeightSlider;
     public Slider heightSlider;
     public Slider healthSlider;
+    public Slider staminaSlider;
 
     [Header("Text")]
     public TMP_Text featherText;
@@ -106,10 +109,21 @@ public class UIController : MonoBehaviour
             SpaceLongKey.SetBool("IsGameStart", true);
             SpaceLongArrow.SetBool("IsGameStart", true);
         }
-        if (player.GetComponent<PlayerController>()._didJump)
+        if (!player.GetComponent<PlayerController>().jumpTutorial)
         {
             spaceLongTutorial.SetActive(false);
             spaceShortTutorial.SetActive(true);
+        }
+        if (!player.GetComponent<PlayerController>().flyTutorial)
+        {
+            spaceShortTutorial.SetActive(false);
+            shiftTutorial.SetActive(true);
+            ShiftKey.SetBool("IsGameStart", true);
+            ShiftArrow.SetBool("IsGameStart", true);
+        }
+        if (!player.GetComponent<PlayerController>().holdTutorial)
+        {
+            shiftTutorial.SetActive(false);
         }
         if (!player.GetComponent<PlayerController>().IsAlive) // ºˆ¡§ « ø‰
         {
@@ -129,6 +143,20 @@ public class UIController : MonoBehaviour
         if (bestHeightSlider.GetComponent<Slider>().value < heightSlider.GetComponent<Slider>().value)
         {
             bestHeightSlider.GetComponent<Slider>().value = heightSlider.GetComponent<Slider>().value;
+        }
+        if (player.GetComponent<PlayerController>().useStamina)
+        {
+            print("»¶µÂΩ√¿€");
+            staminaObject.SetActive(true);
+            staminaTime -= Time.deltaTime;
+            staminaSlider.GetComponent<Slider>().value = staminaTime;
+        }
+        else if (!player.GetComponent<PlayerController>().useStamina)
+        {
+            print("»¶µÂEnd");
+            staminaObject.SetActive(false);
+            staminaTime = 3f;
+            staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
     }
 }

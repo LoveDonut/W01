@@ -45,7 +45,11 @@ public class PlayerController : MonoBehaviour
 
     public float maxHP = 120;
     public int feather = 0;
-    public bool _didJump; // trans
+    public bool _didJump;
+    public bool flyTutorial = true;
+    public bool jumpTutorial = true;
+    public bool holdTutorial = true;
+    public bool useStamina = false;
     bool _canFly = true;
     bool holdStatus = false;
     bool holdKeyStatus = false;
@@ -105,11 +109,13 @@ public class PlayerController : MonoBehaviour
         if (!_didJump || holdStatus) return;
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
+            holdTutorial = false;
             _playerAnimator.WingGlide();
             _holdVelocity = _myRigidbody.velocity;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
+
             if (!holdKeyStatus)
             {
                 holdKeyStatus = true;
@@ -129,6 +135,7 @@ public class PlayerController : MonoBehaviour
                 Damage(Time.deltaTime * _holdCost);
             }
         }
+
         if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !holdCoolStatus)
         {
             holdStatus = true;
@@ -190,6 +197,7 @@ public class PlayerController : MonoBehaviour
             }
             Damage(_flyCost);
             _canFly = false;
+            flyTutorial = false;
             if (PlayerState._state != PlayerState.State.toSpace)
             {
                 _playerState.SetState(PlayerState.State.dash);
@@ -222,6 +230,7 @@ public class PlayerController : MonoBehaviour
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.3f);
         _didJump = true;
+        jumpTutorial = false;
         Damage(jumpCost);
     }
 
@@ -230,14 +239,19 @@ public class PlayerController : MonoBehaviour
         holdCoolStatus = true;
         holdStatus = true;
         Debug.Log("쿨다운 시작");
+        useStamina = false;
         yield return new WaitForSeconds(1f);
+        useStamina = true;
         holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
     }
     IEnumerator CheckHoldKey()
     {
+        useStamina = true;
         yield return new WaitForSeconds(3);
+        useStamina = false;
+
         if (holdKeyStatus)
         {
             StartCoroutine(HoldCoolDown());
