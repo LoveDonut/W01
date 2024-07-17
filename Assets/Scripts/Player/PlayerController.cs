@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     Vector2 _jumpPosition;
     Vector2 tempVector;
 
-    public int maxHP = 120;
+    public float maxHP = 120;
     public int feather = 0;
     bool _didJump;
     bool _canFly = true;
