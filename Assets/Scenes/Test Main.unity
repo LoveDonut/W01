@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1430ae3445d9701419ff82803424d3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backSize: 5
+  _backSize: 9
   _defaultSize: 7
   _downSizeSpeed: -2.5
   _spaceSize: 15
@@ -7969,9 +7969,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageByTimeInSpace: 2
-  _skyHeight: 50
-  _spaceHeight: 100
-  _sunHeight: 380
+  _skyHeight: 250
+  _spaceHeight: 430
+  _sunHeight: 930
   _backPowerInSpace: 10
 --- !u!4 &1815505644
 Transform:
