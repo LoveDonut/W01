@@ -2504,7 +2504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3250307664225150132, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 70
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3250307664225150132, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2608,6 +2608,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2583857823422583995, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5305612198432411384, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_Name
       value: Icarus

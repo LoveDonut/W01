@@ -372,6 +372,7 @@ MonoBehaviour:
   _damageByTime: 2
   maxHP: 1000
   feather: 0
+  _isGameStart: 0
   hp: 0
 --- !u!114 &2059752341964166071
 MonoBehaviour:

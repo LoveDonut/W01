@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 // By Daehee
 public class FollowCamera : MonoBehaviour
 {
     enum CameraState
     {
+        notStart, //
         moveToSun,
         moveToPlayer,
         follow
@@ -26,7 +28,7 @@ public class FollowCamera : MonoBehaviour
     PlayerController _player;
     PlayerState _playerState;
     Vector3 _followPosition, _followDashPosition;
-    CameraState cameraState = CameraState.moveToSun;
+    CameraState cameraState = CameraState.notStart;
 
     float upSizeSpeed;
     float shakeDuration = 1f;
@@ -59,7 +61,14 @@ public class FollowCamera : MonoBehaviour
 
     private void MoveCamera()
     {
-        if (cameraState == CameraState.moveToSun)
+        if (cameraState == CameraState.notStart)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                cameraState = CameraState.moveToSun;
+            }
+        }
+        else if (cameraState == CameraState.moveToSun) 
         {
             if (isCameraNear(_sunBelowPosition))
             {
