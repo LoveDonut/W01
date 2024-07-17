@@ -137,7 +137,7 @@ public class ItemSpawn : MonoBehaviour
         for(int i = 0; i<100; i++){
             int index = Random.Range(0,skyBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSkyPosY());
-            Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
+            Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
         }
 
         //space
@@ -145,7 +145,7 @@ public class ItemSpawn : MonoBehaviour
         for(int i = 0; i<100; i++){
             int index = Random.Range(0,spaceBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSpacePosY());
-            Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
+            Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
         }
     }
 

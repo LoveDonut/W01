@@ -4242,55 +4242,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486249537}
   m_CullTransparentMesh: 1
---- !u!1 &1491247119
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1491247121}
-  - component: {fileID: 1491247120}
-  m_Layer: 0
-  m_Name: meteor Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1491247120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491247119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6f54e834ea91174295e8a9d58cba62f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _star: {fileID: 2399249880846185959, guid: cb28d097ce4089d449a90ab15e650513, type: 3}
-  _moveSpeed: -10
-  _maintainTime: 2
-  _spawnInterval: 1.2
-  spawnNum: 4
---- !u!4 &1491247121
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491247119}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1514559341
 GameObject:
   m_ObjectHideFlags: 0
@@ -5799,10 +5750,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1048264473}
-  buffItems:
-  - {fileID: 4105283979172909683, guid: 3815defbab5dbf044b01f36dad78177f, type: 3}
-  - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
-  - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
+  feather: {fileID: 0}
+  seaBuffItems: []
+  skyBuffItems: []
+  spaceBuffItems: []
   debuffItems:
   - {fileID: 4124856006442574888, guid: 691928cfa2ba0bb4e95808dddec9a708, type: 3}
   comets:
@@ -6489,7 +6440,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 178096493}
-  - {fileID: 1491247121}
   - {fileID: 216928869}
   - {fileID: 6343440092208096621}
   - {fileID: 1898617234}
