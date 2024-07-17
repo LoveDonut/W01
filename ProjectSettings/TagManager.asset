@@ -4,6 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Water
   - HPup
   - Feather
   - Comet
@@ -53,9 +54,12 @@ TagManager:
   - name: BackgroundObject
     uniqueID: 552859633
     locked: 0
+  - name: Player
+    uniqueID: 394289223
+    locked: 0
   - name: Tower
     uniqueID: 3217122591
     locked: 0
-  - name: Player
-    uniqueID: 394289223
+  - name: Item
+    uniqueID: 1960272259
     locked: 0
