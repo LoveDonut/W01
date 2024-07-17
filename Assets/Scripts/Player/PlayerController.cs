@@ -80,9 +80,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        maxHP += StrengthenData.instance.maxHpUp;
         hp = maxHP;
-        _jumpDirection += StrengthenData.instance.jumpPowerUp;
     }
 
     void Update()
