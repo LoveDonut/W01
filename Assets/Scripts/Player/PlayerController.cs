@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     #region PublicVariables
     public bool IsAlive { get { return hp > 0; } set { } }
-    public bool _isGameStart;
+    public bool IsGameStart { get { return _playerState._state != PlayerState.State.LookupSun; } }
     public float hp;
     #endregion
 
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!IsAlive) return;
+        if (!IsAlive || !IsGameStart) return;
         JumpStart();
         Fly();
         Hold();

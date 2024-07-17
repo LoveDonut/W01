@@ -6,6 +6,7 @@ public class PlayerState : MonoBehaviour
 {
     public enum State
     {
+        LookupSun,
         follow,
         back,
         dash,
@@ -22,7 +23,7 @@ public class PlayerState : MonoBehaviour
 
     #region PublicVariables
 
-    public State _state = State.follow;
+    public State _state = State.LookupSun;
 
     #endregion
 
