@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _goSpeed = 20f;
 
     [Header("Fly")]
-    [SerializeField] float _flyPower = 40f;
+    [SerializeField] Vector2 _flyPower = new Vector2(5f,40f);
     [SerializeField] float _flyCost = 10f;
     [SerializeField] ParticleSystem _flyEffect;
 
@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
+    PlayerState _playerState;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     #region PublicVariables
     public bool IsAlive { get { return hp > 0; } set { } }
-    public float hp = 100f;
+    public float hp;
     #endregion
 
     #region PrivateMethods
@@ -54,6 +55,12 @@ public class PlayerController : MonoBehaviour
     {
         _myRigidbody = GetComponent<Rigidbody2D>();
         _followCamera = FindObjectOfType<FollowCamera>();
+        _playerState = GetComponent<PlayerState>();
+    }
+
+    void Start()
+    {
+        hp = maxHP;    
     }
 
     void Update()
@@ -64,7 +71,7 @@ public class PlayerController : MonoBehaviour
         Hold();
         Damage(Time.deltaTime * _damageByTime);
 
-//        Debug.Log(_myRigidbody.velocity);
+        Debug.Log(_myRigidbody.velocity);
     }
 
     void Hold()
@@ -97,7 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             _startTime = Time.time;
             _jumpPosition = transform.position;
-            _followCamera.SetState(FollowCamera.State.back);
+            _playerState.SetState(PlayerState.State.back);
         }
         if (Input.GetKey(KeyCode.Space))
         {
@@ -111,7 +118,7 @@ public class PlayerController : MonoBehaviour
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
             StartCoroutine(GoJump(elapsedTime));
-            _followCamera.SetState(FollowCamera.State.recover);
+            _playerState.SetState(PlayerState.State.recover);
         }
     }
 
@@ -124,15 +131,15 @@ public class PlayerController : MonoBehaviour
             _flyEffect.Play();
             if (_myRigidbody.velocity.y > 0)
             {
-                _myRigidbody.velocity += new Vector2(1f, _flyPower);
+                _myRigidbody.velocity += _flyPower;
             }
             else
             {
-                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, _flyPower);
+                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x + _flyPower.x, _flyPower.y);
             }
             hp -= _flyCost;
             _canFly = false;
-            _followCamera.SetState(FollowCamera.State.dash);
+            _playerState.SetState(PlayerState.State.dash);
             StartCoroutine(FlyCoolDown());
         }
     }
@@ -142,7 +149,7 @@ public class PlayerController : MonoBehaviour
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
         yield return new WaitForSeconds(flyCoolDown);
         _canFly = true;
-        _followCamera.SetState(FollowCamera.State.recover);
+        _playerState.SetState(PlayerState.State.recover);
     }
 
     IEnumerator GoJump(float elapsedTime)
@@ -164,6 +171,11 @@ public class PlayerController : MonoBehaviour
     public void Damage(float damage)
     {
         hp -= damage;
+    }
+
+    public void ReducePlayerXSpeed(float power)
+    {
+        _myRigidbody.AddForce(new Vector2(power, 0f), ForceMode2D.Impulse);
     }
     #endregion
 
@@ -196,10 +208,17 @@ public class PlayerController : MonoBehaviour
         }
 
         if(other.gameObject.CompareTag("Wind")){
-            _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, _flyPower * 2f);
+            if (_myRigidbody.velocity.y > 0)
+            {
+                _myRigidbody.velocity += new Vector2(0f, _flyPower.y * 2f);
+            }
+            else
+            {
+                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, _flyPower.y * 2f);
+            }
         }
 
-        if(other.gameObject.CompareTag("HPup")){
+        if (other.gameObject.CompareTag("HPup")){
             hp += 10;
             if(hp >= maxHP){
                 hp = maxHP;
