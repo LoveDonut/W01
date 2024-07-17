@@ -7,9 +7,9 @@ public class StrengthenData : MonoBehaviour
     public static StrengthenData instance;
 
     public bool isRestart;
-    public float maxHpUp;
+    public float maxHp;
     public int feather;
-    public Vector2 jumpPowerUp;
+    public Vector2 jumpDirection;
 
     // Start is called before the first frame update
     void Start()
