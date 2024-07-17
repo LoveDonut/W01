@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Dead : MonoBehaviour
 {
@@ -46,10 +47,11 @@ public class Dead : MonoBehaviour
             _playerState.GameOver();
 
             FallInWaterEffect(collision);
+            Restart();
         }
     }
 
-    private void FallInWaterEffect(Collider2D collision)
+    void FallInWaterEffect(Collider2D collision)
     {
         ParticleSystem instance = Instantiate(_waterSplash, transform.position, _waterSplash.transform.rotation);
         Destroy(instance, _waterSplash.main.duration + _waterSplash.main.startLifetime.constantMax);
@@ -57,6 +59,15 @@ public class Dead : MonoBehaviour
         {
             playerSprite.color -= new Color(0f, 0f, 0f, 0.5f);
         }
+    }
+
+    IEnumerator Restart()
+    {
+        StrengthenData.instance.jumpPowerUp = _playerController._jumpDirection - StrengthenData.instance.defaultJumpPower;
+        StrengthenData.instance.maxHpUp = _playerController.maxHP - StrengthenData.instance.defaultHp;
+        StrengthenData.instance.isRestart = true;
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(0);
     }
 
     #endregion

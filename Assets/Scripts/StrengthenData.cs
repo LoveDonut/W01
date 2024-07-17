@@ -4,25 +4,34 @@ using UnityEngine;
 
 public class StrengthenData : MonoBehaviour
 {
+    PlayerController playerController;
+
     public static StrengthenData instance;
 
     public bool isRestart;
-    public float maxHp;
+    public float defaultHp = 100f;
+    public Vector2 defaultJumpPower;
+    public float maxHpUp;
     public int feather;
-    public Vector2 jumpDirection;
+    public Vector2 jumpPowerUp;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else 
+        else
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();
+        defaultJumpPower = playerController._jumpDirection;
     }
 
 }

@@ -74,14 +74,7 @@ public class UIController : MonoBehaviour
     {
         sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
         playerHeight = player.transform.position.y;
-        if(StrengthenData.instance != null)
-        {
-            firstJumpPower = (StrengthenData.instance.jumpDirection.x + StrengthenData.instance.jumpDirection.y) / 2;
-        }
-        else
-        {
-            firstJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
-        }
+        firstJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
     }
 
 
@@ -93,12 +86,12 @@ public class UIController : MonoBehaviour
         playerHeight = player.transform.position.y;
         currentJumpPower = firstJumpPower + addingJumpPower;
 
-        // ½½¶óÀÌ´õ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½
         heightSlider.value = playerHeight / sunHeight;
         healthSlider.maxValue = player.GetComponent<PlayerController>().maxHP;
         healthSlider.value = player.GetComponent<PlayerController>().hp;
 
-        // text ³»¿ë ¼öÁ¤
+        // text ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
         jumpPowerText.text = "JumpPower : " + firstJumpPower + " ( + " + addingJumpPower + " )";
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
@@ -116,7 +109,7 @@ public class UIController : MonoBehaviour
 
 
 
-        // UI È®ÀÎ¿ë
+        // UI È®ï¿½Î¿ï¿½
         if (Input.GetKeyDown(KeyCode.Space))
         {
             titleUI.SetActive(false);
@@ -144,7 +137,7 @@ public class UIController : MonoBehaviour
         {
             shiftTutorial.SetActive(false);
         }
-        if (!player.GetComponent<PlayerController>().IsAlive) // ¼öÁ¤ ÇÊ¿ä
+        if (!player.GetComponent<PlayerController>().IsAlive) // ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
         {
             gameOverUI.SetActive(true);
             gameUI.SetActive(false);
@@ -165,14 +158,14 @@ public class UIController : MonoBehaviour
         }
         if (player.GetComponent<PlayerController>().useStamina)
         {
-            print("È¦µå½ÃÀÛ");
+            print("È¦ï¿½ï¿½ï¿½ï¿½ï¿½");
             staminaObject.SetActive(true);
             staminaTime -= Time.deltaTime;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
         else if (!player.GetComponent<PlayerController>().useStamina)
         {
-            print("È¦µåEnd");
+            print("È¦ï¿½ï¿½End");
             staminaObject.SetActive(false);
             staminaTime = 3f;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
