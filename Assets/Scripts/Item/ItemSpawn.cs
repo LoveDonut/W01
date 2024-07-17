@@ -16,13 +16,21 @@ public class ItemSpawn : MonoBehaviour
 
     int maxX = 0;
 
+    public float sunHeight;
+    public float spaceHeight;
+    public float minCloudHeight;
+    public float maxCloudHeight;
+    public float starHeight;
+    public float skyHeight;
+    public float cometHeight;
+
     // Start is called before the first frame update
     void Start()
     {
         // spawn cloud
         for(int i = 0; i < 30; i++){
             int index = Random.Range(0,cloud.Length);
-            Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomSkyPosY());
+            Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomCloudPosY());
             Instantiate(cloud[index],tmpPosition,transform.rotation);
         }
 
@@ -95,7 +103,7 @@ public class ItemSpawn : MonoBehaviour
         // spawn cloud
         for(int i = 0; i < 20; i++){
             int index = Random.Range(0,cloud.Length);
-            Vector2 tmpPosition = new Vector2(tmp + randomX(), randomSkyPosY());
+            Vector2 tmpPosition = new Vector2(tmp + randomX(), randomCloudPosY());
             Instantiate(cloud[index],tmpPosition,transform.rotation);
         }
 
@@ -158,28 +166,32 @@ public class ItemSpawn : MonoBehaviour
     }
 
     float randomSeaPosY(){
-        return Random.Range(10, 300);
+        return Random.Range(10, skyHeight);
     }
 
     float randomSkyPosY(){
-        return Random.Range(300, 500);
+        return Random.Range(skyHeight, spaceHeight);
     }
 
     float randomSpacePosY(){
-        return Random.Range(500, 750);
+        return Random.Range(spaceHeight, sunHeight);
     }
     
 
     float randomcometPosY(){
-        return Random.Range(800, 1000);
+        return Random.Range(sunHeight - cometHeight, sunHeight);
     }
 
 
     float randomStarPosY(){
-        return Random.Range(100, 225);
+        return Random.Range(starHeight, sunHeight);
+    }
+
+    float randomCloudPosY(){
+        return Random.Range(minCloudHeight, maxCloudHeight);
     }
 
     float randomFeatherPosY(){
-        return Random.Range(0, 500);
+        return Random.Range(10, sunHeight);
     }
 }
