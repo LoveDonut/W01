@@ -316,10 +316,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8686576739983331737}
+  - component: {fileID: -6225498114758122353}
+  - component: {fileID: -8516480384324234425}
   - component: {fileID: 5157636425727128004}
   - component: {fileID: 2583857823422583995}
   - component: {fileID: 8657959479673111575}
-  - component: {fileID: 2281511463294358420}
   m_Layer: 0
   m_Name: Icarus
   m_TagString: Untagged
@@ -336,14 +337,57 @@ Transform:
   m_GameObject: {fileID: 5305612198432411384}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 3, z: 0.044070825}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5947713100413162683}
   - {fileID: 3632772968099508081}
+  - {fileID: 4087931857003510212}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6225498114758122353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305612198432411384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1aaf193518452647bebe50e112cfb47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpDirection: {x: 20, y: 40}
+  _minPower: 1
+  _maxPower: 3
+  _backOffset: -6
+  _backSpeed: 5
+  _goSpeed: 20
+  _flyPower: {x: 5, y: 40}
+  _flyCost: 10
+  _flyEffect: {fileID: 6773812660582164723}
+  _holdDownSpeed: -5
+  _holdCost: 25
+  _damageByTime: 2
+  featherText: {fileID: 0}
+  hpText: {fileID: 0}
+  maxHP: 120
+  feather: 0
+  hp: 0
+--- !u!114 &-8516480384324234425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305612198432411384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361f532b27413df40ad3580fc1ca76e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 0
 --- !u!95 &5157636425727128004
 Animator:
   serializedVersion: 5
@@ -413,7 +457,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.01
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 0}
@@ -427,33 +471,70 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2281511463294358420
-MonoBehaviour:
+--- !u!1001 &8792607034040710485
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8686576739983331737}
+    m_Modifications:
+    - target: {fileID: 981320651979126113, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_Name
+      value: Dash Particle System
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.21434891
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.21434891
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6738357
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.6738357
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 54.708
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+--- !u!4 &4087931857003510212 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4809525399160261777, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+  m_PrefabInstance: {fileID: 8792607034040710485}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5305612198432411384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9fac45b0e77d9d4db92840821f77f32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _jumpDirection: {x: 20, y: 40}
-  _minPower: 1
-  _maxPower: 3
-  backOffset: -6
-  backSpeed: 5
-  goSpeed: 20
-  _flyDirection: {x: 1, y: 40}
-  flyCost: 10
-  _holdDownSpeed: -5
-  holdCost: 25
-  damageByTime: 2
-  featherText: {fileID: 0}
-  hpText: {fileID: 0}
-  maxHP: 120
-  feather: 0
-  BodyAnim: {fileID: 5157636425727128004}
-  WingAnim: {fileID: 3935487710109461626}
-  hp: 1000
+--- !u!198 &6773812660582164723 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2595471117520199078, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
+  m_PrefabInstance: {fileID: 8792607034040710485}
+  m_PrefabAsset: {fileID: 0}
