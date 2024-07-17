@@ -8,7 +8,7 @@ public class Dead : MonoBehaviour
 
     [SerializeField] ParticleSystem _waterSplash;
     [SerializeField] List<SpriteRenderer> _playerSpriteList;
-    [SerializeField] float _deadFallSpeedIncrase = 1f;
+    [SerializeField] float _deadFallSpeedIncrase = 100f;
     
     PlayerController _playerController;
     PlayerState _playerState;
