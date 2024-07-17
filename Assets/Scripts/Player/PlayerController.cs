@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     [Header("WindPower")]
     [SerializeField] Vector2 windPower;
 
+    [Header("Others")]
+    [SerializeField] Transform _sunTransform;
+    [SerializeField] float speedMoveToSunAfterClear = 10f;
+
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
     PlayerState _playerState;
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
     bool holdStatus = false;
     bool holdKeyStatus = false;
     bool holdCoolStatus = false;
+    bool _isSpaceKeyDown = false;
 
     float _startTime, _endTime;
     #endregion
@@ -81,9 +86,15 @@ public class PlayerController : MonoBehaviour
     {
 
         if (!IsGameStart) return;
-        if(PlayerState._state == PlayerState.State.water)
+        if (PlayerState._state == PlayerState.State.water)
         {
-            _myRigidbody.velocity = new Vector2(1f, -3f);            
+            _myRigidbody.velocity = new Vector2(1f, -3f);
+        }
+        else if (PlayerState._state == PlayerState.State.clear)
+        {
+//            Debug.Log(PlayerState._state);
+            Vector3 directionToSun = (_sunTransform.position - transform.position).normalized;
+            _myRigidbody.velocity = directionToSun * speedMoveToSunAfterClear;
         }
         else
         {
@@ -96,7 +107,6 @@ public class PlayerController : MonoBehaviour
     void Hold()
     {
         if (!_didJump || holdStatus) return;
-
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             holdTutorial = false;
@@ -105,7 +115,9 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            if (!holdKeyStatus){
+
+            if (!holdKeyStatus)
+            {
                 holdKeyStatus = true;
                 // useStamina = true;
                 StartCoroutine(CheckHoldKey());
@@ -119,12 +131,14 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
-            if(!holdStatus){
+            if (!holdStatus)
+            {
                 Damage(Time.deltaTime * _holdCost);
             }
         }
-        if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))&&!holdCoolStatus){
-            useStamina = false;
+
+        if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !holdCoolStatus)
+        {
             holdStatus = true;
             holdKeyStatus = false;
             StartCoroutine(HoldCoolDown());
@@ -141,15 +155,16 @@ public class PlayerController : MonoBehaviour
             _startTime = Time.time;
             _jumpPosition = transform.position;
             _playerState.SetState(PlayerState.State.back);
+            _isSpaceKeyDown = true;
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && _isSpaceKeyDown)
         {
             if(transform.position.x > _jumpPosition.x + _backOffset)
             {
                 transform.position -= new Vector3(_backSpeed * Time.deltaTime, 0);
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && _isSpaceKeyDown)
         {
             _playerAnimator.BodyRun();
             _endTime = Time.time;
@@ -166,6 +181,7 @@ public class PlayerController : MonoBehaviour
 
     void Fly()
     {
+        Debug.Log(PlayerState._state);
         if(hp < _flyCost || !_didJump || !_canFly) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -213,24 +229,28 @@ public class PlayerController : MonoBehaviour
         }
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.3f);
         _didJump = true;
         jumpTutorial = false;
         Damage(jumpCost);
     }
 
-    IEnumerator HoldCoolDown(){
+    IEnumerator HoldCoolDown()
+    {
         holdCoolStatus = true;
+        holdStatus = true;
         Debug.Log("쿨다운 시작");
         yield return new WaitForSeconds(1f);
         holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
     }
-
-    IEnumerator CheckHoldKey(){
+    IEnumerator CheckHoldKey()
+    {
         yield return new WaitForSeconds(3);
-        if (holdKeyStatus){            
-            holdStatus = true;
+
+        if (holdKeyStatus)
+        {
             StartCoroutine(HoldCoolDown());
         }
     }
@@ -294,7 +314,6 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Sun"))
         {
-            Debug.Log("Reach the SUN");
             _gameClear.EnterSun();
 
         }

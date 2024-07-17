@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1806241300076340841}
   m_Layer: 0
   m_Name: wave (4)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 4808967106411120162}
   m_Layer: 0
   m_Name: wave (14)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 3396237254535435281}
   m_Layer: 0
   m_Name: wave
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 7937918359122177906}
   m_Layer: 0
   m_Name: wave (2)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -682,6 +682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3250307664225150132}
   - component: {fileID: 1169823334385963546}
+  - component: {fileID: 8117146047675295017}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -747,7 +748,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -95842433
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -759,6 +760,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8117146047675295017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342454716978006291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06096ece2bd689b45891efdd1a4c6dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!1 &1477201843467567103
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +953,7 @@ GameObject:
   - component: {fileID: 3315154595393402109}
   m_Layer: 0
   m_Name: wave (6)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1121,7 +1135,7 @@ Transform:
   m_GameObject: {fileID: 2209078441375876422}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.089999996, y: 1.4333333, z: -0.08037912}
+  m_LocalPosition: {x: 0.089999996, y: 1.4333333, z: 0}
   m_LocalScale: {x: 0.099999994, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1409,7 +1423,7 @@ GameObject:
   - component: {fileID: 6153869649545881914}
   m_Layer: 0
   m_Name: wave (1)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1577,7 +1591,7 @@ GameObject:
   - component: {fileID: 2384420590168817229}
   m_Layer: 0
   m_Name: wave (11)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1913,7 +1927,7 @@ GameObject:
   - component: {fileID: 6626810328638105872}
   m_Layer: 0
   m_Name: wave (8)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2049,7 +2063,7 @@ GameObject:
   - component: {fileID: 2817827537059972365}
   m_Layer: 0
   m_Name: wave (10)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2217,7 +2231,7 @@ GameObject:
   - component: {fileID: 6223589179185373442}
   m_Layer: 0
   m_Name: wave (12)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2301,7 +2315,7 @@ GameObject:
   - component: {fileID: 8232091010518033574}
   m_Layer: 0
   m_Name: wave (7)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2469,7 +2483,7 @@ GameObject:
   - component: {fileID: 1247357707675990984}
   m_Layer: 0
   m_Name: wave (13)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2889,7 +2903,7 @@ GameObject:
   - component: {fileID: 8682263580048713879}
   m_Layer: 0
   m_Name: wave (3)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2973,7 +2987,7 @@ GameObject:
   - component: {fileID: 3760539185090600442}
   m_Layer: 0
   m_Name: wave (9)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3177,7 +3191,7 @@ GameObject:
   - component: {fileID: 4363822659434382578}
   m_Layer: 0
   m_Name: wave (5)
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
