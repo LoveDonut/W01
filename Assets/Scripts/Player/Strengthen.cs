@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// by Daehee
 public class Strengthen : MonoBehaviour
 {
     #region PrivateVariables

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// by Daehee
 public class Water : MonoBehaviour
 {
     #region PrivateVariables
@@ -31,7 +32,7 @@ public class Water : MonoBehaviour
             Destroy(instance, _waterSplash.main.duration + _waterSplash.main.startLifetime.constantMax);
             foreach (SpriteRenderer playerSprite in _playerSpriteList)
             {
-//                playerSprite.color -= new Color(0, 0, 0, 100);
+                playerSprite.color -= new Color(0f,0f,0f, 0.5f);
             }
         }
     }
