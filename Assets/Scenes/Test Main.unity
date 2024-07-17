@@ -599,7 +599,7 @@ MonoBehaviour:
   _backSize: 5
   _defaultSize: 7
   _downSizeSpeed: -2.5
-  _spaceSize: 10
+  _spaceSize: 15
   _sizeReductionInSpace: 4
   _downSizeSpeedInSpace: -10
   _downSizeSpeedWhenDash: -5
@@ -607,7 +607,7 @@ MonoBehaviour:
   _sunTransform: {fileID: 234669234}
   _startDelay: 0.5
   _lookUpSunDuration: 2
-  _cameraMoveSpeed: 0.5
+  _cameraMoveSpeed: 0.05
 --- !u!114 &178096495
 MonoBehaviour:
   m_ObjectHideFlags: 0

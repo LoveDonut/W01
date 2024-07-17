@@ -44,8 +44,8 @@ public class ItemSpawn : MonoBehaviour
         }
 
         // spawn feather;
-        for(int i = 0; i<45; i++){
-            Vector2 tmpPosition = new Vector2(Random.Range(50,600), randomFeatherPosY());
+        for(int i = 0; i<90; i++){
+            Vector2 tmpPosition = new Vector2(Random.Range(15,600), randomFeatherPosY());
             Instantiate(feather,tmpPosition,transform.rotation);
         }
 
@@ -68,7 +68,7 @@ public class ItemSpawn : MonoBehaviour
         // spawn buff
         for(int i = 0; i<360; i++){
             int index = Random.Range(0,seaBuffItems.Length);
-            Vector2 tmpPosition = new Vector2(Random.Range(50,600),randomSeaPosY());
+            Vector2 tmpPosition = new Vector2(Random.Range(15,600),randomSeaPosY());
             Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
         }
 
@@ -76,7 +76,7 @@ public class ItemSpawn : MonoBehaviour
         // spawn buff
         for(int i = 0; i<360; i++){
             int index = Random.Range(0,skyBuffItems.Length);
-            Vector2 tmpPosition = new Vector2(Random.Range(50,600),randomSkyPosY());
+            Vector2 tmpPosition = new Vector2(Random.Range(15,600),randomSkyPosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
         }
 
@@ -84,7 +84,7 @@ public class ItemSpawn : MonoBehaviour
         // spawn buff
         for(int i = 0; i<300; i++){
             int index = Random.Range(0,spaceBuffItems.Length);
-            Vector2 tmpPosition = new Vector2(Random.Range(50,600),randomSpacePosY());
+            Vector2 tmpPosition = new Vector2(Random.Range(15,600),randomSpacePosY());
             Instantiate(spaceBuffItems[index],tmpPosition,transform.rotation);
         }
     }
@@ -116,7 +116,7 @@ public class ItemSpawn : MonoBehaviour
         }
 
         // spawn feather;
-        for(int i = 0; i<30; i++){
+        for(int i = 0; i<60; i++){
             Vector2 tmpPosition = new Vector2(tmp+randomX(), randomFeatherPosY());
             Instantiate(feather,tmpPosition,transform.rotation);
         }
