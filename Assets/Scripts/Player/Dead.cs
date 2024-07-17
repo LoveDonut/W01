@@ -7,6 +7,7 @@ public class Dead : MonoBehaviour
     #region PrivateVariables
     Rigidbody2D myRigidbody;
     PlayerController playerController;
+    [SerializeField] ParticleSystem waterParticle;
     #endregion
 
     #region PrivateMethods
@@ -32,6 +33,7 @@ public class Dead : MonoBehaviour
         {
             myRigidbody.velocity = Vector2.zero;
             playerController.IsAlive = false;
+            waterParticle.Play();
         }
     }
     #endregion

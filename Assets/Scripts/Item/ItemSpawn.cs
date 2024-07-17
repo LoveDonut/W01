@@ -8,6 +8,8 @@ public class ItemSpawn : MonoBehaviour
     [SerializeField] GameObject[] buffItems;
     [SerializeField] GameObject[] debuffItems;
     [SerializeField] GameObject[] comets;
+    [SerializeField] GameObject[] cloud;
+    [SerializeField] GameObject[] star;
 
     int maxX = 0;
 
@@ -33,6 +35,20 @@ public class ItemSpawn : MonoBehaviour
             int index = Random.Range(0,comets.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomcometPosY());
             Instantiate(comets[index],tmpPosition,transform.rotation);
+        }
+
+        // spawn cloud
+        for(int i = 0; i < 10; i++){
+            int index = Random.Range(0,cloud.Length);
+            Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomCloudPosY());
+            Instantiate(cloud[index],tmpPosition,transform.rotation);
+        }
+
+        // spawn star
+        for(int i = 0; i < 10; i++){
+            int index = Random.Range(0,star.Length);
+            Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomStarPosY());
+            Instantiate(star[index],tmpPosition,transform.rotation);
         }
     }
 
@@ -68,6 +84,20 @@ public class ItemSpawn : MonoBehaviour
             Vector2 tmpPosition = new Vector2(tmp + randomX(), randomcometPosY());
             Instantiate(comets[index],tmpPosition,transform.rotation);
         }
+
+        // spawn cloud
+        for(int i = 0; i < 10; i++){
+            int index = Random.Range(0,cloud.Length);
+            Vector2 tmpPosition = new Vector2(tmp + randomX(), randomCloudPosY());
+            Instantiate(cloud[index],tmpPosition,transform.rotation);
+        }
+
+        // spawn star
+        for(int i = 0; i < 10; i++){
+            int index = Random.Range(0,star.Length);
+            Vector2 tmpPosition = new Vector2(tmp + randomX(), randomStarPosY());
+            Instantiate(star[index],tmpPosition,transform.rotation);
+        }
     }
 
     float randomX(){
@@ -80,5 +110,13 @@ public class ItemSpawn : MonoBehaviour
 
     float randomcometPosY(){
         return Random.Range(1000, 1500);
+    }
+
+    float randomCloudPosY(){
+        return Random.Range(45, 100);
+    }
+
+    float randomStarPosY(){
+        return Random.Range(100, 225);
     }
 }

@@ -41,6 +41,8 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        
+        transform.position = _player.position + _followPosition;
         MoveCamera();
 
     }
@@ -53,7 +55,6 @@ public class FollowCamera : MonoBehaviour
         }
         else
         {
-            transform.position = _player.position + _followPosition;
             switch (_playerState._state)
             {
                 case PlayerState.State.back:
