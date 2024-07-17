@@ -68,23 +68,32 @@ public class UIController : MonoBehaviour
         jumpPowerUp = GetComponent<Strengthen>()._jumpPowerUp;
         strengthen = FindObjectOfType<Strengthen>();
         playerController = FindObjectOfType<PlayerController>();
+
+        if (!StrengthenData.instance.isRestart)
+        {
+            titleUI.SetActive(true);
+        }
+        else
+        {
+            statusUI.SetActive(true);
+        }
     }
 
     void Start()
     {
         sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
         playerHeight = player.transform.position.y;
-        firstJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
+        currentJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
+        addJumpPower = currentJumpPower;
     }
 
 
     void Update()
     {
+        currentJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
         addJumpPower = ((jumpPowerUp.x + jumpPowerUp.y) / 2) + currentJumpPower;
         addMaxHP = player.GetComponent<PlayerController>().maxHP + GetComponent<Strengthen>()._maxHpUp;
-        addingJumpPower = ((strengthen._jumpPowerUp.x + strengthen._jumpPowerUp.y) / 2) - firstJumpPower;
         playerHeight = player.transform.position.y;
-        currentJumpPower = firstJumpPower + addingJumpPower;
 
         // �����̴�
         heightSlider.value = playerHeight / sunHeight;
@@ -93,7 +102,15 @@ public class UIController : MonoBehaviour
 
         // text ���� ����
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
-        jumpPowerText.text = "JumpPower : " + firstJumpPower + " ( + " + addingJumpPower + " )";
+        if(StrengthenData.instance != null)
+        {
+            float powerUpOffset = ((playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).y + (playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).x) / 2f;
+            jumpPowerText.text = "JumpPower : " + (StrengthenData.instance.defaultJumpPower.x + StrengthenData.instance.defaultJumpPower.y) / 2 + " ( + " + powerUpOffset + " )";
+        }
+        else
+        {
+            jumpPowerText.text = "JumpPower : " + currentJumpPower + " ( + 0 )";
+        }
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
 
 
@@ -117,28 +134,34 @@ public class UIController : MonoBehaviour
         if (player.GetComponent<PlayerController>().IsGameStart)
         {
             gameUI.SetActive(true);
-            spaceLongTutorial.SetActive(true);
-            SpaceLongKey.SetBool("IsGameStart", true);
-            SpaceLongArrow.SetBool("IsGameStart", true);
+            if (!StrengthenData.instance.isRestart)
+            {
+                spaceLongTutorial.SetActive(true);
+                SpaceLongKey.SetBool("IsGameStart", true);
+                SpaceLongArrow.SetBool("IsGameStart", true);
+            }
         }
-        if (!player.GetComponent<PlayerController>().jumpTutorial)
+        if (!player.GetComponent<PlayerController>().jumpTutorial && !StrengthenData.instance.isRestart)
         {
             spaceLongTutorial.SetActive(false);
             spaceShortTutorial.SetActive(true);
         }
-        if (!player.GetComponent<PlayerController>().flyTutorial)
+        if (!player.GetComponent<PlayerController>().flyTutorial && !StrengthenData.instance.isRestart)
         {
             spaceShortTutorial.SetActive(false);
             shiftTutorial.SetActive(true);
             ShiftKey.SetBool("IsGameStart", true);
             ShiftArrow.SetBool("IsGameStart", true);
         }
-        if (!player.GetComponent<PlayerController>().holdTutorial)
+        if (!player.GetComponent<PlayerController>().holdTutorial && !StrengthenData.instance.isRestart)
         {
             shiftTutorial.SetActive(false);
         }
         if (!player.GetComponent<PlayerController>().IsAlive) // ���� �ʿ�
         {
+            spaceLongTutorial.SetActive(false);
+            spaceShortTutorial.SetActive(false);
+            shiftTutorial.SetActive(false);
             gameOverUI.SetActive(true);
             gameUI.SetActive(false);
         }
@@ -170,5 +193,11 @@ public class UIController : MonoBehaviour
             staminaTime = 3f;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
+    }
+
+    public void ChangeStateAfterRestart()
+    {
+        PlayerState._state = PlayerState.State.NotStart;
+        gameUI.SetActive(true);
     }
 }

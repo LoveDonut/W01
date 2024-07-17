@@ -77,50 +77,48 @@ public class FollowCamera : MonoBehaviour
 
     private void MoveCamera()
     {
-        if (StrengthenData.instance.isRestart)
+        if(StrengthenData.instance.isRestart && cameraState == CameraState.notStart)
+        {
+            cameraState = CameraState.follow;
+            _playerState.SetState(PlayerState.State.follow);
+        }
+
+        if (cameraState == CameraState.notStart)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Debug.Log("i'm in MoveCamera");
+                StartCoroutine(CameraStateChangeDelay(_startDelay, CameraState.moveToSun));
+            }
+        }
+        else if (cameraState == CameraState.moveToSun)
+        {
+            if (isCameraNear(_sunBelowPosition))
+            {
+                StartCoroutine(CameraStateChangeDelay(_lookUpSunDuration, CameraState.moveToPlayer));
+            }
+            else
+            {
+                MoveTo(_sunBelowPosition);
+            }
+        }
+        else if (cameraState == CameraState.moveToPlayer)
+        {
+            if (isCameraNear(_player.transform.position + _followPosition) && PlayerState._state != PlayerState.State.clear)
+            {
+                cameraState = CameraState.follow;
+                _playerState.SetState(PlayerState.State.follow);
+            }
+            else
+            {
+                MoveTo(_player.transform.position + _followPosition);
+            }
+        }
+        else
         {
             transform.position = _player.transform.position + _followPosition;
             _player.IsGameStart = true;
             MoveCameraAfterLookUpSun();
-        }
-        else
-        {
-            if (cameraState == CameraState.notStart)
-            {
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    StartCoroutine(CameraStateChangeDelay(_startDelay, CameraState.moveToSun));
-                }
-            }
-            else if (cameraState == CameraState.moveToSun)
-            {
-                if (isCameraNear(_sunBelowPosition))
-                {
-                    StartCoroutine(CameraStateChangeDelay(_lookUpSunDuration, CameraState.moveToPlayer));
-                }
-                else
-                {
-                    MoveTo(_sunBelowPosition);
-                }
-            }
-            else if (cameraState == CameraState.moveToPlayer)
-            {
-                if (isCameraNear(_player.transform.position + _followPosition) && PlayerState._state != PlayerState.State.clear)
-                {
-                    cameraState = CameraState.follow;
-                    _playerState.SetState(PlayerState.State.follow);
-                }
-                else
-                {
-                    MoveTo(_player.transform.position + _followPosition);
-                }
-            }
-            else
-            {
-                transform.position = _player.transform.position + _followPosition;
-                _player.IsGameStart = true;
-                MoveCameraAfterLookUpSun();
-            }
         }
     }
 

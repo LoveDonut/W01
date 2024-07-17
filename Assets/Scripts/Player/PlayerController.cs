@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             maxHP += StrengthenData.instance.maxHpUp;
             _jumpDirection += StrengthenData.instance.jumpPowerUp;
+            feather = StrengthenData.instance.feather;
         }
         hp = maxHP;
     }
@@ -156,6 +157,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("hihi");
             _playerAnimator.BodyBack();
             _startTime = Time.time;
             _jumpPosition = transform.position;

@@ -47,7 +47,7 @@ public class Dead : MonoBehaviour
             _playerState.GameOver();
 
             FallInWaterEffect(collision);
-            Restart();
+            StartCoroutine(Restart());
         }
     }
 
@@ -63,10 +63,11 @@ public class Dead : MonoBehaviour
 
     IEnumerator Restart()
     {
+        yield return new WaitForSeconds(1f);
         StrengthenData.instance.jumpPowerUp = _playerController._jumpDirection - StrengthenData.instance.defaultJumpPower;
         StrengthenData.instance.maxHpUp = _playerController.maxHP - StrengthenData.instance.defaultHp;
+        StrengthenData.instance.feather = _playerController.feather;
         StrengthenData.instance.isRestart = true;
-        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(0);
     }
 
