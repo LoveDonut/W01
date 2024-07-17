@@ -36,9 +36,6 @@ public class PlayerController : MonoBehaviour
     Vector2 _jumpPosition;
     Vector2 tempVector;
 
-    public Text featherText;
-    public Text hpText;
-
     public int maxHP = 120;
     public int feather = 0;
     bool _didJump;
@@ -184,10 +181,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    void updateHPText(){
-        hpText.text = "HP "+(int)hp;
-    }
-
     void heightDown(){
         tempVector = _myRigidbody.velocity;
         _myRigidbody.gravityScale = 0;
@@ -204,7 +197,6 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.CompareTag("Feather")){
             feather++;
-            featherText.text = "Feather "+feather;
         }
 
         if(other.gameObject.CompareTag("Wind")){
@@ -223,7 +215,6 @@ public class PlayerController : MonoBehaviour
             if(hp >= maxHP){
                 hp = maxHP;
             }
-            updateHPText();
         }
 
         if(other.gameObject.CompareTag("HPdown")){
@@ -232,7 +223,6 @@ public class PlayerController : MonoBehaviour
                 //gameover
                 hp = 0;
             }
-            updateHPText();
         }
 
         if(other.gameObject.CompareTag("Comet")){
