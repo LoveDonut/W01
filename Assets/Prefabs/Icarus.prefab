@@ -319,7 +319,6 @@ GameObject:
   - component: {fileID: 5157636425727128004}
   - component: {fileID: 2583857823422583995}
   - component: {fileID: 8657959479673111575}
-  - component: {fileID: 2281511463294358420}
   m_Layer: 0
   m_Name: Icarus
   m_TagString: Untagged
@@ -427,33 +426,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2281511463294358420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5305612198432411384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9fac45b0e77d9d4db92840821f77f32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _jumpDirection: {x: 20, y: 40}
-  _minPower: 1
-  _maxPower: 3
-  backOffset: -6
-  backSpeed: 5
-  goSpeed: 20
-  _flyDirection: {x: 1, y: 40}
-  flyCost: 10
-  _holdDownSpeed: -5
-  holdCost: 25
-  damageByTime: 2
-  featherText: {fileID: 0}
-  hpText: {fileID: 0}
-  maxHP: 120
-  feather: 0
-  BodyAnim: {fileID: 5157636425727128004}
-  WingAnim: {fileID: 3935487710109461626}
-  hp: 1000
