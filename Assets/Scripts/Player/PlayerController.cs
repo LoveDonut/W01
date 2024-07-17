@@ -41,7 +41,11 @@ public class PlayerController : MonoBehaviour
 
     public float maxHP = 120;
     public int feather = 0;
-    public bool _didJump; // trans
+    public bool _didJump;
+    public bool flyTutorial = true;
+    public bool jumpTutorial = true;
+    public bool holdTutorial = true;
+    public bool useStamina = false;
     bool _canFly = true;
     bool holdStatus = false;
     bool holdKeyStatus = false;
@@ -95,13 +99,15 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
+            holdTutorial = false;
             _playerAnimator.WingGlide();
             _holdVelocity = _myRigidbody.velocity;
         }
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            if(!holdKeyStatus){
+            if (!holdKeyStatus){
                 holdKeyStatus = true;
+                // useStamina = true;
                 StartCoroutine(CheckHoldKey());
             }
             _playerAnimator.WingGlide();
@@ -118,6 +124,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))&&!holdCoolStatus){
+            useStamina = false;
             holdStatus = true;
             holdKeyStatus = false;
             StartCoroutine(HoldCoolDown());
@@ -175,6 +182,7 @@ public class PlayerController : MonoBehaviour
             }
             Damage(_flyCost);
             _canFly = false;
+            flyTutorial = false;
             if (PlayerState._state != PlayerState.State.toSpace)
             {
                 _playerState.SetState(PlayerState.State.dash);
@@ -206,6 +214,7 @@ public class PlayerController : MonoBehaviour
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
         _didJump = true;
+        jumpTutorial = false;
         Damage(jumpCost);
     }
 
@@ -220,7 +229,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CheckHoldKey(){
         yield return new WaitForSeconds(3);
-        if(holdKeyStatus){
+        if (holdKeyStatus){            
             holdStatus = true;
             StartCoroutine(HoldCoolDown());
         }
