@@ -4743,10 +4743,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: _sunTransform
-      value: 
-      objectReference: {fileID: 234669234}
     - target: {fileID: 8657959479673111575, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LinearDrag
       value: 0.01
@@ -7403,8 +7399,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1048264473}
   feather: {fileID: 4105283979172909683, guid: 3815defbab5dbf044b01f36dad78177f, type: 3}
-  comet: {fileID: 7358946482722368101, guid: 4915316d92fd8314db66a951c2b89f93, type: 3}
-  cometSpawner: {fileID: 138544068}
   seaBuffItems:
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
@@ -7422,6 +7416,7 @@ MonoBehaviour:
   - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
   debuffItems:
   - {fileID: 4124856006442574888, guid: 691928cfa2ba0bb4e95808dddec9a708, type: 3}
+  cometSpawner: {fileID: 138544068}
   cloud:
   - {fileID: 96120265419323621, guid: 0429b2bb02450e34f9c463cb37a33412, type: 3}
   star:
