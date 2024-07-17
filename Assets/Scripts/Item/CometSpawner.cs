@@ -18,7 +18,6 @@ public class CometSpawner : MonoBehaviour
     }
     
     void spawnComet(){
-        Debug.Log("혜성 생성");
         for(int i = 0; i<3; i++){
             float randomY = Random.Range(430,450);
             float randomX = Random.Range(-100, 100);

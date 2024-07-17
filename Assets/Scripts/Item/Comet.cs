@@ -20,13 +20,11 @@ public class Comet : MonoBehaviour
         cometRb.AddForce(new Vector2(-2,randomYSpeed),ForceMode2D.Impulse);
     }
 
-    /*
     void Update(){
-        if(transform.position.y <= 750.0f){
+        if(transform.position.y <= 150.0f){
             Destroy(gameObject);
         }
     }
-    */
 
     void OnTriggerEnter2D(Collider2D other){
         if(other.CompareTag("Player")){
