@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     FollowCamera _followCamera;
     PlayerState _playerState;
     PlayerAnimator _playerAnimator;
+    GameClear _gameClear;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         _followCamera = FindObjectOfType<FollowCamera>();
         _playerState = GetComponent<PlayerState>();
         _playerAnimator = GetComponent<PlayerAnimator>();
+        _gameClear = FindObjectOfType<GameClear>();
     }
 
     void Start()
@@ -269,6 +271,13 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("Comet")){
             heightDown();
+        }
+
+        if (other.gameObject.CompareTag("Sun"))
+        {
+            Debug.Log("Reach the SUN");
+            _gameClear.EnterSun();
+
         }
     }
 }
