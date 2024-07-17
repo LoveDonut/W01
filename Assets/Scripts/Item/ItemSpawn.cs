@@ -14,11 +14,15 @@ public class ItemSpawn : MonoBehaviour
     [SerializeField] GameObject[] cloud;
     [SerializeField] GameObject[] star;
 
+    HeightManager heightManager;
+
     int maxX = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        heightManager = GameObject.Find("Height Manager").GetComponent<HeightManager>();
+
         // spawn cloud
         for(int i = 0; i < 30; i++){
             int index = Random.Range(0,cloud.Length);
@@ -46,16 +50,18 @@ public class ItemSpawn : MonoBehaviour
             Instantiate(comets[index],tmpPosition,transform.rotation);
         }
 
+        /*
         // spawn debuff
-        for(int i = 0; i<150; i++){
+        for(int i = 0; i<75; i++){
             int index = Random.Range(0,debuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSeaPosY());
             Instantiate(debuffItems[index],tmpPosition,transform.rotation);
         }
+        */
 
         //sea
         // spawn buff
-        for(int i = 0; i<150; i++){
+        for(int i = 0; i<75; i++){
             int index = Random.Range(0,seaBuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSeaPosY());
             Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
@@ -63,7 +69,7 @@ public class ItemSpawn : MonoBehaviour
 
         //sky
         // spawn buff
-        for(int i = 0; i<150; i++){
+        for(int i = 0; i<75; i++){
             int index = Random.Range(0,skyBuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSkyPosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
@@ -71,7 +77,7 @@ public class ItemSpawn : MonoBehaviour
 
         //space
         // spawn buff
-        for(int i = 0; i<75; i++){
+        for(int i = 0; i<30; i++){
             int index = Random.Range(0,spaceBuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSpacePosY());
             Instantiate(spaceBuffItems[index],tmpPosition,transform.rotation);
@@ -117,16 +123,18 @@ public class ItemSpawn : MonoBehaviour
             Instantiate(comets[index],tmpPosition,transform.rotation);
         }
 
+        /*
         // spawn debuff
-        for(int i = 0; i<100; i++){
+        for(int i = 0; i<50; i++){
             int index = Random.Range(0,debuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSpacePosY());
             Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
         }
-
+        */
+        
         //sea
         // spawn buff
-        for(int i = 0; i<100; i++){
+        for(int i = 0; i<50; i++){
             int index = Random.Range(0,seaBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSeaPosY());
             Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
@@ -134,7 +142,7 @@ public class ItemSpawn : MonoBehaviour
 
         //sky
         // spawn buff
-        for(int i = 0; i<100; i++){
+        for(int i = 0; i<50; i++){
             int index = Random.Range(0,skyBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSkyPosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
@@ -142,7 +150,7 @@ public class ItemSpawn : MonoBehaviour
 
         //space
         // spawn buff
-        for(int i = 0; i<100; i++){
+        for(int i = 0; i<50; i++){
             int index = Random.Range(0,spaceBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSpacePosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
@@ -154,28 +162,28 @@ public class ItemSpawn : MonoBehaviour
     }
 
     float randomSeaPosY(){
-        return Random.Range(10, 300);
+        return Random.Range(10, heightManager._skyHeight);
     }
 
     float randomSkyPosY(){
-        return Random.Range(300, 500);
+        return Random.Range(heightManager._skyHeight, heightManager._spaceHeight);
     }
 
     float randomSpacePosY(){
-        return Random.Range(500, 750);
+        return Random.Range(heightManager._spaceHeight, heightManager._sunHeight-15);
     }
     
 
     float randomcometPosY(){
-        return Random.Range(800, 1000);
+        return Random.Range(heightManager._spaceHeight + heightManager._cometHeight, heightManager._sunHeight-10);
     }
 
 
     float randomStarPosY(){
-        return Random.Range(100, 225);
+        return Random.Range(heightManager._spaceHeight, heightManager._sunHeight-10);
     }
 
     float randomFeatherPosY(){
-        return Random.Range(0, 500);
+        return Random.Range(10, heightManager._sunHeight-15);
     }
 }

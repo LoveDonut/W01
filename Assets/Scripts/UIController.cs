@@ -50,12 +50,12 @@ public class UIController : MonoBehaviour
         healthSlider.maxValue = player.GetComponent<PlayerController>().maxHP;
         healthSlider.value = player.GetComponent<PlayerController>().hp;
 
-        // text ³»¿ë ¼öÁ¤
+        // text ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
         jumpPowerText.text = "JumpPower : " + (player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2;
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
 
-        // UI È®ÀÎ¿ë
+        // UI È®ï¿½Î¿ï¿½
         if (Input.GetKeyDown(KeyCode.Space))
         {
             titleUI.SetActive(false);
