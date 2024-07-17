@@ -711,7 +711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &183338994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2908,6 +2908,7 @@ MonoBehaviour:
   spaceLongTutorial: {fileID: 2027589613}
   spaceShortTutorial: {fileID: 1680878702}
   shiftTutorial: {fileID: 1609286909}
+  staminaObject: {fileID: 0}
   SpaceLongKey: {fileID: 1880997095}
   SpaceLongArrow: {fileID: 875608916}
   SpaceShortKey: {fileID: 433226332}
@@ -2919,6 +2920,7 @@ MonoBehaviour:
   bestHeightSlider: {fileID: 667858533}
   heightSlider: {fileID: 1198673692}
   healthSlider: {fileID: 596893451}
+  staminaSlider: {fileID: 0}
   featherText: {fileID: 1514559343}
   healthText: {fileID: 1352973803}
   jumpPowerText: {fileID: 1352379933}
