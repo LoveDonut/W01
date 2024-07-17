@@ -318,6 +318,8 @@ GameObject:
   - component: {fileID: 8686576739983331737}
   - component: {fileID: 6450769031913113351}
   - component: {fileID: 2059752341964166071}
+  - component: {fileID: 147839940399022701}
+  - component: {fileID: 998651323826002530}
   - component: {fileID: 5157636425727128004}
   - component: {fileID: 2583857823422583995}
   - component: {fileID: 8657959479673111575}
@@ -369,10 +371,11 @@ MonoBehaviour:
   _flyEffect: {fileID: 2401490763958257390}
   _holdDownSpeed: -5
   _holdCost: 25
-  _damageByTime: 2
+  windPower: {x: 0, y: 0}
   maxHP: 1000
   feather: 0
-  _isGameStart: 0
+  IsAlive: 1
+  IsGameStart: 0
   hp: 0
 --- !u!114 &2059752341964166071
 MonoBehaviour:
@@ -386,7 +389,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361f532b27413df40ad3580fc1ca76e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _state: 0
+--- !u!114 &147839940399022701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305612198432411384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd6502f4fc2aa644f99c5a968c5baa09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyAnim: {fileID: 5157636425727128004}
+  wingAnim: {fileID: 3935487710109461626}
+--- !u!114 &998651323826002530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5305612198432411384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8932e137e2f0cba429b8f51f772ee995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waterSplash: {fileID: 0}
+  _playerSpriteList:
+  - {fileID: 3079488703814071717}
+  - {fileID: 2064093827559375838}
+  - {fileID: 1569824101654653980}
 --- !u!95 &5157636425727128004
 Animator:
   serializedVersion: 5
