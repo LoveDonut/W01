@@ -27,7 +27,7 @@ public class ItemSpawn : MonoBehaviour
         }
 
         // spawn star
-        for(int i = 0; i < 30; i++){
+        for(int i = 0; i < 210; i++){
             int index = Random.Range(0,star.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomStarPosY());
             Instantiate(star[index],tmpPosition,transform.rotation);
@@ -98,7 +98,7 @@ public class ItemSpawn : MonoBehaviour
         }
 
         // spawn star
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 140; i++){
             int index = Random.Range(0,star.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(), randomStarPosY());
             Instantiate(star[index],tmpPosition,transform.rotation);
