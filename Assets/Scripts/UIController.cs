@@ -11,9 +11,17 @@ public class UIController : MonoBehaviour
     float sunHeight;
     float firstJumpPower;
     float addingJumpPower;
+    float addMaxHP;
+    float addJumpPower;
+    float currentJumpPower;
+    Vector2 jumpPowerUp;
     
     public GameObject player;
     public GameObject heightManager;
+
+    [Header("Button")]
+    public GameObject jumpPowerUpBtn;
+    public GameObject addMaxHPBtn;
 
     [Header("Slider")]
     public Slider heightSlider;
@@ -23,8 +31,11 @@ public class UIController : MonoBehaviour
     public TMP_Text featherText;
     public TMP_Text healthText;
     public TMP_Text jumpPowerText;
+    public TMP_Text currentJumpPowerText;
+    public TMP_Text currentMaxHPText;
     public TMP_Text jumpPowerUpText;
-    public TMP_Text AddMaxHPText;
+    public TMP_Text addMaxHPText;
+    public TMP_Text featherInfoText;
 
     [Header("UI")]
     public GameObject titleUI;
@@ -38,6 +49,7 @@ public class UIController : MonoBehaviour
     {
         _playerState = GetComponent<PlayerState>();
         firstJumpPower = (player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2;
+        jumpPowerUp = GetComponent<Strengthen>()._jumpPowerUp;
     }
 
     void Start()
@@ -49,8 +61,13 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
+        addJumpPower = ((jumpPowerUp.x + jumpPowerUp.y) / 2) + currentJumpPower;
+        addMaxHP = player.GetComponent<PlayerController>().maxHP + GetComponent<Strengthen>()._maxHpUp;
         addingJumpPower = ((player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2) - firstJumpPower;
         playerHeight = player.transform.position.y;
+        currentJumpPower = firstJumpPower + addingJumpPower;        
+
+        // 슬라이더
         heightSlider.value = playerHeight / sunHeight;
         healthSlider.maxValue = player.GetComponent<PlayerController>().maxHP;
         healthSlider.value = player.GetComponent<PlayerController>().hp;
@@ -59,13 +76,18 @@ public class UIController : MonoBehaviour
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
         jumpPowerText.text = "JumpPower : " + firstJumpPower + " ( + " + addingJumpPower + " )";
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
+        jumpPowerUpText.text = "" + addJumpPower;
+        addMaxHPText.text = "" + addMaxHP;
+        featherInfoText.text = "" + player.GetComponent<PlayerController>().feather;
+        currentJumpPowerText.text = "" + currentJumpPower;
+        currentMaxHPText.text = "" + player.GetComponent<PlayerController>().maxHP;
 
         // UI 확인용
         if (Input.GetKeyDown(KeyCode.Space))
         {
             titleUI.SetActive(false);
         }
-        if(player.GetComponent<PlayerController>().IsGameStart)
+        if (player.GetComponent<PlayerController>().IsGameStart)
         {
             gameUI.SetActive(true);
         }
@@ -74,5 +96,16 @@ public class UIController : MonoBehaviour
             gameOverUI.SetActive(true);
             gameUI.SetActive(false);
         }
+        if (player.GetComponent<PlayerController>().feather <= 0)
+        {
+            jumpPowerUpBtn.GetComponent<Button>().interactable = false;
+            addMaxHPBtn.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            jumpPowerUpBtn.GetComponent<Button>().interactable = true;
+            addMaxHPBtn.GetComponent<Button>().interactable = true;
+        }
+
     }
 }
