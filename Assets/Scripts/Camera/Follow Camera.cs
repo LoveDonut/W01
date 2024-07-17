@@ -95,6 +95,7 @@ public class FollowCamera : MonoBehaviour
         else
         {
             transform.position = _player.transform.position + _followPosition;
+            _player.IsGameStart = true;
             MoveCameraAfterLookUpSun();
         }
     }
