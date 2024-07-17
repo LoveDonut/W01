@@ -80,7 +80,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        hp = maxHP;    
+        maxHP += StrengthenData.instance.maxHpUp;
+        hp = maxHP;
+        _jumpDirection += StrengthenData.instance.jumpPowerUp;
     }
 
     void Update()
@@ -287,8 +289,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if(other.gameObject.CompareTag("Wind")){
-            ParticleSystem instance = Instantiate(windEffect, Camera.main.transform);
-            Destroy(instance, instance.main.duration + instance.main.startLifetime.constantMax);
+            windEffect.Play();
             if (_myRigidbody.velocity.y > 0)
             {
                 _myRigidbody.velocity += windPower;
