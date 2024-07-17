@@ -34,9 +34,7 @@ public class PlayerController : MonoBehaviour
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
-
-    public Text featherText;
-    public Text hpText;
+    Vector2 tempVector;
 
     public int maxHP = 120;
     public int feather = 0;
@@ -183,28 +181,22 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    void updateHPText(){
-        hpText.text = "HP "+(int)hp;
-    }
-
     void heightDown(){
-        Debug.Log("comet");
-        Vector2 tempVector = _myRigidbody.velocity;
+        tempVector = _myRigidbody.velocity;
         _myRigidbody.gravityScale = 0;
         _myRigidbody.velocity = new Vector2(0, -7f);
         StartCoroutine(wait2Seconds());
-        _myRigidbody.velocity = tempVector;
-        _myRigidbody.gravityScale = 3;
     }
 
     IEnumerator wait2Seconds(){
         yield return new WaitForSeconds(1.0f);
+        _myRigidbody.velocity = tempVector;
+        _myRigidbody.gravityScale = 3;
     }
 
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.CompareTag("Feather")){
             feather++;
-            featherText.text = "Feather "+feather;
         }
 
         if(other.gameObject.CompareTag("Wind")){
@@ -223,7 +215,6 @@ public class PlayerController : MonoBehaviour
             if(hp >= maxHP){
                 hp = maxHP;
             }
-            updateHPText();
         }
 
         if(other.gameObject.CompareTag("HPdown")){
@@ -232,7 +223,6 @@ public class PlayerController : MonoBehaviour
                 //gameover
                 hp = 0;
             }
-            updateHPText();
         }
 
         if(other.gameObject.CompareTag("Comet")){
