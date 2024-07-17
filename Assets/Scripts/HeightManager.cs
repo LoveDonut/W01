@@ -7,12 +7,14 @@ public class HeightManager : MonoBehaviour
 {
     #region PrivateVariables
 
-    PlayerController _playerController;
-    PlayerState _playerState;
-
     [SerializeField] float _skyHeight = 300f;
     [SerializeField] float _spaceHeight = 500f;
     [SerializeField] float backPowerInSpace = 10f;
+
+    PlayerController _playerController;
+    PlayerState _playerState;
+
+    bool isStageChanged = false;
 
     #endregion
 
@@ -33,9 +35,10 @@ public class HeightManager : MonoBehaviour
 
     void Update()
     {
-        if(_playerState.transform.position.y > _spaceHeight)
+        if(_playerState.transform.position.y > _spaceHeight && !isStageChanged)
         {
             EnterSpace();
+            isStageChanged = true;
         }
     }
 
@@ -43,6 +46,7 @@ public class HeightManager : MonoBehaviour
     {
         _playerController.ReducePlayerXSpeed(backPowerInSpace);
         _playerState.SetState(PlayerState.State.toSpace);
+        Debug.Log("Enter Space");
     }
 
     #endregion
