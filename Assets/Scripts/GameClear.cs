@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameClear : MonoBehaviour
 {
 
-    public Animator ImageAnim;
+    public Animator _imageAnim;
+    public GameObject gameClear;
 
     void Awake()
     {
@@ -14,7 +15,12 @@ public class GameClear : MonoBehaviour
 
     public void EnterSun()
     {
-        
+        _imageAnim.SetTrigger("Clear");
+    }
+
+    public void ActiveGameClear()
+    {
+        gameClear.SetActive(true);
     }
 
 }

@@ -227,6 +227,7 @@ public class PlayerControllerCopy : MonoBehaviour
         if(other.gameObject.CompareTag("Sun"))
         {
             Debug.Log("Reach the SUN");
+            _gameClear.EnterSun();
 
         }
     }
