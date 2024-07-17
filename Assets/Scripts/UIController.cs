@@ -7,6 +7,7 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     PlayerState _playerState;
+    Vector2 jumpPowerUp;
     float playerHeight;
     float sunHeight;
     float firstJumpPower;
@@ -14,10 +15,20 @@ public class UIController : MonoBehaviour
     float addMaxHP;
     float addJumpPower;
     float currentJumpPower;
-    Vector2 jumpPowerUp;
-    
+
     public GameObject player;
     public GameObject heightManager;
+    public GameObject spaceLongTutorial;
+    public GameObject spaceShortTutorial;
+    public GameObject shiftTutorial;
+
+    [Header("Animator")]
+    public Animator SpaceLongKey;
+    public Animator SpaceLongArrow;
+    public Animator SpaceShortKey;
+    public Animator SpaceShortArrow;
+    public Animator ShiftKey;
+    public Animator ShiftArrow;
 
     [Header("Button")]
     public GameObject jumpPowerUpBtn;
@@ -91,6 +102,14 @@ public class UIController : MonoBehaviour
         if (player.GetComponent<PlayerController>().IsGameStart)
         {
             gameUI.SetActive(true);
+            spaceLongTutorial.SetActive(true);
+            SpaceLongKey.SetBool("IsGameStart", true);
+            SpaceLongArrow.SetBool("IsGameStart", true);
+        }
+        if (player.GetComponent<PlayerController>()._didJump)
+        {
+            spaceLongTutorial.SetActive(false);
+            spaceShortTutorial.SetActive(true);
         }
         if (!player.GetComponent<PlayerController>().IsAlive) // 수정 필요
         {

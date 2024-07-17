@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     public float maxHP = 120;
     public int feather = 0;
-    bool _didJump;
+    public bool _didJump; // trans
     bool _canFly = true;
     bool holdStatus = false;
     bool holdKeyStatus = false;
