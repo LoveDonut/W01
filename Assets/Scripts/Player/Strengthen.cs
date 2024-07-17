@@ -30,13 +30,13 @@ public class Strengthen : MonoBehaviour
 
     public void StrengthenJumpPower()
     {
-        StrengthenData.instance.jumpPowerUp += _jumpPowerUp;
+        StrengthenData.instance.jumpDirection += _jumpPowerUp;
         StrengthenData.instance.feather--;
     }
 
     public void StrengthenMaxHp()
     {
-        StrengthenData.instance.maxHpUp += _maxHpUp;
+        StrengthenData.instance.maxHp += _maxHpUp;
         StrengthenData.instance.feather--;
     }
 

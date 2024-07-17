@@ -6,6 +6,7 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    PlayerController playerController;
     PlayerState _playerState;
     Vector2 jumpPowerUp;
     float playerHeight;
@@ -23,6 +24,7 @@ public class UIController : MonoBehaviour
     public GameObject spaceShortTutorial;
     public GameObject shiftTutorial;
     public GameObject staminaObject;
+    public Strengthen strengthen;
 
     [Header("Animator")]
     public Animator SpaceLongKey;
@@ -63,14 +65,23 @@ public class UIController : MonoBehaviour
     void Awake()
     {
         _playerState = GetComponent<PlayerState>();
-        firstJumpPower = (player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2;
         jumpPowerUp = GetComponent<Strengthen>()._jumpPowerUp;
+        strengthen = FindObjectOfType<Strengthen>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     void Start()
     {
         sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
         playerHeight = player.transform.position.y;
+        if(StrengthenData.instance != null)
+        {
+            firstJumpPower = (StrengthenData.instance.jumpDirection.x + StrengthenData.instance.jumpDirection.y) / 2f;
+        }
+        else
+        {
+            firstJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
+        }
     }
 
 
@@ -78,7 +89,7 @@ public class UIController : MonoBehaviour
     {
         addJumpPower = ((jumpPowerUp.x + jumpPowerUp.y) / 2) + currentJumpPower;
         addMaxHP = player.GetComponent<PlayerController>().maxHP + GetComponent<Strengthen>()._maxHpUp;
-        addingJumpPower = ((player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2) - firstJumpPower;
+        addingJumpPower = ((strengthen._jumpPowerUp.x + strengthen._jumpPowerUp.y) / 2) - firstJumpPower;
         playerHeight = player.transform.position.y;
         currentJumpPower = firstJumpPower + addingJumpPower;
 
