@@ -5,15 +5,6 @@ using UnityEngine;
 // By Daehee
 public class FollowCamera : MonoBehaviour
 {
-    public enum State
-    {
-        follow,
-        back,
-        dash,
-        recover,
-        toSpace,
-        shake
-    };
 
     #region PrivateVariables
     [SerializeField] float _backSize = 5f;
@@ -24,6 +15,7 @@ public class FollowCamera : MonoBehaviour
 
     Camera _camera;
     Transform _player;
+    PlayerState _playerState;
     Vector3 _followPosition, _followDashPosition;
     float upSizeSpeed;
     float shakeDuration = 1f;
@@ -32,14 +24,14 @@ public class FollowCamera : MonoBehaviour
     #endregion
 
     #region PublicVariables
-    public State _state = State.follow;
     #endregion
 
     #region PrivateMethods
     void Awake()
     {
         _camera = GetComponent<Camera>();
-        _player = FindObjectOfType<PlayerController>().transform;    
+        _player = FindObjectOfType<PlayerController>().transform;
+        _playerState = FindObjectOfType<PlayerState>();
     }
 
     void Start()
@@ -56,26 +48,26 @@ public class FollowCamera : MonoBehaviour
 
     void MoveCamera()
     {
-        if (_state == State.shake)
+        if (_playerState._state == PlayerState.State.shake)
         {
             Shake();
         }
         else
         {
             transform.position = _player.position + _followPosition;
-            switch (_state)
+            switch (_playerState._state)
             {
-                case State.back:
+                case PlayerState.State.back:
                     DownSize(_backSize, _downSizeSpeed * Time.deltaTime);
                     break;
-                case State.dash:
+                case PlayerState.State.dash:
                     DownSize(_dashSize, _downSizeSpeed * 2f * Time.deltaTime);
                     break;
-                case State.recover:
+                case PlayerState.State.recover:
                     RecoverSize(upSizeSpeed * Time.deltaTime);
                     break;
-                case State.toSpace:
-                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime);
+                case PlayerState.State.toSpace:
+                    UpSize(_spaceSize, upSizeSpeed / 4f * Time.deltaTime);
                     break;
                 default:
                     break;
@@ -92,7 +84,7 @@ public class FollowCamera : MonoBehaviour
         }
         else
         {
-            SetState(State.follow);
+            _playerState.SetState(PlayerState.State.follow);
         }
     }
 
@@ -117,7 +109,7 @@ public class FollowCamera : MonoBehaviour
         else
         {
             _camera.orthographicSize = targetSize;
-            _state = State.follow;
+            _playerState._state = PlayerState.State.follow;
         }
     }
 
@@ -134,20 +126,16 @@ public class FollowCamera : MonoBehaviour
 
         if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)
         {
-            SetState(State.follow);
+            _playerState.SetState(PlayerState.State.follow);
         }
     }
     #endregion
 
     #region PublicMethods
-    public void SetState(State state)
-    {
-        _state = state;
-    }
 
     public void HitCameraEffect()
     {
-        SetState(State.shake);
+        _playerState.SetState(PlayerState.State.shake);
         elapsedShakeTime = 0;
     }
     #endregion

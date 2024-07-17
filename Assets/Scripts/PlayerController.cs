@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
+    PlayerState _playerState;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         _myRigidbody = GetComponent<Rigidbody2D>();
         _followCamera = FindObjectOfType<FollowCamera>();
+        _playerState = GetComponent<PlayerState>();
     }
 
     void Start()
@@ -102,7 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             _startTime = Time.time;
             _jumpPosition = transform.position;
-            _followCamera.SetState(FollowCamera.State.back);
+            _playerState.SetState(PlayerState.State.back);
         }
         if (Input.GetKey(KeyCode.Space))
         {
@@ -116,7 +118,7 @@ public class PlayerController : MonoBehaviour
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
             StartCoroutine(GoJump(elapsedTime));
-            _followCamera.SetState(FollowCamera.State.recover);
+            _playerState.SetState(PlayerState.State.recover);
         }
     }
 
@@ -137,7 +139,7 @@ public class PlayerController : MonoBehaviour
             }
             hp -= _flyCost;
             _canFly = false;
-            _followCamera.SetState(FollowCamera.State.dash);
+            _playerState.SetState(PlayerState.State.dash);
             StartCoroutine(FlyCoolDown());
         }
     }
@@ -147,7 +149,7 @@ public class PlayerController : MonoBehaviour
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
         yield return new WaitForSeconds(flyCoolDown);
         _canFly = true;
-        _followCamera.SetState(FollowCamera.State.recover);
+        _playerState.SetState(PlayerState.State.recover);
     }
 
     IEnumerator GoJump(float elapsedTime)
@@ -169,6 +171,11 @@ public class PlayerController : MonoBehaviour
     public void Damage(float damage)
     {
         hp -= damage;
+    }
+
+    public void ReducePlayerXSpeed(float power)
+    {
+        _myRigidbody.AddForce(new Vector2(power, 0f), ForceMode2D.Impulse);
     }
     #endregion
 
