@@ -54,7 +54,12 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (cameraState == CameraState.moveToSun) 
+        MoveCamera();
+    }
+
+    private void MoveCamera()
+    {
+        if (cameraState == CameraState.moveToSun)
         {
             if (isCameraNear(_sunBelowPosition))
             {
@@ -67,19 +72,21 @@ public class FollowCamera : MonoBehaviour
         }
         else if (cameraState == CameraState.moveToPlayer)
         {
-            MoveTo(_player.transform.position + _followPosition);
             if (isCameraNear(_player.transform.position + _followPosition))
             {
                 cameraState = CameraState.follow;
                 _playerState.SetState(PlayerState.State.follow);
             }
+            else
+            {
+                MoveTo(_player.transform.position + _followPosition);
+            }
         }
-        else 
+        else
         {
             transform.position = _player.transform.position + _followPosition;
-            MoveCamera();
+            MoveCameraAfterLookUpSun();
         }
-
     }
 
     IEnumerator LookUpSunDelay()
@@ -96,14 +103,14 @@ public class FollowCamera : MonoBehaviour
 
     bool isCameraNear(Vector3 objective)
     {
-        if(Mathf.Abs(transform.position.x - objective.x) + Mathf.Abs(transform.position.y - objective.y) < 2f)
+        if(Mathf.Abs(transform.position.x - objective.x) + Mathf.Abs(transform.position.y - objective.y) < 0.5f)
         {
             return true;
         }
         return false;
     }
 
-    void MoveCamera()
+    void MoveCameraAfterLookUpSun()
     {
         if (_playerState._state == PlayerState.State.shake)
         {
