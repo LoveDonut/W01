@@ -61,8 +61,12 @@ public class Dead : MonoBehaviour
         }
     }
 
-    void Restart()
+    IEnumerator Restart()
     {
+        StrengthenData.instance.jumpPowerUp = _playerController._jumpDirection - StrengthenData.instance.defaultJumpPower;
+        StrengthenData.instance.maxHpUp = _playerController.maxHP - StrengthenData.instance.defaultHp;
+        StrengthenData.instance.isRestart = true;
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(0);
     }
 

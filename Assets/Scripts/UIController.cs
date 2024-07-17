@@ -74,14 +74,7 @@ public class UIController : MonoBehaviour
     {
         sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
         playerHeight = player.transform.position.y;
-        if(StrengthenData.instance != null)
-        {
-            firstJumpPower = (StrengthenData.instance.jumpDirection.x + StrengthenData.instance.jumpDirection.y) / 2f;
-        }
-        else
-        {
-            firstJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
-        }
+        firstJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
     }
 
 

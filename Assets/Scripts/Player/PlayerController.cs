@@ -82,8 +82,8 @@ public class PlayerController : MonoBehaviour
     {
         if(StrengthenData.instance != null)
         {
-        maxHP += StrengthenData.instance.maxHp;
-        _jumpDirection += StrengthenData.instance.jumpDirection;
+            maxHP += StrengthenData.instance.maxHpUp;
+            _jumpDirection += StrengthenData.instance.jumpPowerUp;
         }
         hp = maxHP;
     }
