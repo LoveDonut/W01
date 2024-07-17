@@ -45,7 +45,8 @@ public class PlayerController : MonoBehaviour
 
     #region PublicVariables
     public bool IsAlive { get { return hp > 0; } set { } }
-    public bool IsGameStart { get { return _playerState._state != PlayerState.State.LookupSun; } }
+    public bool IsGameStart = false;
+    // { get { return _playerState._state != PlayerState.State.LookupSun; } }
     public float hp;
     #endregion
 
