@@ -655,6 +655,7 @@ GameObject:
   - component: {fileID: 178096491}
   - component: {fileID: 178096494}
   - component: {fileID: 178096495}
+  - component: {fileID: 178096496}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -743,7 +744,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178096490}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1430ae3445d9701419ff82803424d3fb, type: 3}
   m_Name: 
@@ -800,6 +801,23 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &178096496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178096490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c82036ebf61f842aabe9509cef21ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backSize: 5
+  _defaultSize: 7
+  _spaceSize: 10
+  _downSizeSpeed: -2.5
+  _state: 0
 --- !u!1 &183338993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,6 +3118,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyAnim: {fileID: 1048264476}
   wingAnim: {fileID: 1555992593}
+--- !u!114 &1048264481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048264473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9fac45b0e77d9d4db92840821f77f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpDirection: {x: 12, y: 22}
+  _minPower: 1
+  _maxPower: 3
+  backOffset: -6
+  backSpeed: 5
+  goSpeed: 20
+  _flyDirection: {x: 1, y: 22}
+  flyCost: 5
+  _holdDownSpeed: -5
+  holdCost: 2
+  damageByTime: 2
+  featherText: {fileID: 0}
+  hpText: {fileID: 0}
+  maxHP: 120
+  feather: 0
+  BodyAnim: {fileID: 1048264476}
+  WingAnim: {fileID: 1555992593}
+  hp: 100
 --- !u!1 &1066587112 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 515820161994704832, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
@@ -3638,6 +3686,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _flyPower.x
       value: 3
       objectReference: {fileID: 0}
@@ -3700,6 +3752,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5305612198432411384, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       insertIndex: 3
       addedObject: {fileID: 1048264480}
+    - targetCorrespondingSourceObject: {fileID: 5305612198432411384, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1048264481}
   m_SourcePrefab: {fileID: 100100000, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
 --- !u!1 &1352379931
 GameObject:

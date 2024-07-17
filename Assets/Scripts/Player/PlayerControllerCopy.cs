@@ -26,6 +26,7 @@ public class PlayerControllerCopy : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField] float damageByTime = 2f;
+    [SerializeField] float jumpHpCost = 2.5f;
 
     Rigidbody2D _myRigidbody;
     FollowCameraCopy _followCamera;
@@ -117,6 +118,8 @@ public class PlayerControllerCopy : MonoBehaviour
             BodyAnim.SetTrigger("_running");
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
+            Debug.Log(Mathf.RoundToInt(-(transform.position.x + 6) * jumpHpCost));
+
             StartCoroutine(GoJump(elapsedTime));
             _followCamera.SetState(FollowCameraCopy.State.recover);
 
