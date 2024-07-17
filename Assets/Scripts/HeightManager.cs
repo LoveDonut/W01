@@ -12,10 +12,9 @@ public class HeightManager : MonoBehaviour
 
     [SerializeField] float _damageByTimeInSpace = 2f;
 
-    public float _skyHeight;
-    public float _spaceHeight;
+    public float _skyHeight = 50f;
+    public float _spaceHeight = 350f;
     public float _sunHeight;
-    public float _cometHeight;
     public float _backPowerInSpace = 10f;
 
 
