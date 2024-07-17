@@ -6,6 +6,7 @@ public class PlayerState : MonoBehaviour
 {
     public enum State
     {
+        NotStart,
         LookupSun,
         follow,
         back,
@@ -23,7 +24,7 @@ public class PlayerState : MonoBehaviour
 
     #region PublicVariables
 
-    public State _state = State.LookupSun;
+    public State _state = State.NotStart;
 
     #endregion
 

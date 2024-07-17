@@ -9,7 +9,7 @@ public class PlayerControllerCopy : MonoBehaviour
 {
     #region PrivateVariables
     [Header("Jump")]
-    [SerializeField] Vector2 _jumpDirection = new Vector2(20,40);
+    public Vector2 _jumpDirection = new Vector2(20,40);
     [SerializeField] float _minPower = 1f;
     [SerializeField] float _maxPower = 3;
     [SerializeField] float backOffset = -6f;

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     #region PrivateVariables
     [Header("Jump")]
-    [SerializeField] Vector2 _jumpDirection = new Vector2(20,40);
+    public Vector2 _jumpDirection = new Vector2(20,40);
     [SerializeField] float _minPower = 1f;
     [SerializeField] float _maxPower = 3;
     [SerializeField] float _backOffset = -6f;
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _goSpeed = 20f;
 
     [Header("Fly")]
-    [SerializeField] Vector2 _flyPower = new Vector2(5f,40f);
+    [SerializeField] Vector2 _flyPower;
     [SerializeField] float _flyCost = 10f;
     [SerializeField] ParticleSystem _flyEffect;
 
@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField] float _damageByTime = 2f;
+    [Header("WindPower")]
+    [SerializeField] Vector2 windPower;
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
     Vector2 _jumpPosition;
     Vector2 tempVector;
 
-    public int maxHP = 120;
+    public float maxHP = 120;
     public int feather = 0;
     bool _didJump;
     bool _canFly = true;
@@ -46,7 +48,8 @@ public class PlayerController : MonoBehaviour
 
     #region PublicVariables
     public bool IsAlive { get { return hp > 0; } set { } }
-    public bool IsGameStart { get { return _playerState._state != PlayerState.State.LookupSun; } }
+    public bool IsGameStart = false;
+    // { get { return _playerState._state != PlayerState.State.LookupSun; } }
     public float hp;
     #endregion
 
@@ -204,11 +207,11 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Wind")){
             if (_myRigidbody.velocity.y > 0)
             {
-                _myRigidbody.velocity += new Vector2(0f, _flyPower.y * 2f);
+                _myRigidbody.velocity += windPower;
             }
             else
             {
-                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, _flyPower.y * 2f);
+                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, windPower.y);
             }
         }
 
