@@ -6,11 +6,13 @@ public class ItemSpawn : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject feather;
+    
+    [SerializeField] GameObject comet;
+    [SerializeField] GameObject cometSpawner;
     [SerializeField] GameObject[] seaBuffItems;
     [SerializeField] GameObject[] skyBuffItems;
     [SerializeField] GameObject[] spaceBuffItems;
     [SerializeField] GameObject[] debuffItems;
-    [SerializeField] GameObject cometSpawner;
     [SerializeField] GameObject[] cloud;
     [SerializeField] GameObject[] star;
 
@@ -45,6 +47,12 @@ public class ItemSpawn : MonoBehaviour
         for(int i = 0; i<45; i++){
             Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomFeatherPosY());
             Instantiate(feather,tmpPosition,transform.rotation);
+        }
+
+        // spawn comet
+        for(int i = 0; i<200; i++){
+            Vector2 tmpPosition = new Vector2(Random.Range(10,1000), Random.Range(170, 430));
+            Instantiate(comet, tmpPosition, Quaternion.identity);
         }
 
         /*
@@ -92,7 +100,7 @@ public class ItemSpawn : MonoBehaviour
 
     void spawnItems(int currX){
         int tmp = (currX+2)*200;
-        Instantiate(cometSpawner,new Vector2((currX+5)*200,430),Quaternion.identity);
+        Instantiate(cometSpawner,new Vector2((currX+10)*200,430),Quaternion.identity);
         // spawn cloud
         for(int i = 0; i < 180; i++){
             int index = Random.Range(0,cloud.Length);
