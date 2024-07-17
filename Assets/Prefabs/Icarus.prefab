@@ -81,7 +81,7 @@ Transform:
   m_GameObject: {fileID: 4250708425181311739}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.26990518, w: -0.9628869}
-  m_LocalPosition: {x: -0.32, y: 0.81, z: -0.044070825}
+  m_LocalPosition: {x: -0.328, y: 0.825, z: -0.044070825}
   m_LocalScale: {x: 2.3650098, y: 0.86733514, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -366,7 +366,7 @@ MonoBehaviour:
   _backOffset: -6
   _backSpeed: 5
   _goSpeed: 20
-  _jumpCostMultiply: 2.5
+  _jumpCostMultiply: 1.5
   _flyPower: {x: 5, y: 40}
   _flyCost: 10
   _flyEffect: {fileID: 2401490763958257390}
@@ -416,12 +416,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8932e137e2f0cba429b8f51f772ee995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waterSplash: {fileID: 3886567881561548080, guid: 70d0b119089c83d4da1361911fcd870b, type: 3}
+  _waterSplash: {fileID: 0}
   _playerSpriteList:
   - {fileID: 3079488703814071717}
   - {fileID: 2064093827559375838}
   - {fileID: 1569824101654653980}
-  _deadFallSpeedIncrase: 100
 --- !u!95 &5157636425727128004
 Animator:
   serializedVersion: 5
@@ -503,7 +502,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!1001 &384837980395592520
 PrefabInstance:
