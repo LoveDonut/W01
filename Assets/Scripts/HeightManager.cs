@@ -44,7 +44,6 @@ public class HeightManager : MonoBehaviour
             EnterSpace();
         }
         _playerController.Damage(_damageDelta * Time.deltaTime);
-        Debug.Log(PlayerState._state);
     }
 
     void EnterSpace()
