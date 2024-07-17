@@ -48,7 +48,7 @@ public class FollowCamera : MonoBehaviour
     void Start()
     {
         _sunBelowPosition += _sunTransform.position;
-        _followPosition = new Vector3(12f, 0f, -10f);
+        _followPosition = new Vector3(7f, 0f, -10f);
         upSizeSpeed = _downSizeSpeed * -2f;
     }
 
