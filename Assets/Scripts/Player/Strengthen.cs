@@ -29,12 +29,14 @@ public class Strengthen : MonoBehaviour
 
     public void StrengthenJumpPower()
     {
-        _playerController.maxHP += _maxHpUp;
+        _playerController._jumpDirection += _jumpPowerUp;
+        print(_playerController._jumpDirection);
     }
 
     public void StrengthenMaxHp()
     {
-        _playerController._jumpDirection += _jumpPowerUp;
+        _playerController.maxHP += _maxHpUp;
+        print(_playerController.maxHP);
     }
 
     #endregion

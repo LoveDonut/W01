@@ -9,6 +9,8 @@ public class UIController : MonoBehaviour
     PlayerState _playerState;
     float playerHeight;
     float sunHeight;
+    float firstJumpPower;
+    float addingJumpPower;
     
     public GameObject player;
     public GameObject sun;
@@ -28,12 +30,14 @@ public class UIController : MonoBehaviour
     public GameObject titleUI;
     public GameObject gameUI;
     public GameObject gameClearUI;
+    public GameObject gameOverUI;
     public GameObject subtitleUI;
     public GameObject statusUI;
 
     void Awake()
     {
         _playerState = GetComponent<PlayerState>();
+        firstJumpPower = (player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2;
     }
 
     void Start()
@@ -45,6 +49,7 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
+        addingJumpPower = ((player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2) - firstJumpPower;
         playerHeight = player.transform.position.y;
         heightSlider.value = playerHeight / sunHeight;
         healthSlider.maxValue = player.GetComponent<PlayerController>().maxHP;
@@ -52,7 +57,7 @@ public class UIController : MonoBehaviour
 
         // text 내용 수정
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
-        jumpPowerText.text = "JumpPower : " + (player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2;
+        jumpPowerText.text = "JumpPower : " + firstJumpPower + " ( + " + addingJumpPower + " )";
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
 
         // UI 확인용
@@ -63,6 +68,10 @@ public class UIController : MonoBehaviour
         if(player.GetComponent<PlayerController>().IsGameStart)
         {
             gameUI.SetActive(true);
+        }
+        if (!player.GetComponent<PlayerController>().IsAlive)
+        {
+            gameOverUI.SetActive(true);
         }
     }
 }

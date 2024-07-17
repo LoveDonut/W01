@@ -47,7 +47,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region PublicVariables
-    public bool IsAlive { get { return hp > 0; } set { } }
+    public bool IsAlive = true;
+    // { get { return hp > 0; } set { } }
     public bool IsGameStart = false;
     // { get { return _playerState._state != PlayerState.State.LookupSun; } }
     public float hp;
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
         Hold();
         Damage(Time.deltaTime * _damageByTime);
 
-        Debug.Log(_myRigidbody.velocity);
+        // Debug.Log(_myRigidbody.velocity);
     }
 
     void Hold()
