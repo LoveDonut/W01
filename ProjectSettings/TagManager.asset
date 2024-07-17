@@ -11,6 +11,7 @@ TagManager:
   - HPdown
   - Apollon
   - Wind
+  - Sun
   layers:
   - Default
   - TransparentFX
