@@ -513,6 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backSize: 5
+  _dashSize: 6
   _defaultSize: 7
   _spaceSize: 10
   _downSizeSpeed: -2.5
@@ -1541,8 +1542,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1048264473}
-  buffItems:
+  feather: {fileID: 4105283979172909683, guid: 3815defbab5dbf044b01f36dad78177f, type: 3}
+  seaBuffItems:
+  - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
+  - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
+  - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
+  skyBuffItems:
+  - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
+  - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
   - {fileID: 4105283979172909683, guid: 3815defbab5dbf044b01f36dad78177f, type: 3}
+  - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
+  - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
+  - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
+  - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
+  spaceBuffItems:
   - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
   debuffItems:
