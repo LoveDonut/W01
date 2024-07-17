@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     FollowCamera _followCamera;
     PlayerState _playerState;
     PlayerAnimator _playerAnimator;
+    GameClear _gameClear;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     bool _canFly = true;
     bool holdStatus = false;
     bool holdKeyStatus = false;
+    bool holdCoolStatus = false;
 
     float _startTime, _endTime;
     #endregion
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
         _followCamera = FindObjectOfType<FollowCamera>();
         _playerState = GetComponent<PlayerState>();
         _playerAnimator = GetComponent<PlayerAnimator>();
+        _gameClear = FindObjectOfType<GameClear>();
     }
 
     void Start()
@@ -114,7 +117,7 @@ public class PlayerController : MonoBehaviour
                 Damage(Time.deltaTime * _holdCost);
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)){
+        if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))&&!holdCoolStatus){
             holdStatus = true;
             holdKeyStatus = false;
             StartCoroutine(HoldCoolDown());
@@ -172,7 +175,10 @@ public class PlayerController : MonoBehaviour
             }
             Damage(_flyCost);
             _canFly = false;
-            _playerState.SetState(PlayerState.State.dash);
+            if (PlayerState._state != PlayerState.State.toSpace)
+            {
+                _playerState.SetState(PlayerState.State.dash);
+            }
             StartCoroutine(FlyCoolDown());
         }
         _playerAnimator.WingFly();
@@ -183,7 +189,10 @@ public class PlayerController : MonoBehaviour
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
         yield return new WaitForSeconds(flyCoolDown);
         _canFly = true;
-        _playerState.SetState(PlayerState.State.recover);
+        if (PlayerState._state != PlayerState.State.toSpace)
+        {
+            _playerState.SetState(PlayerState.State.recover);
+        }
     }
 
     IEnumerator GoJump(float elapsedTime, int jumpCost)
@@ -201,7 +210,10 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator HoldCoolDown(){
+        holdCoolStatus = true;
+        Debug.Log("쿨다운 시작");
         yield return new WaitForSeconds(1f);
+        holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
     }
@@ -269,6 +281,13 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("Comet")){
             heightDown();
+        }
+
+        if (other.gameObject.CompareTag("Sun"))
+        {
+            Debug.Log("Reach the SUN");
+            _gameClear.EnterSun();
+
         }
     }
 }

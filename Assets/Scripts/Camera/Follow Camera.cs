@@ -15,15 +15,27 @@ public class FollowCamera : MonoBehaviour
     };
 
     #region PrivateVariables
+    [Header("When Ground")]
     [SerializeField] float _backSize = 5f;
     [SerializeField] float _defaultSize = 7f;
-    [SerializeField] float _spaceSize = 12f;
     [SerializeField] float _downSizeSpeed = -2.5f;
-    [SerializeField] float _cameraMoveSpeed = 1f;
-    [SerializeField] Vector3 _sunBelowPosition = new Vector3();
+
+    [Header("When Space")]
+    [SerializeField] float _spaceSize = 20f;
+    [SerializeField] float _sizeReductionInSpace = 4f;
+    [SerializeField] float _downSizeSpeedInSpace = -10f;
+
+    [Header("When Dash")]
+    [SerializeField] float _downSizeSpeedWhenDash = -5f;
+
+    [Header("When Look up Sun")]
+    [SerializeField] Vector3 _sunBelowPosition = new Vector3(-15f, -15f);
     [SerializeField] Transform _sunTransform;
     [SerializeField] float _startDelay = 0.5f;
     [SerializeField] float _lookUpSunDuration = 2f;
+
+    [Header("Others")]
+    [SerializeField] float _cameraMoveSpeed = 0.7f;
 
     Camera _camera;
     PlayerController _player;
@@ -31,6 +43,7 @@ public class FollowCamera : MonoBehaviour
     Vector3 _followPosition, _followDashPosition;
     CameraState cameraState = CameraState.notStart;
 
+    float sizeReductionWhenDash;
     float upSizeSpeed;
     float shakeDuration = 1f;
     float shakeMagnitude = 0.2f;
@@ -50,6 +63,7 @@ public class FollowCamera : MonoBehaviour
 
     void Start()
     {
+        sizeReductionWhenDash = 1f;
         _sunBelowPosition += _sunTransform.position;
         _followPosition = new Vector3(7f, 0f, -10f);
         upSizeSpeed = _downSizeSpeed * -2f;
@@ -136,14 +150,15 @@ public class FollowCamera : MonoBehaviour
                     DownSize(_backSize, _downSizeSpeed * Time.deltaTime);
                     break;
                 case PlayerState.State.dash:
-                    float dashSize = _defaultSize - 1;
-                    DownSize(dashSize, _downSizeSpeed * 2f * Time.deltaTime);
+                    DownSize(_defaultSize - sizeReductionWhenDash, _downSizeSpeedWhenDash * Time.deltaTime);
                     break;
                 case PlayerState.State.recover:
                     RecoverSize(upSizeSpeed * Time.deltaTime);
                     break;
                 case PlayerState.State.toSpace:
-                    UpSize(_spaceSize, upSizeSpeed / 4f * Time.deltaTime);
+                    sizeReductionWhenDash = _sizeReductionInSpace;
+                    _downSizeSpeedWhenDash = _downSizeSpeedInSpace;
+                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime);
                     break;
                 default:
                     break;
@@ -171,7 +186,7 @@ public class FollowCamera : MonoBehaviour
         {
             _camera.orthographicSize += delta;
         }
-        else
+        else 
         {
             _camera.orthographicSize = targetSize;
         }
