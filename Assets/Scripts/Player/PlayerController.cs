@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     bool _canFly = true;
     bool holdStatus = false;
     bool holdKeyStatus = false;
+    bool holdCoolStatus = false;
 
     float _startTime, _endTime;
     #endregion
@@ -114,7 +115,7 @@ public class PlayerController : MonoBehaviour
                 Damage(Time.deltaTime * _holdCost);
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)){
+        if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))&&!holdCoolStatus){
             holdStatus = true;
             holdKeyStatus = false;
             StartCoroutine(HoldCoolDown());
@@ -201,7 +202,10 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator HoldCoolDown(){
+        holdCoolStatus = true;
+        Debug.Log("쿨다운 시작");
         yield return new WaitForSeconds(1f);
+        holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
     }
