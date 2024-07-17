@@ -5,36 +5,49 @@ using UnityEngine;
 public class Dead : MonoBehaviour
 {
     #region PrivateVariables
-    Rigidbody2D myRigidbody;
-    PlayerController playerController;
-    [SerializeField] ParticleSystem waterParticle;
+
+    [SerializeField] ParticleSystem _waterSplash;
+    [SerializeField] List<SpriteRenderer> _playerSpriteList;
+    PlayerState _playerState;
+    Rigidbody2D _myRigidbody;
+
+    #endregion
+
+    #region PublicVariables
     #endregion
 
     #region PrivateMethods
+
     void Awake()
     {
-        myRigidbody = GetComponent<Rigidbody2D>();    
-        playerController = GetComponent<PlayerController>();
+        _playerState = GetComponent<PlayerState>();
+        _myRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    void OnTriggerEnter2D(Collider2D collision)
     {
-
-    }
-
-    void Update()
-    {
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Water"))
+        if (collision.CompareTag("Water"))
         {
-            myRigidbody.velocity = Vector2.zero;
-            playerController.IsAlive = false;
-            waterParticle.Play();
+            _playerState.GameOver();
+
+
+
+            FallInWaterEffect(collision);
         }
     }
+
+    private void FallInWaterEffect(Collider2D collision)
+    {
+        ParticleSystem instance = Instantiate(_waterSplash, collision.transform.position, _waterSplash.transform.rotation);
+        Destroy(instance, _waterSplash.main.duration + _waterSplash.main.startLifetime.constantMax);
+        foreach (SpriteRenderer playerSprite in _playerSpriteList)
+        {
+            playerSprite.color -= new Color(0f, 0f, 0f, 0.5f);
+        }
+    }
+
+    #endregion
+
+    #region PublicMethods
     #endregion
 }
