@@ -91,11 +91,19 @@ public class UIController : MonoBehaviour
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
         jumpPowerText.text = "JumpPower : " + firstJumpPower + " ( + " + addingJumpPower + " )";
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
+
+
+
         jumpPowerUpText.text = "" + addJumpPower;
         addMaxHPText.text = "" + addMaxHP;
         featherInfoText.text = "" + player.GetComponent<PlayerController>().feather;
+
+        
         currentJumpPowerText.text = "" + currentJumpPower;
         currentMaxHPText.text = "" + player.GetComponent<PlayerController>().maxHP;
+
+
+
 
         // UI È®ÀÎ¿ë
         if (Input.GetKeyDown(KeyCode.Space))
