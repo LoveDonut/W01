@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
     PlayerState _playerState;
+    PlayerAnimator _playerAnimator;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
         _myRigidbody = GetComponent<Rigidbody2D>();
         _followCamera = FindObjectOfType<FollowCamera>();
         _playerState = GetComponent<PlayerState>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
     }
 
     void Start()
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
         Hold();
         Damage(Time.deltaTime * _damageByTime);
 
-//        Debug.Log(_myRigidbody.velocity);
+        Debug.Log(_myRigidbody.velocity);
     }
 
     void Hold()
@@ -80,10 +82,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
+            _playerAnimator.WingGlide();
             _holdVelocity = _myRigidbody.velocity;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         {
+            _playerAnimator.WingGlide();
             if (_myRigidbody.velocity.y > 0f)
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdVelocity.y);
@@ -102,6 +106,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            _playerAnimator.BodyBack();
             _startTime = Time.time;
             _jumpPosition = transform.position;
             _playerState.SetState(PlayerState.State.back);
@@ -115,10 +120,13 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            _playerAnimator.BodyRun();
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
             StartCoroutine(GoJump(elapsedTime));
             _playerState.SetState(PlayerState.State.recover);
+            _playerAnimator.BodyFly();
+            _playerAnimator.WingJump();
         }
     }
 
@@ -128,6 +136,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            _playerAnimator.WingJumpReset();
             _flyEffect.Play();
             if (_myRigidbody.velocity.y > 0)
             {
@@ -142,6 +151,7 @@ public class PlayerController : MonoBehaviour
             _playerState.SetState(PlayerState.State.dash);
             StartCoroutine(FlyCoolDown());
         }
+        _playerAnimator.WingFly();
     }
 
     IEnumerator FlyCoolDown()
@@ -184,15 +194,7 @@ public class PlayerController : MonoBehaviour
 
     void heightDown(){
         tempVector = _myRigidbody.velocity;
-        _myRigidbody.gravityScale = 0;
-        _myRigidbody.velocity = new Vector2(0, -7f);
-        StartCoroutine(wait2Seconds());
-    }
-
-    IEnumerator wait2Seconds(){
-        yield return new WaitForSeconds(1.0f);
-        _myRigidbody.velocity = tempVector;
-        _myRigidbody.gravityScale = 3;
+        _myRigidbody.velocity = new Vector2(tempVector.x-0.5f, tempVector.y-1);
     }
 
     void OnTriggerEnter2D(Collider2D other){
