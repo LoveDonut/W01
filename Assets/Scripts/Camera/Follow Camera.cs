@@ -22,7 +22,7 @@ public class FollowCamera : MonoBehaviour
 
     [Header("When Space")]
     [SerializeField] float _spaceSize = 15f;
-    [SerializeField] float _sizeReductionInSpace = 4f;
+    [SerializeField] float _sizeReductionInSpace = 3f;
     [SerializeField] float _downSizeSpeedInSpace = -10f;
 
     [Header("When Dash")]
@@ -97,7 +97,7 @@ public class FollowCamera : MonoBehaviour
         }
         else if (cameraState == CameraState.moveToPlayer)
         {
-            if (isCameraNear(_player.transform.position + _followPosition))
+            if (isCameraNear(_player.transform.position + _followPosition) && PlayerState._state != PlayerState.State.clear)
             {
                 cameraState = CameraState.follow;
                 _playerState.SetState(PlayerState.State.follow);
