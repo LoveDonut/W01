@@ -8,7 +8,7 @@ public class FollowCamera : MonoBehaviour
 {
     enum CameraState
     {
-        notStart, //
+        notStart,
         moveToSun,
         moveToPlayer,
         follow
@@ -94,6 +94,7 @@ public class FollowCamera : MonoBehaviour
         else
         {
             transform.position = _player.transform.position + _followPosition;
+            _player.IsGameStart = true;
             MoveCameraAfterLookUpSun();
         }
     }

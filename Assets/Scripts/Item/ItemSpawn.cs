@@ -50,7 +50,7 @@ public class ItemSpawn : MonoBehaviour
         for(int i = 0; i<150; i++){
             int index = Random.Range(0,debuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSeaPosY());
-            Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
+            Instantiate(debuffItems[index],tmpPosition,transform.rotation);
         }
 
         //sea
