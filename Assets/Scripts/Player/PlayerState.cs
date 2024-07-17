@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// by Daehee
 public class PlayerState : MonoBehaviour
 {
     public enum State
@@ -14,7 +15,8 @@ public class PlayerState : MonoBehaviour
         recover,
         toSpace,
         shake,
-        water
+        water,
+        clear
     };
 
     #region PrivateVariables
