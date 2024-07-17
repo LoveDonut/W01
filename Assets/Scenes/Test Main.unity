@@ -5949,7 +5949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1048264473}
-  feather: {fileID: 0}
+  feather: {fileID: 4105283979172909683, guid: 3815defbab5dbf044b01f36dad78177f, type: 3}
   seaBuffItems:
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
