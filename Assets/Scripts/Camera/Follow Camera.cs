@@ -8,7 +8,7 @@ public class FollowCamera : MonoBehaviour
 {
     enum CameraState
     {
-        notStart, //
+        notStart,
         moveToSun,
         moveToPlayer,
         follow

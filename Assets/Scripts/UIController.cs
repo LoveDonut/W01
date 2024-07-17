@@ -6,9 +6,9 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    PlayerState _playerState;
     float playerHeight;
     float sunHeight;
-
     
     public GameObject player;
     public GameObject sun;
@@ -31,6 +31,10 @@ public class UIController : MonoBehaviour
     public GameObject subtitleUI;
     public GameObject statusUI;
 
+    void Awake()
+    {
+        _playerState = GetComponent<PlayerState>();
+    }
 
     void Start()
     {
@@ -55,6 +59,9 @@ public class UIController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             titleUI.SetActive(false);
+        }
+        if(player.GetComponent<PlayerController>().IsGameStart)
+        {
             gameUI.SetActive(true);
         }
     }
