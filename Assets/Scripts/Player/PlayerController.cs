@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
+    Vector2 tempVector;
 
     public Text featherText;
     public Text hpText;
@@ -188,21 +189,16 @@ public class PlayerController : MonoBehaviour
     }
 
     void heightDown(){
-        Debug.Log("comet");
-        Vector2 tempVector = _myRigidbody.velocity;
+        tempVector = _myRigidbody.velocity;
         _myRigidbody.gravityScale = 0;
         _myRigidbody.velocity = new Vector2(0, -7f);
-        Debug.Log("코루틴 시작");
         StartCoroutine(wait2Seconds());
-        Debug.Log("코루틴 끝");
-        _myRigidbody.velocity = tempVector;
-        _myRigidbody.gravityScale = 3;
     }
 
     IEnumerator wait2Seconds(){
-        Debug.Log("코루틴 도달");
-        yield return new WaitForSeconds(5.0f);
-        Debug.Log("5초 후");
+        yield return new WaitForSeconds(1.0f);
+        _myRigidbody.velocity = tempVector;
+        _myRigidbody.gravityScale = 3;
     }
 
     void OnTriggerEnter2D(Collider2D other){
