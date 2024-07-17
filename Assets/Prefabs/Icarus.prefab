@@ -81,7 +81,7 @@ Transform:
   m_GameObject: {fileID: 4250708425181311739}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.26990518, w: -0.9628869}
-  m_LocalPosition: {x: -0.32, y: 0.81, z: -0.044070825}
+  m_LocalPosition: {x: -0.328, y: 0.825, z: -0.044070825}
   m_LocalScale: {x: 2.3650098, y: 0.86733514, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -366,6 +366,7 @@ MonoBehaviour:
   _backOffset: -6
   _backSpeed: 5
   _goSpeed: 20
+  _jumpCostMultiply: 1.5
   _flyPower: {x: 5, y: 40}
   _flyCost: 10
   _flyEffect: {fileID: 2401490763958257390}

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// by Daehee
+// Original Player Controller made by Daehee
+// Player Controller Copy used and modified by hk
 public class PlayerControllerCopy : MonoBehaviour
 {
     #region PrivateVariables
@@ -30,6 +31,7 @@ public class PlayerControllerCopy : MonoBehaviour
 
     Rigidbody2D _myRigidbody;
     FollowCameraCopy _followCamera;
+    GameClear _gameClear;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -58,6 +60,7 @@ public class PlayerControllerCopy : MonoBehaviour
     {
         _myRigidbody = GetComponent<Rigidbody2D>();
         _followCamera = FindObjectOfType<FollowCameraCopy>();
+        _gameClear = FindObjectOfType<GameClear>();
     }
 
     void Update()
@@ -118,7 +121,6 @@ public class PlayerControllerCopy : MonoBehaviour
             BodyAnim.SetTrigger("_running");
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
-            Debug.Log(Mathf.RoundToInt(-(transform.position.x + 6) * jumpHpCost));
 
             StartCoroutine(GoJump(elapsedTime));
             _followCamera.SetState(FollowCameraCopy.State.recover);
@@ -191,10 +193,11 @@ public class PlayerControllerCopy : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
+        /*
         if(other.gameObject.CompareTag("Feather")){
             feather++;
             featherText.text = "Feather "+feather;
-        }
+        }*/
 
         if(other.gameObject.CompareTag("Wind")){
             _myRigidbody.AddForce(_flyDirection, ForceMode2D.Impulse);
@@ -219,6 +222,12 @@ public class PlayerControllerCopy : MonoBehaviour
 
         if(other.gameObject.CompareTag("Comet")){
             heightDown();
+        }
+
+        if(other.gameObject.CompareTag("Sun"))
+        {
+            Debug.Log("Reach the SUN");
+
         }
     }
 }

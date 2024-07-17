@@ -479,6 +479,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Water
       objectReference: {fileID: 0}
+    - target: {fileID: 7464915444964364210, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
+      propertyPath: m_TagString
+      value: Sun
+      objectReference: {fileID: 0}
     - target: {fileID: 7671417043830502473, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
       propertyPath: m_TagString
       value: Water
@@ -714,7 +718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3139,7 +3143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &951798555
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3229,13 +3233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fac45b0e77d9d4db92840821f77f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpDirection: {x: 12, y: 22}
+  _jumpDirection: {x: 13, y: 23}
   _minPower: 1
   _maxPower: 3
   backOffset: -6
   backSpeed: 5
   goSpeed: 20
-  _flyDirection: {x: 1, y: 22}
+  _flyDirection: {x: 1.5, y: 23}
   flyCost: 5
   _holdDownSpeed: -5
   holdCost: 2
@@ -3247,7 +3251,7 @@ MonoBehaviour:
   feather: 0
   BodyAnim: {fileID: 1048264476}
   WingAnim: {fileID: 1555992593}
-  hp: 100
+  hp: 1000
 --- !u!1 &1066587112 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 515820161994704832, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
