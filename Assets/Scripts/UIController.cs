@@ -24,6 +24,7 @@ public class UIController : MonoBehaviour
     public GameObject addMaxHPBtn;
 
     [Header("Slider")]
+    public Slider bestHeightSlider;
     public Slider heightSlider;
     public Slider healthSlider;
 
@@ -65,7 +66,7 @@ public class UIController : MonoBehaviour
         addMaxHP = player.GetComponent<PlayerController>().maxHP + GetComponent<Strengthen>()._maxHpUp;
         addingJumpPower = ((player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2) - firstJumpPower;
         playerHeight = player.transform.position.y;
-        currentJumpPower = firstJumpPower + addingJumpPower;        
+        currentJumpPower = firstJumpPower + addingJumpPower;
 
         // 슬라이더
         heightSlider.value = playerHeight / sunHeight;
@@ -106,6 +107,9 @@ public class UIController : MonoBehaviour
             jumpPowerUpBtn.GetComponent<Button>().interactable = true;
             addMaxHPBtn.GetComponent<Button>().interactable = true;
         }
-
+        if (bestHeightSlider.GetComponent<Slider>().value < heightSlider.GetComponent<Slider>().value)
+        {
+            bestHeightSlider.GetComponent<Slider>().value = heightSlider.GetComponent<Slider>().value;
+        }
     }
 }
