@@ -2467,6 +2467,7 @@ MonoBehaviour:
   spaceLongTutorial: {fileID: 2027589613}
   spaceShortTutorial: {fileID: 1680878702}
   shiftTutorial: {fileID: 1609286909}
+  staminaObject: {fileID: 0}
   SpaceLongKey: {fileID: 1880997095}
   SpaceLongArrow: {fileID: 875608916}
   SpaceShortKey: {fileID: 433226332}
@@ -2478,6 +2479,7 @@ MonoBehaviour:
   bestHeightSlider: {fileID: 667858533}
   heightSlider: {fileID: 1198673692}
   healthSlider: {fileID: 596893451}
+  staminaSlider: {fileID: 0}
   featherText: {fileID: 1514559343}
   healthText: {fileID: 1352973803}
   jumpPowerText: {fileID: 1352379933}
@@ -7399,6 +7401,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1048264473}
   feather: {fileID: 4105283979172909683, guid: 3815defbab5dbf044b01f36dad78177f, type: 3}
+  comet: {fileID: 7358946482722368101, guid: 4915316d92fd8314db66a951c2b89f93, type: 3}
+  cometSpawner: {fileID: 138544068}
   seaBuffItems:
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
   - {fileID: 4124856006442574888, guid: 86fa569a12cde1c45878458d09a2e50e, type: 3}
@@ -7416,7 +7420,6 @@ MonoBehaviour:
   - {fileID: 212789555586223509, guid: 6bc1b6229cf25f8409066e4475764b6b, type: 3}
   debuffItems:
   - {fileID: 4124856006442574888, guid: 691928cfa2ba0bb4e95808dddec9a708, type: 3}
-  cometSpawner: {fileID: 138544068}
   cloud:
   - {fileID: 96120265419323621, guid: 0429b2bb02450e34f9c463cb37a33412, type: 3}
   star:

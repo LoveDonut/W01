@@ -9,25 +9,26 @@ public class PlayerController : MonoBehaviour
 {
     #region PrivateVariables
     [Header("Jump")]
-    public Vector2 _jumpDirection = new Vector2(20,40);
+    public Vector2 _jumpDirection = new Vector2(15,25);
     [SerializeField] float _minPower = 1f;
-    [SerializeField] float _maxPower = 3;
+    [SerializeField] float _maxPower = 3f;
     [SerializeField] float _backOffset = -6f;
     [SerializeField] float _backSpeed = 5f;
     [SerializeField] float _goSpeed = 20f;
     [SerializeField] float _jumpCostMultiply = 1.5f;
 
     [Header("Fly")]
-    [SerializeField] Vector2 _flyPower;
+    [SerializeField] Vector2 _flyPower = new Vector2(1.5f, 25f);
     [SerializeField] float _flyCost = 10f;
     [SerializeField] ParticleSystem _flyEffect;
 
     [Header("Hold")]
     [SerializeField] float _holdDownSpeed = -5f;
-    [SerializeField] float _holdCost = 25f;
+    [SerializeField] float _holdCost = 2f;
 
-    [Header("WindPower")]
+    [Header("Wind")]
     [SerializeField] Vector2 windPower;
+    [SerializeField] ParticleSystem windEffect;
 
     [Header("Others")]
     [SerializeField] Transform _sunTransform;
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
     Vector2 _jumpPosition;
     Vector2 tempVector;
 
-    public float maxHP = 120;
+    public float maxHP = 100;
     public int feather = 0;
     public bool _didJump;
     public bool flyTutorial = true;
@@ -286,6 +287,8 @@ public class PlayerController : MonoBehaviour
         }
 
         if(other.gameObject.CompareTag("Wind")){
+            ParticleSystem instance = Instantiate(windEffect, Camera.main.transform);
+            Destroy(instance, instance.main.duration + instance.main.startLifetime.constantMax);
             if (_myRigidbody.velocity.y > 0)
             {
                 _myRigidbody.velocity += windPower;
