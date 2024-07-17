@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         Hold();
         Damage(Time.deltaTime * _damageByTime);
 
-        Debug.Log(_myRigidbody.velocity);
+//        Debug.Log(_myRigidbody.velocity);
     }
 
     void Hold()
@@ -175,7 +175,8 @@ public class PlayerController : MonoBehaviour
 
     public void ReducePlayerXSpeed(float power)
     {
-        _myRigidbody.AddForce(new Vector2(power, 0f), ForceMode2D.Impulse);
+//        _myRigidbody.AddForce(new Vector2(power, 0f), ForceMode2D.Impulse);
+          _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x / 2f, 0);
     }
     #endregion
 
