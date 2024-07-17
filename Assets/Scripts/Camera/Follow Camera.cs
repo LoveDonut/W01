@@ -8,7 +8,6 @@ public class FollowCamera : MonoBehaviour
 
     #region PrivateVariables
     [SerializeField] float _backSize = 5f;
-    [SerializeField] float _dashSize = 6f;
     [SerializeField] float _defaultSize = 7f;
     [SerializeField] float _spaceSize = 10f;
     [SerializeField] float _downSizeSpeed = -2.5f;
@@ -61,7 +60,8 @@ public class FollowCamera : MonoBehaviour
                     DownSize(_backSize, _downSizeSpeed * Time.deltaTime);
                     break;
                 case PlayerState.State.dash:
-                    DownSize(_dashSize, _downSizeSpeed * 2f * Time.deltaTime);
+                    float dashSize = _defaultSize - 1;
+                    DownSize(dashSize, _downSizeSpeed * 2f * Time.deltaTime);
                     break;
                 case PlayerState.State.recover:
                     RecoverSize(upSizeSpeed * Time.deltaTime);
@@ -103,7 +103,7 @@ public class FollowCamera : MonoBehaviour
 
     void UpSize(float targetSize, float delta)
     {
-        _camera.orthographicSize = targetSize;
+        _defaultSize = targetSize;
         RecoverSize(delta);
     }
 
