@@ -10,7 +10,7 @@ public class ItemSpawn : MonoBehaviour
     [SerializeField] GameObject[] skyBuffItems;
     [SerializeField] GameObject[] spaceBuffItems;
     [SerializeField] GameObject[] debuffItems;
-    [SerializeField] GameObject[] comets;
+    [SerializeField] GameObject cometSpawner;
     [SerializeField] GameObject[] cloud;
     [SerializeField] GameObject[] star;
 
@@ -28,7 +28,7 @@ public class ItemSpawn : MonoBehaviour
     void Start()
     {
         // spawn cloud
-        for(int i = 0; i < 30; i++){
+        for(int i = 0; i < 270; i++){
             int index = Random.Range(0,cloud.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomCloudPosY());
             Instantiate(cloud[index],tmpPosition,transform.rotation);
@@ -47,13 +47,6 @@ public class ItemSpawn : MonoBehaviour
             Instantiate(feather,tmpPosition,transform.rotation);
         }
 
-        // spawn comet
-        for(int i = 0; i < 15; i++){
-            int index = Random.Range(0,comets.Length);
-            Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomcometPosY());
-            Instantiate(comets[index],tmpPosition,transform.rotation);
-        }
-
         /*
         // spawn debuff
         for(int i = 0; i<75; i++){
@@ -65,7 +58,7 @@ public class ItemSpawn : MonoBehaviour
 
         //sea
         // spawn buff
-        for(int i = 0; i<75; i++){
+        for(int i = 0; i<140; i++){
             int index = Random.Range(0,seaBuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSeaPosY());
             Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
@@ -73,7 +66,7 @@ public class ItemSpawn : MonoBehaviour
 
         //sky
         // spawn buff
-        for(int i = 0; i<75; i++){
+        for(int i = 0; i<140; i++){
             int index = Random.Range(0,skyBuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSkyPosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
@@ -81,7 +74,7 @@ public class ItemSpawn : MonoBehaviour
 
         //space
         // spawn buff
-        for(int i = 0; i<30; i++){
+        for(int i = 0; i<60; i++){
             int index = Random.Range(0,spaceBuffItems.Length);
             Vector2 tmpPosition = new Vector2(Random.Range(10,600),randomSpacePosY());
             Instantiate(spaceBuffItems[index],tmpPosition,transform.rotation);
@@ -99,9 +92,9 @@ public class ItemSpawn : MonoBehaviour
 
     void spawnItems(int currX){
         int tmp = (currX+2)*200;
-
+        Instantiate(cometSpawner,new Vector2((currX+5)*200,430),Quaternion.identity);
         // spawn cloud
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 180; i++){
             int index = Random.Range(0,cloud.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(), randomCloudPosY());
             Instantiate(cloud[index],tmpPosition,transform.rotation);
@@ -120,14 +113,14 @@ public class ItemSpawn : MonoBehaviour
             Instantiate(feather,tmpPosition,transform.rotation);
         }
 
+        /*
         // spawn comet
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 15; i++){
             int index = Random.Range(0,comets.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(), randomcometPosY());
             Instantiate(comets[index],tmpPosition,transform.rotation);
         }
 
-        /*
         // spawn debuff
         for(int i = 0; i<50; i++){
             int index = Random.Range(0,debuffItems.Length);
@@ -138,7 +131,7 @@ public class ItemSpawn : MonoBehaviour
         
         //sea
         // spawn buff
-        for(int i = 0; i<50; i++){
+        for(int i = 0; i<100; i++){
             int index = Random.Range(0,seaBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSeaPosY());
             Instantiate(seaBuffItems[index],tmpPosition,transform.rotation);
@@ -146,7 +139,7 @@ public class ItemSpawn : MonoBehaviour
 
         //sky
         // spawn buff
-        for(int i = 0; i<50; i++){
+        for(int i = 0; i<100; i++){
             int index = Random.Range(0,skyBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSkyPosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
@@ -154,7 +147,7 @@ public class ItemSpawn : MonoBehaviour
 
         //space
         // spawn buff
-        for(int i = 0; i<50; i++){
+        for(int i = 0; i<75; i++){
             int index = Random.Range(0,spaceBuffItems.Length);
             Vector2 tmpPosition = new Vector2(tmp + randomX(),randomSpacePosY());
             Instantiate(skyBuffItems[index],tmpPosition,transform.rotation);
@@ -178,10 +171,11 @@ public class ItemSpawn : MonoBehaviour
     }
     
 
+    /*
     float randomcometPosY(){
         return Random.Range(sunHeight - cometHeight, sunHeight);
     }
-
+    */
 
     float randomStarPosY(){
         return Random.Range(starHeight, sunHeight);

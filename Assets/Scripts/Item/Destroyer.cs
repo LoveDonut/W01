@@ -9,7 +9,7 @@ public class Destroyer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector2(player.transform.position.x-200, transform.position.y);
+        transform.position = new Vector2(player.transform.position.x-250, transform.position.y);
     }
 
     void OnTriggerEnter2D(Collider2D other){
