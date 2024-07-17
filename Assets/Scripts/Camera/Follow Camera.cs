@@ -130,7 +130,7 @@ public class FollowCamera : MonoBehaviour
 
     void MoveTo(Vector3 objective)
     {
-        Vector2 directionTo = (objective - transform.position).normalized;
+        Vector2 directionTo = (objective - transform.position);
         transform.position += (Vector3)directionTo * _cameraMoveSpeed;
     }
 

@@ -21,7 +21,7 @@ public class Comet : MonoBehaviour
     }
 
     void Update(){
-        if(transform.position.y <= 150.0f){
+        if(transform.position.y <= 430.0f){
             Destroy(gameObject);
         }
     }
