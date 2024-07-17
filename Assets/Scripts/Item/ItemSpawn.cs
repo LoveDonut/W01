@@ -16,13 +16,13 @@ public class ItemSpawn : MonoBehaviour
 
     int maxX = 0;
 
-    public float sunHeight;
-    public float spaceHeight;
-    public float minCloudHeight;
-    public float maxCloudHeight;
-    public float starHeight;
-    public float skyHeight;
-    public float cometHeight;
+    public float sunHeight = 350;
+    public float spaceHeight = 180;
+    public float minCloudHeight = 35;
+    public float maxCloudHeight = 155;
+    public float starHeight = 170;
+    public float skyHeight = 145;
+    public float cometHeight = 60;
 
     // Start is called before the first frame update
     void Start()
