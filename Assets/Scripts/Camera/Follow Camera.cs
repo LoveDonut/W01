@@ -56,13 +56,14 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        if (PlayerState._state == PlayerState.State.water) return;
         MoveCamera();
     }
 
     private void MoveCamera()
     {
         if (cameraState == CameraState.notStart)
-        {
+        {   
             if (Input.GetKey(KeyCode.Space))
             {
                 cameraState = CameraState.moveToSun;
@@ -122,13 +123,13 @@ public class FollowCamera : MonoBehaviour
 
     void MoveCameraAfterLookUpSun()
     {
-        if (_playerState._state == PlayerState.State.shake)
+        if (PlayerState._state == PlayerState.State.shake)
         {
             Shake();
         }
         else
         {
-            switch (_playerState._state)
+            switch (PlayerState._state)
             {
                 case PlayerState.State.back:
                     DownSize(_backSize, _downSizeSpeed * Time.deltaTime);
@@ -151,7 +152,7 @@ public class FollowCamera : MonoBehaviour
 
     void Shake()
     {
-        PlayerState.State statebefore = _playerState._state;
+        PlayerState.State statebefore = PlayerState._state;
         if (elapsedShakeTime < shakeDuration)
         {
             transform.position = _followPosition + _player.transform.position + (Vector3)Random.insideUnitCircle * shakeMagnitude;

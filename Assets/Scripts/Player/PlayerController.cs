@@ -25,8 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _holdDownSpeed = -5f;
     [SerializeField] float _holdCost = 25f;
 
-    [Header("Damage")]
-    [SerializeField] float _damageByTime = 2f;
     [Header("WindPower")]
     [SerializeField] Vector2 windPower;
 
@@ -70,13 +68,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!IsAlive || !IsGameStart) return;
-        JumpStart();
-        Fly();
-        Hold();
-        Damage(Time.deltaTime * _damageByTime);
 
-        // Debug.Log(_myRigidbody.velocity);
+        if (!IsGameStart) return;
+        if(PlayerState._state == PlayerState.State.water)
+        {
+            _myRigidbody.velocity = new Vector2(1f, -3f);            
+        }
+        else
+        {
+            JumpStart();
+            Fly();
+            Hold();
+        }
     }
 
     void Hold()
@@ -189,7 +192,6 @@ public class PlayerController : MonoBehaviour
     public void ReducePlayerXSpeed(float power)
     {
         Debug.Log("before - " + _myRigidbody.velocity.x);
-//        _myRigidbody.AddForce(new Vector2(power, 0f), ForceMode2D.Impulse);
         _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x / 2f, 0);
         Debug.Log("after - "+ _myRigidbody.velocity.x);
     }
