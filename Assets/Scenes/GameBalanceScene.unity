@@ -1459,7 +1459,7 @@ Transform:
   m_GameObject: {fileID: 373617164}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -92, y: 89, z: 0}
+  m_LocalPosition: {x: -150, y: 84.8, z: 0}
   m_LocalScale: {x: 100, y: 3500, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2410,6 +2410,7 @@ MonoBehaviour:
   titleUI: {fileID: 801211524}
   gameUI: {fileID: 532010961}
   gameClearUI: {fileID: 951798554}
+  gameOverUI: {fileID: 0}
   subtitleUI: {fileID: 1705326595}
   statusUI: {fileID: 584783528}
 --- !u!4 &666616516
@@ -3659,11 +3660,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6
+      value: -10.4
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5661,7 +5662,7 @@ MonoBehaviour:
   _spaceHeight: 150
   _sunHeight: 380
   _cometHeight: 15
-  backPowerInSpace: 10
+  _backPowerInSpace: 10
 --- !u!4 &1815505644
 Transform:
   m_ObjectHideFlags: 0
@@ -6027,6 +6028,13 @@ MonoBehaviour:
   - {fileID: 96120265419323621, guid: 0429b2bb02450e34f9c463cb37a33412, type: 3}
   star:
   - {fileID: 7631450866780111326, guid: f09f3cdf76fb79f42a645038c134c1b5, type: 3}
+  sunHeight: 350
+  spaceHeight: 180
+  minCloudHeight: 10
+  maxCloudHeight: 170
+  starHeight: 170
+  skyHeight: 145
+  cometHeight: 30
 --- !u!4 &1898617234
 Transform:
   m_ObjectHideFlags: 0

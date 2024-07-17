@@ -16,7 +16,8 @@ public class Comet : MonoBehaviour
         playerState = FindObjectOfType<PlayerState>();
         followCamera = FindObjectOfType<FollowCamera>();
         cometRb = GetComponent<Rigidbody2D>();
-        cometRb.AddForce(new Vector2(-2,-7),ForceMode2D.Impulse);
+        float randomYSpeed = Random.Range(-5, -9);
+        cometRb.AddForce(new Vector2(-2,randomYSpeed),ForceMode2D.Impulse);
     }
 
     /*
