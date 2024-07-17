@@ -117,6 +117,7 @@ public class PlayerControllerCopy : MonoBehaviour
             BodyAnim.SetTrigger("_running");
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
+            Debug.Log(elapsedTime);
             StartCoroutine(GoJump(elapsedTime));
             _followCamera.SetState(FollowCameraCopy.State.recover);
 
