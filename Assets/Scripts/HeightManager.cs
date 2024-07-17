@@ -37,11 +37,6 @@ public class HeightManager : MonoBehaviour
         _playerState = FindObjectOfType<PlayerState>();
     }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if(_playerState.transform.position.y > _spaceHeight && !_isStageChanged)
@@ -49,11 +44,12 @@ public class HeightManager : MonoBehaviour
             EnterSpace();
         }
         _playerController.Damage(_damageDelta * Time.deltaTime);
+        Debug.Log(PlayerState._state);
     }
 
     void EnterSpace()
     {
-        _playerController.ReducePlayerXSpeed(_backPowerInSpace);
+        _playerController.ReducePlayerXSpeed(backPowerInSpace);
         _playerState.SetState(PlayerState.State.toSpace);
         _isStageChanged = true;
         _damageDelta = _damageByTimeInSpace;
