@@ -37,11 +37,6 @@ public class HeightManager : MonoBehaviour
         _playerState = FindObjectOfType<PlayerState>();
     }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if(_playerState.transform.position.y > _spaceHeight && !_isStageChanged)
@@ -49,6 +44,7 @@ public class HeightManager : MonoBehaviour
             EnterSpace();
         }
         _playerController.Damage(_damageDelta * Time.deltaTime);
+        Debug.Log(PlayerState._state);
     }
 
     void EnterSpace()

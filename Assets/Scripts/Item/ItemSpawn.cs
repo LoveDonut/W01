@@ -29,7 +29,7 @@ public class ItemSpawn : MonoBehaviour
         // spawn star
         for(int i = 0; i < 210; i++){
             int index = Random.Range(0,star.Length);
-            Vector2 tmpPosition = new Vector2(Random.Range(10,600), randomStarPosY());
+            Vector2 tmpPosition = new Vector2(Random.Range(-100,600), randomStarPosY());
             Instantiate(star[index],tmpPosition,transform.rotation);
         }
 

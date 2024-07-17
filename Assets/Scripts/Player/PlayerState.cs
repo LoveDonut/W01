@@ -51,6 +51,7 @@ public class PlayerState : MonoBehaviour
     public void GameOver()
     {
         _playerController.hp = 0;
+        _playerController.IsAlive = false;
         SetState(State.water);
     }
 

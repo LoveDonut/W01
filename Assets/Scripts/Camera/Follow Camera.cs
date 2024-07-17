@@ -22,7 +22,8 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] float _cameraMoveSpeed = 1f;
     [SerializeField] Vector3 _sunBelowPosition = new Vector3();
     [SerializeField] Transform _sunTransform;
-    [SerializeField] float _delay = 2f;
+    [SerializeField] float _startDelay = 0.5f;
+    [SerializeField] float _lookUpSunDuration = 2f;
 
     Camera _camera;
     PlayerController _player;
@@ -66,14 +67,14 @@ public class FollowCamera : MonoBehaviour
         {   
             if (Input.GetKey(KeyCode.Space))
             {
-                cameraState = CameraState.moveToSun;
+                StartCoroutine(CameraStateChangeDelay(_startDelay, CameraState.moveToSun));
             }
         }
         else if (cameraState == CameraState.moveToSun) 
         {
             if (isCameraNear(_sunBelowPosition))
             {
-                StartCoroutine(LookUpSunDelay());
+                StartCoroutine(CameraStateChangeDelay(_lookUpSunDuration, CameraState.moveToPlayer));
             }
             else
             {
@@ -100,10 +101,10 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    IEnumerator LookUpSunDelay()
+    IEnumerator CameraStateChangeDelay(float duration, CameraState state)
     {
-        yield return new WaitForSeconds(_delay);
-        cameraState = CameraState.moveToPlayer;
+        yield return new WaitForSeconds(duration);
+        cameraState = state;
     }
 
     void MoveTo(Vector3 objective)
