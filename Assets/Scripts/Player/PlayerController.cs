@@ -223,8 +223,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CheckHoldKey(){
         yield return new WaitForSeconds(3);
+        holdStatus = true;
         if(holdKeyStatus){
-            holdStatus = true;
             StartCoroutine(HoldCoolDown());
         }
     }
