@@ -13,18 +13,20 @@ public class PlayerState : MonoBehaviour
         dash,
         recover,
         toSpace,
-        shake
+        shake,
+        water
     };
 
     #region PrivateVariables
 
-    Rigidbody2D myRigidbody;
+    Rigidbody2D _myRigidbody;
+    PlayerController _playerController;
 
     #endregion
 
     #region PublicVariables
 
-    public State _state = State.NotStart;
+    public static State _state = State.NotStart;
 
     #endregion
 
@@ -32,7 +34,8 @@ public class PlayerState : MonoBehaviour
 
     void Awake()
     {
-        myRigidbody = GetComponent<Rigidbody2D>();
+        _myRigidbody = GetComponent<Rigidbody2D>();
+        _playerController = GetComponent<PlayerController>();
     }
 
     #endregion
@@ -42,6 +45,13 @@ public class PlayerState : MonoBehaviour
     {
         _state = state;
     }
+
+    public void GameOver()
+    {
+        _playerController.hp = 0;
+        SetState(State.water);
+    }
+
     #endregion
 
 }

@@ -7,16 +7,21 @@ public class HeightManager : MonoBehaviour
 {
     #region PrivateVariables
 
+
+    [SerializeField] float _damageByTimeInSpace = 2f;
+
     public float _skyHeight;
     public float _spaceHeight;
     public float _sunHeight;
     public float _cometHeight;
     public float backPowerInSpace = 10f;
 
+
     PlayerController _playerController;
     PlayerState _playerState;
 
-    bool isStageChanged = false;
+    float _damageDelta;
+    bool _isStageChanged = false;
 
     #endregion
 
@@ -37,18 +42,19 @@ public class HeightManager : MonoBehaviour
 
     void Update()
     {
-        if(_playerState.transform.position.y > _spaceHeight && !isStageChanged)
+        if(_playerState.transform.position.y > _spaceHeight && !_isStageChanged)
         {
             EnterSpace();
-            isStageChanged = true;
         }
+        _playerController.Damage(_damageDelta * Time.deltaTime);
     }
 
     void EnterSpace()
     {
-        _playerController.ReducePlayerXSpeed(backPowerInSpace);
+        _playerController.ReducePlayerXSpeed(_backPowerInSpace);
         _playerState.SetState(PlayerState.State.toSpace);
-        Debug.Log("Enter Space");
+        _isStageChanged = true;
+        _damageDelta = _damageByTimeInSpace;
     }
 
     #endregion
