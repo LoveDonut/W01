@@ -9,10 +9,13 @@ public class UIController : MonoBehaviour
     float playerHeight;
     float sunHeight;
 
-    public Slider heightSlider;
-    public Slider healthSlider;
+    
     public GameObject player;
     public GameObject sun;
+
+    [Header("Slider")]
+    public Slider heightSlider;
+    public Slider healthSlider;
 
     [Header("Text")]
     public TMP_Text featherText;
@@ -29,14 +32,13 @@ public class UIController : MonoBehaviour
     public GameObject statusUI;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         sunHeight = sun.GetComponent<Transform>().position.y;
         playerHeight = player.transform.position.y;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         playerHeight = player.transform.position.y;
@@ -44,9 +46,16 @@ public class UIController : MonoBehaviour
         healthSlider.maxValue = player.GetComponent<PlayerController>().maxHP;
         healthSlider.value = player.GetComponent<PlayerController>().hp;
 
-        // text 관련
+        // text 내용 수정
         healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
         jumpPowerText.text = "JumpPower : " + (player.GetComponent<PlayerController>()._jumpDirection.x + player.GetComponent<PlayerController>()._jumpDirection.y) / 2;
         featherText.text = "" + player.GetComponent<PlayerController>().feather;
+
+        // UI 확인용
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            titleUI.SetActive(false);
+            gameUI.SetActive(true);
+        }
     }
 }
