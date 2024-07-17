@@ -41,6 +41,9 @@ public class PlayerController : MonoBehaviour
     public int feather = 0;
     bool _didJump;
     bool _canFly = true;
+    bool holdStatus = false;
+    bool holdKeyStatus = false;
+
     float _startTime, _endTime;
     #endregion
 
@@ -82,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     void Hold()
     {
-        if (!_didJump) return;
+        if (!_didJump || holdStatus) return;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
@@ -91,6 +94,10 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         {
+            if(!holdKeyStatus){
+                holdKeyStatus = true;
+                StartCoroutine(CheckHoldKey());
+            }
             _playerAnimator.WingGlide();
             if (_myRigidbody.velocity.y > 0f)
             {
@@ -100,7 +107,14 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
-            Damage(Time.deltaTime * _holdCost);
+            if(!holdStatus){
+                Damage(Time.deltaTime * _holdCost);
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)){
+            holdStatus = true;
+            holdKeyStatus = false;
+            StartCoroutine(HoldCoolDown());
         }
     }
 
@@ -179,6 +193,21 @@ public class PlayerController : MonoBehaviour
         _didJump = true;
 
     }
+
+    IEnumerator HoldCoolDown(){
+        yield return new WaitForSeconds(1f);
+        holdStatus = false;
+        holdKeyStatus = false;
+    }
+
+    IEnumerator CheckHoldKey(){
+        yield return new WaitForSeconds(3);
+        if(holdKeyStatus){
+            holdStatus = true;
+            StartCoroutine(HoldCoolDown());
+        }
+    }
+
     #endregion
 
     #region PublicMethods
