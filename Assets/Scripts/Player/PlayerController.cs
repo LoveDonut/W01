@@ -119,7 +119,6 @@ public class PlayerController : MonoBehaviour
             if (!holdKeyStatus)
             {
                 holdKeyStatus = true;
-                // useStamina = true;
                 StartCoroutine(CheckHoldKey());
             }
             _playerAnimator.WingGlide();
@@ -240,14 +239,18 @@ public class PlayerController : MonoBehaviour
         holdCoolStatus = true;
         holdStatus = true;
         Debug.Log("쿨다운 시작");
+        useStamina = false;
         yield return new WaitForSeconds(1f);
+        useStamina = true;
         holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
     }
     IEnumerator CheckHoldKey()
     {
+        useStamina = true;
         yield return new WaitForSeconds(3);
+        useStamina = false;
 
         if (holdKeyStatus)
         {
