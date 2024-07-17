@@ -7,8 +7,8 @@ public class Strengthen : MonoBehaviour
 {
     #region PrivateVariables
 
-    [SerializeField] Vector2 _jumpPowerUp = new Vector2(5f,5f);
-    [SerializeField] float _maxHpUp = 10f;
+    public Vector2 _jumpPowerUp = new Vector2(5f,5f);
+    public float _maxHpUp = 10f;
 
     PlayerController _playerController;
 
@@ -31,13 +31,14 @@ public class Strengthen : MonoBehaviour
     public void StrengthenJumpPower()
     {
         _playerController._jumpDirection += _jumpPowerUp;
-        print(_playerController._jumpDirection);
+        _playerController.feather -= 1;
     }
 
     public void StrengthenMaxHp()
     {
         _playerController.maxHP += _maxHpUp;
-        print(_playerController.maxHP);
+        _playerController.hp = _playerController.maxHP;
+        _playerController.feather -= 1;
     }
 
     #endregion

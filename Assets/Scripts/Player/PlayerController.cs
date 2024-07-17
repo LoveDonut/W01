@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     public float maxHP = 120;
     public int feather = 0;
-    bool _didJump;
+    public bool _didJump; // trans
     bool _canFly = true;
     bool holdStatus = false;
     bool holdKeyStatus = false;
@@ -175,7 +175,10 @@ public class PlayerController : MonoBehaviour
             }
             Damage(_flyCost);
             _canFly = false;
-            _playerState.SetState(PlayerState.State.dash);
+            if (PlayerState._state != PlayerState.State.toSpace)
+            {
+                _playerState.SetState(PlayerState.State.dash);
+            }
             StartCoroutine(FlyCoolDown());
         }
         _playerAnimator.WingFly();
@@ -186,7 +189,10 @@ public class PlayerController : MonoBehaviour
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
         yield return new WaitForSeconds(flyCoolDown);
         _canFly = true;
-        _playerState.SetState(PlayerState.State.recover);
+        if (PlayerState._state != PlayerState.State.toSpace)
+        {
+            _playerState.SetState(PlayerState.State.recover);
+        }
     }
 
     IEnumerator GoJump(float elapsedTime, int jumpCost)
