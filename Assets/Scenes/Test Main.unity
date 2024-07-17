@@ -2780,17 +2780,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 998651323826002530, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: _waterSplash
-      value: 
-      objectReference: {fileID: 3886567881561548080, guid: 70d0b119089c83d4da1361911fcd870b, type: 3}
     - target: {fileID: 5305612198432411384, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: _jumpCostMultiply
-      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.x

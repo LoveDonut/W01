@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x + _flyPower.x, _flyPower.y);
             }
-            hp -= _flyCost;
+            Damage(_flyCost);
             _canFly = false;
             _playerState.SetState(PlayerState.State.dash);
             StartCoroutine(FlyCoolDown());
@@ -197,8 +197,7 @@ public class PlayerController : MonoBehaviour
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
         _didJump = true;
-        hp -= jumpCost;
-
+        Damage(jumpCost);
     }
 
     IEnumerator HoldCoolDown(){
@@ -220,7 +219,7 @@ public class PlayerController : MonoBehaviour
     #region PublicMethods
     public void Damage(float damage)
     {
-        hp -= damage;
+        hp = Mathf.Clamp(hp - damage, 0f, maxHP);
     }
 
     public void ReducePlayerXSpeed(float power)
@@ -237,6 +236,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
+        if (hp <= 0) return;
         if(other.gameObject.CompareTag("Feather")){
             feather++;
         }
@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if(other.gameObject.CompareTag("HPdown")){
-            hp -= 10;
+            Damage(10);
             if(hp<=0){
                 //gameover
                 hp = 0;
