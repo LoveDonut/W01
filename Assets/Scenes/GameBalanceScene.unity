@@ -755,7 +755,8 @@ MonoBehaviour:
   _cameraMoveSpeed: 0.7
   _sunBelowPosition: {x: -10, y: -10, z: 0}
   _sunTransform: {fileID: 234669234}
-  _delay: 2
+  _startDelay: 0.5
+  _lookUpSunDuration: 0
 --- !u!114 &178096495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2409,7 +2410,6 @@ MonoBehaviour:
   titleUI: {fileID: 801211524}
   gameUI: {fileID: 532010961}
   gameClearUI: {fileID: 951798554}
-  gameOverUI: {fileID: 0}
   subtitleUI: {fileID: 1705326595}
   statusUI: {fileID: 584783528}
 --- !u!4 &666616516
@@ -3070,7 +3070,7 @@ Transform:
   m_GameObject: {fileID: 1005803226}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.5, y: 265, z: 0}
+  m_LocalPosition: {x: 9.5, y: 380, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3639,7 +3639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _flyPower.x
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _flyPower.y
@@ -3653,13 +3653,17 @@ PrefabInstance:
       propertyPath: _jumpDirection.y
       value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 8657959479673111575, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5657,7 +5661,7 @@ MonoBehaviour:
   _spaceHeight: 150
   _sunHeight: 380
   _cometHeight: 15
-  _backPowerInSpace: 10
+  backPowerInSpace: 10
 --- !u!4 &1815505644
 Transform:
   m_ObjectHideFlags: 0

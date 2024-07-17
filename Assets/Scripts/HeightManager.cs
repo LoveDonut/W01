@@ -49,7 +49,7 @@ public class HeightManager : MonoBehaviour
 
     void EnterSpace()
     {
-        _playerController.ReducePlayerXSpeed(_backPowerInSpace);
+        _playerController.ReducePlayerXSpeed(backPowerInSpace);
         _playerState.SetState(PlayerState.State.toSpace);
         _isStageChanged = true;
         _damageDelta = _damageByTimeInSpace;
