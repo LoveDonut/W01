@@ -30,6 +30,7 @@ public class Dead : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Water"))
         {
+            myRigidbody.velocity = Vector2.zero;
             playerController.IsAlive = false;
         }
     }
