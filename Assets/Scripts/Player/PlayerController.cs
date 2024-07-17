@@ -80,9 +80,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        if(StrengthenData.instance != null)
+        {
         maxHP += StrengthenData.instance.maxHpUp;
-        hp = maxHP;
         _jumpDirection += StrengthenData.instance.jumpPowerUp;
+        }
+        hp = maxHP;
     }
 
     void Update()
@@ -244,7 +247,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log("쿨다운 시작");
         useStamina = false;
         yield return new WaitForSeconds(1f);
-        useStamina = true;
+        if (holdKeyStatus)
+        {
+            useStamina = true;
+        }
         holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
