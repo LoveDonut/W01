@@ -1697,7 +1697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 424069502}
   m_Layer: 0
-  m_Name: Heath
+  m_Name: HPup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6602,7 +6602,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1552135188}
   m_Layer: 0
-  m_Name: Jump
+  m_Name: Wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
