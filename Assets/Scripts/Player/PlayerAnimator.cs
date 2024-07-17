@@ -25,15 +25,19 @@ public class PlayerAnimator : MonoBehaviour
 
     public void WingJump()
     {
+        wingAnim.SetTrigger("_jump");
+    }
+
+    public void WingJumpReset()
+    {
         wingAnim.ResetTrigger("_fly");
         wingAnim.ResetTrigger("_glide");
         wingAnim.SetTrigger("_jump");
     }
 
-    public void WingDefalut()
+    public void WingFly()
     {
-        wingAnim.ResetTrigger("_jump");
-        wingAnim.ResetTrigger("_glide");
+
         wingAnim.SetTrigger("_fly");
     }
 
