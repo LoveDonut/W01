@@ -77,7 +77,7 @@ public class FollowCamera : MonoBehaviour
 
     private void MoveCamera()
     {
-        if (StrengthenData.instance.isRestart)
+        if (StrengthenData.instance != null && StrengthenData.instance.isRestart)
         {
             transform.position = _player.transform.position + _followPosition;
             _player.IsGameStart = true;
@@ -132,7 +132,7 @@ public class FollowCamera : MonoBehaviour
 
     void MoveTo(Vector3 objective)
     {
-        Vector2 directionTo = (objective - transform.position).normalized;
+        Vector2 directionTo = (objective - transform.position);
         transform.position += (Vector3)directionTo * _cameraMoveSpeed;
     }
 

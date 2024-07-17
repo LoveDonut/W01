@@ -19,7 +19,7 @@ public class CometSpawner : MonoBehaviour
     
     void spawnComet(){
         for(int i = 0; i<3; i++){
-            float randomY = Random.Range(430,450);
+            float randomY = Random.Range(900,930);
             float randomX = Random.Range(-100, 100);
             Instantiate(comet, new Vector2(randomX + transform.position.x, randomY),Quaternion.identity);
         }
