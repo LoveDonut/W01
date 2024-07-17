@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     bool holdStatus = false;
     bool holdKeyStatus = false;
     bool holdCoolStatus = false;
+    bool _isSpaceKeyDown = false;
 
     float _startTime, _endTime;
     #endregion
@@ -134,15 +135,16 @@ public class PlayerController : MonoBehaviour
             _startTime = Time.time;
             _jumpPosition = transform.position;
             _playerState.SetState(PlayerState.State.back);
+            _isSpaceKeyDown = true;
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && _isSpaceKeyDown)
         {
             if(transform.position.x > _jumpPosition.x + _backOffset)
             {
                 transform.position -= new Vector3(_backSpeed * Time.deltaTime, 0);
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && _isSpaceKeyDown)
         {
             _playerAnimator.BodyRun();
             _endTime = Time.time;
@@ -205,6 +207,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.3f);
         _didJump = true;
         Damage(jumpCost);
     }

@@ -51,7 +51,7 @@ public class Dead : MonoBehaviour
 
     private void FallInWaterEffect(Collider2D collision)
     {
-        ParticleSystem instance = Instantiate(_waterSplash, collision.transform.position, _waterSplash.transform.rotation);
+        ParticleSystem instance = Instantiate(_waterSplash, transform.position, _waterSplash.transform.rotation);
         Destroy(instance, _waterSplash.main.duration + _waterSplash.main.startLifetime.constantMax);
         foreach (SpriteRenderer playerSprite in _playerSpriteList)
         {

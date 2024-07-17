@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 8686576739983331737}
   - component: {fileID: 6450769031913113351}
   - component: {fileID: 2059752341964166071}
-  - component: {fileID: 147839940399022701}
+  - component: {fileID: 2130768688326798391}
   - component: {fileID: 998651323826002530}
   - component: {fileID: 5157636425727128004}
   - component: {fileID: 2583857823422583995}
@@ -375,6 +375,7 @@ MonoBehaviour:
   windPower: {x: 0, y: 0}
   maxHP: 1000
   feather: 0
+  _didJump: 0
   IsAlive: 1
   IsGameStart: 0
   hp: 0
@@ -390,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361f532b27413df40ad3580fc1ca76e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &147839940399022701
+--- !u!114 &2130768688326798391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,11 +417,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8932e137e2f0cba429b8f51f772ee995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waterSplash: {fileID: 0}
+  _waterSplash: {fileID: 3886567881561548080, guid: 70d0b119089c83d4da1361911fcd870b, type: 3}
   _playerSpriteList:
   - {fileID: 3079488703814071717}
   - {fileID: 2064093827559375838}
   - {fileID: 1569824101654653980}
+  _deadFallSpeedIncrase: 100
 --- !u!95 &5157636425727128004
 Animator:
   serializedVersion: 5
