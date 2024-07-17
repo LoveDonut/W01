@@ -40,13 +40,14 @@ public class PlayerController : MonoBehaviour
 
     public int maxHP = 120;
     public int feather = 0;
-    bool _isStart;
+    bool _didJump;
     bool _canFly = true;
     float _startTime, _endTime;
     #endregion
 
     #region PublicVariables
     public bool IsAlive { get { return hp > 0; } set { } }
+    public bool _isGameStart;
     public float hp;
     #endregion
 
@@ -76,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     void Hold()
     {
-        if (!_isStart) return;
+        if (!_didJump) return;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
@@ -98,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     void JumpStart()
     {
-        if (_isStart) return;
+        if (_didJump) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     void Fly()
     {
-        if(hp < _flyCost || !_isStart || !_canFly) return;
+        if(hp < _flyCost || !_didJump || !_canFly) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -162,7 +163,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
-        _isStart = true;
+        _didJump = true;
 
     }
     #endregion
@@ -175,8 +176,10 @@ public class PlayerController : MonoBehaviour
 
     public void ReducePlayerXSpeed(float power)
     {
+        Debug.Log("before - " + _myRigidbody.velocity.x);
 //        _myRigidbody.AddForce(new Vector2(power, 0f), ForceMode2D.Impulse);
-          _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x / 2f, 0);
+        _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x / 2f, 0);
+        Debug.Log("after - "+ _myRigidbody.velocity.x);
     }
     #endregion
 
