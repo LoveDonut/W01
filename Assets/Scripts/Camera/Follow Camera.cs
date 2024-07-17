@@ -5,17 +5,29 @@ using UnityEngine;
 // By Daehee
 public class FollowCamera : MonoBehaviour
 {
+    enum CameraState
+    {
+        moveToSun,
+        moveToPlayer,
+        follow
+    };
 
     #region PrivateVariables
     [SerializeField] float _backSize = 5f;
     [SerializeField] float _defaultSize = 7f;
     [SerializeField] float _spaceSize = 12f;
     [SerializeField] float _downSizeSpeed = -2.5f;
+    [SerializeField] float _cameraMoveSpeed = 1f;
+    [SerializeField] Vector3 _sunBelowPosition = new Vector3();
+    [SerializeField] Transform _sunTransform;
+    [SerializeField] float _delay = 2f;
 
     Camera _camera;
-    Transform _player;
+    PlayerController _player;
     PlayerState _playerState;
     Vector3 _followPosition, _followDashPosition;
+    CameraState cameraState = CameraState.moveToSun;
+
     float upSizeSpeed;
     float shakeDuration = 1f;
     float shakeMagnitude = 0.2f;
@@ -29,22 +41,66 @@ public class FollowCamera : MonoBehaviour
     void Awake()
     {
         _camera = GetComponent<Camera>();
-        _player = FindObjectOfType<PlayerController>().transform;
+        _player = FindObjectOfType<PlayerController>();
         _playerState = FindObjectOfType<PlayerState>();
     }
 
     void Start()
     {
+        _sunBelowPosition += _sunTransform.position;
         _followPosition = new Vector3(7f, 0f, -10f);
         upSizeSpeed = _downSizeSpeed * -2f;
     }
 
     void LateUpdate()
     {
-        
-        transform.position = _player.position + _followPosition;
-        MoveCamera();
+        if (cameraState == CameraState.moveToSun) 
+        {
+            if (isCameraNear(_sunBelowPosition))
+            {
+                StartCoroutine(LookUpSunDelay());
+            }
+            else
+            {
+                MoveTo(_sunBelowPosition);
+            }
+        }
+        else if (cameraState == CameraState.moveToPlayer)
+        {
+            MoveTo(_player.transform.position + _followPosition);
+            if (isCameraNear(_player.transform.position + _followPosition))
+            {
+                cameraState = CameraState.follow;
+                _playerState.SetState(PlayerState.State.follow);
+            }
+        }
+        else 
+        {
+            transform.position = _player.transform.position + _followPosition;
+            MoveCamera();
+        }
 
+    }
+
+    IEnumerator LookUpSunDelay()
+    {
+        yield return new WaitForSeconds(_delay);
+        cameraState = CameraState.moveToPlayer;
+    }
+
+    void MoveTo(Vector3 objective)
+    {
+        Vector2 directionTo = (objective - transform.position).normalized;
+        transform.position += (Vector3)directionTo * _cameraMoveSpeed;
+    }
+
+    bool isCameraNear(Vector3 objective)
+    {
+        if(Mathf.Abs(transform.position.x - objective.x) + Mathf.Abs(transform.position.y - objective.y) < 2f)
+        {
+            return true;
+        }
+        return false;
     }
 
     void MoveCamera()
@@ -81,7 +137,7 @@ public class FollowCamera : MonoBehaviour
         PlayerState.State statebefore = _playerState._state;
         if (elapsedShakeTime < shakeDuration)
         {
-            transform.position = _followPosition + _player.position + (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            transform.position = _followPosition + _player.transform.position + (Vector3)Random.insideUnitCircle * shakeMagnitude;
             elapsedShakeTime += Time.deltaTime;
         }
         else
