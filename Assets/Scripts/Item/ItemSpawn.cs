@@ -14,11 +14,15 @@ public class ItemSpawn : MonoBehaviour
     [SerializeField] GameObject[] cloud;
     [SerializeField] GameObject[] star;
 
+    HeightManager heightManager;
+
     int maxX = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        heightManager = GameObject.Find("Height Manager").GetComponent<HeightManager>();
+
         // spawn cloud
         for(int i = 0; i < 30; i++){
             int index = Random.Range(0,cloud.Length);
@@ -154,28 +158,28 @@ public class ItemSpawn : MonoBehaviour
     }
 
     float randomSeaPosY(){
-        return Random.Range(10, 300);
+        return Random.Range(10, heightManager._skyHeight);
     }
 
     float randomSkyPosY(){
-        return Random.Range(300, 500);
+        return Random.Range(heightManager._skyHeight, heightManager._spaceHeight);
     }
 
     float randomSpacePosY(){
-        return Random.Range(500, 750);
+        return Random.Range(heightManager._spaceHeight, heightManager._sunHeight-15);
     }
     
 
     float randomcometPosY(){
-        return Random.Range(800, 1000);
+        return Random.Range(heightManager._spaceHeight + heightManager._cometHeight, heightManager._sunHeight-10);
     }
 
 
     float randomStarPosY(){
-        return Random.Range(100, 225);
+        return Random.Range(heightManager._spaceHeight, heightManager._sunHeight-10);
     }
 
     float randomFeatherPosY(){
-        return Random.Range(0, 500);
+        return Random.Range(10, heightManager._sunHeight-15);
     }
 }

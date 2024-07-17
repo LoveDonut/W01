@@ -749,13 +749,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backSize: 5
-  _defaultSize: 7
-  _spaceSize: 10
+  _defaultSize: 9
+  _spaceSize: 12
   _downSizeSpeed: -2.5
   _cameraMoveSpeed: 0.7
   _sunBelowPosition: {x: -10, y: -10, z: 0}
   _sunTransform: {fileID: 234669234}
-  _delay: 2
+  _startDelay: 0.5
+  _lookUpSunDuration: 2
 --- !u!114 &178096495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3626,7 +3627,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: maxHP
-      value: 1000
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _flyCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _holdCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _flyPower.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _flyPower.y
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _jumpDirection.x
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _jumpDirection.y
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5628,7 +5653,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skyHeight: 50
-  _spaceHeight: 100
+  _spaceHeight: 150
+  _sunHeight: 380
+  _cometHeight: 15
   backPowerInSpace: 10
 --- !u!4 &1815505644
 Transform:

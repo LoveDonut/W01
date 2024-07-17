@@ -7,9 +7,11 @@ public class HeightManager : MonoBehaviour
 {
     #region PrivateVariables
 
-    [SerializeField] float _skyHeight = 300f;
-    [SerializeField] float _spaceHeight = 500f;
-    [SerializeField] float backPowerInSpace = 10f;
+    public float _skyHeight;
+    public float _spaceHeight;
+    public float _sunHeight;
+    public float _cometHeight;
+    public float backPowerInSpace = 10f;
 
     PlayerController _playerController;
     PlayerState _playerState;
