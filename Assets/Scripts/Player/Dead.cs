@@ -8,8 +8,13 @@ public class Dead : MonoBehaviour
 
     [SerializeField] ParticleSystem _waterSplash;
     [SerializeField] List<SpriteRenderer> _playerSpriteList;
+    [SerializeField] float _deadFallSpeedIncrase = 1f;
+    
+    PlayerController _playerController;
     PlayerState _playerState;
     Rigidbody2D _myRigidbody;
+
+    float _deadFallSpeed;
 
     #endregion
 
@@ -20,8 +25,18 @@ public class Dead : MonoBehaviour
 
     void Awake()
     {
+        _playerController = GetComponent<PlayerController>();
         _playerState = GetComponent<PlayerState>();
         _myRigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        if (PlayerState._state != PlayerState.State.water && _playerController.hp <= 0)
+        {
+            _deadFallSpeed -= _deadFallSpeedIncrase * Time.deltaTime;
+            _myRigidbody.velocity = new Vector2(0f, _deadFallSpeed);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -29,8 +44,6 @@ public class Dead : MonoBehaviour
         if (collision.CompareTag("Water"))
         {
             _playerState.GameOver();
-
-
 
             FallInWaterEffect(collision);
         }
