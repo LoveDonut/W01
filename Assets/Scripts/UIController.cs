@@ -13,7 +13,7 @@ public class UIController : MonoBehaviour
     float addingJumpPower;
     
     public GameObject player;
-    public GameObject sun;
+    public GameObject heightManager;
 
     [Header("Slider")]
     public Slider heightSlider;
@@ -42,7 +42,7 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
-        sunHeight = sun.GetComponent<Transform>().position.y;
+        sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
         playerHeight = player.transform.position.y;
     }
 
@@ -69,9 +69,10 @@ public class UIController : MonoBehaviour
         {
             gameUI.SetActive(true);
         }
-        if (!player.GetComponent<PlayerController>().IsAlive)
+        if (!player.GetComponent<PlayerController>().IsAlive) // 수정 필요
         {
             gameOverUI.SetActive(true);
+            gameUI.SetActive(false);
         }
     }
 }
