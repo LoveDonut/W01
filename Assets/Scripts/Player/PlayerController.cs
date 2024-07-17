@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _backOffset = -6f;
     [SerializeField] float _backSpeed = 5f;
     [SerializeField] float _goSpeed = 20f;
+    [SerializeField] float _jumpCostMultiply = 1.5f;
 
     [Header("Fly")]
     [SerializeField] Vector2 _flyPower;
@@ -143,10 +144,13 @@ public class PlayerController : MonoBehaviour
             _playerAnimator.BodyRun();
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
-            StartCoroutine(GoJump(elapsedTime));
+            int jumpCost = Mathf.RoundToInt(-(transform.position.x + 6) * _jumpCostMultiply);
+
+            StartCoroutine(GoJump(elapsedTime, jumpCost));
             _playerState.SetState(PlayerState.State.recover);
             _playerAnimator.BodyFly();
             _playerAnimator.WingJump();
+            Debug.Log(jumpCost);
         }
     }
 
@@ -182,7 +186,7 @@ public class PlayerController : MonoBehaviour
         _playerState.SetState(PlayerState.State.recover);
     }
 
-    IEnumerator GoJump(float elapsedTime)
+    IEnumerator GoJump(float elapsedTime, int jumpCost)
     {
         while (transform.position.x < _jumpPosition.x)
         {
@@ -193,6 +197,7 @@ public class PlayerController : MonoBehaviour
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
         _didJump = true;
+        hp -= jumpCost;
 
     }
 
