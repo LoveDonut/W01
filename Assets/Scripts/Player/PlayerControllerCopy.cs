@@ -74,12 +74,12 @@ public class PlayerControllerCopy : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            WingAnim.SetTrigger("_glide");
+            //playerAnimator.WingGlide() method call
             _holdVelocity = _myRigidbody.velocity;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         {
-            WingAnim.SetTrigger("_glide");
+            //playerAnimator.WingGlide() method call
             if (_myRigidbody.velocity.y > 0f)
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdVelocity.y);
@@ -98,7 +98,7 @@ public class PlayerControllerCopy : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //Body Animation: Move back to run
+            //playerAnimator.BodyBack() method call
             BodyAnim.SetTrigger("_readyToJump");
             _startTime = Time.time;
             _jumpPosition = transform.position;
@@ -113,18 +113,16 @@ public class PlayerControllerCopy : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            //Body Animation: Run forward to Jump
+            //playerAnimator.BodyRun() method call
             BodyAnim.SetTrigger("_running");
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
             StartCoroutine(GoJump(elapsedTime));
             _followCamera.SetState(FollowCameraCopy.State.recover);
 
-            //Body Animation: Icarus is flying 
+            //playerAnimator.BodyFly() && playerAnimator.WingJump() methods call
             BodyAnim.SetTrigger("_flying");
             WingAnim.SetTrigger("_jump");
-            Debug.Log("wingAnim trigger should work!!!");
-
         }
     }
 
@@ -134,14 +132,15 @@ public class PlayerControllerCopy : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            //playerAnimator.WingJump() method call
             WingAnim.ResetTrigger("_fly");
             WingAnim.ResetTrigger("_glide");
             WingAnim.SetTrigger("_jump");
-            Debug.Log("it has to jump");
             _myRigidbody.AddForce(_flyDirection, ForceMode2D.Impulse);
             hp -= flyCost;
         }
 
+        //playerAnimator.WingFly() method call
         WingAnim.SetTrigger("_fly");
     }
 
