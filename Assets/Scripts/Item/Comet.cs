@@ -24,7 +24,7 @@ public class Comet : MonoBehaviour
         if(other.gameObject.CompareTag("Player")){
             cometRb.velocity = Vector2.zero;
             cometRb.AddForce(Vector2.down*7, ForceMode2D.Impulse);
-            Destroy(gameObject, 1);
+            Destroy(gameObject);
         }
     }
 }
