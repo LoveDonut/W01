@@ -76,6 +76,7 @@ public class UIController : MonoBehaviour
         else
         {
             statusUI.SetActive(true);
+            bestHeightSlider.GetComponent<Slider>().value = StrengthenData.instance.sliderValue;
         }
     }
 
@@ -157,7 +158,7 @@ public class UIController : MonoBehaviour
         {
             shiftTutorial.SetActive(false);
         }
-        if (!player.GetComponent<PlayerController>().IsAlive) // ���� �ʿ�
+        if (!player.GetComponent<PlayerController>().IsAlive)
         {
             spaceLongTutorial.SetActive(false);
             spaceShortTutorial.SetActive(false);
@@ -178,17 +179,16 @@ public class UIController : MonoBehaviour
         if (bestHeightSlider.GetComponent<Slider>().value < heightSlider.GetComponent<Slider>().value)
         {
             bestHeightSlider.GetComponent<Slider>().value = heightSlider.GetComponent<Slider>().value;
+            StrengthenData.instance.sliderValue = bestHeightSlider.GetComponent<Slider>().value;
         }
         if (player.GetComponent<PlayerController>().useStamina)
         {
-            print("Ȧ�����");
             staminaObject.SetActive(true);
             staminaTime -= Time.deltaTime;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
         else if (!player.GetComponent<PlayerController>().useStamina)
         {
-            print("Ȧ��End");
             staminaObject.SetActive(false);
             staminaTime = 3f;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
