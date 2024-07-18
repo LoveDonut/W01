@@ -143,14 +143,18 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        /*
-        if ((Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !holdCoolStatus)
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
         {
+            if(!holdCoolStatus){
             holdStatus = true;
             holdKeyStatus = false;
-            StartCoroutine(HoldCoolDown());
+            StartCoroutine(HoldCoolDown());}else{
+                holdStatus = false;
+                holdKeyStatus = false;
+                holdCoolStatus = false;
+                useStamina = false;
+            }
         }
-        */
     }
 
     void JumpStart()
@@ -248,8 +252,13 @@ public class PlayerController : MonoBehaviour
     {
         holdCoolStatus = true;
         holdStatus = true;
+        Debug.Log("쿨다운 시작");
         useStamina = false;
         yield return new WaitForSeconds(1f);
+        if (holdKeyStatus)
+        {
+            useStamina = true;
+        }
         holdCoolStatus = false;
         holdStatus = false;
         holdKeyStatus = false;
@@ -284,7 +293,7 @@ public class PlayerController : MonoBehaviour
 
     void heightDown(){
         tempVector = _myRigidbody.velocity;
-        _myRigidbody.velocity = new Vector2(tempVector.x-0.5f, tempVector.y-1);
+        _myRigidbody.velocity = new Vector2(tempVector.x-3f, tempVector.y-12f);
     }
 
     void OnTriggerEnter2D(Collider2D other){
