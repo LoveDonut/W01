@@ -87,7 +87,7 @@ public class FollowCamera : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                Debug.Log("i'm in MoveCamera");
+                //Debug.Log("i'm in MoveCamera");
                 StartCoroutine(CameraStateChangeDelay(_startDelay, CameraState.moveToSun));
             }
         }

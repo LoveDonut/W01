@@ -44,6 +44,19 @@ public class PlayerController : MonoBehaviour
     Vector2 _jumpPosition;
     Vector2 tempVector;
 
+    private enum ShiftState
+    {
+        Idle,           // 기본 상태
+        Pressed,        // SHIFT 키를 누른 상태
+        Delayed,        // 딜레이 상태
+    }
+    private ShiftState currentState = ShiftState.Idle;
+    private float shiftHoldTime = 0f;   // SHIFT 키를 누른 시간
+    private const float maxShiftHoldTime = 3f;  // 최대 SHIFT 키 누르는 시간 (3초)
+    private const float delayTime = 1f;  // 딜레이 시간 (1초)
+    private bool delayActive = false;    // 딜레이가 활성화되었는지 여부를 나타내는 플래그
+
+
     public float maxHP = 100;
     public int feather = 0;
     public bool _didJump;
@@ -52,9 +65,6 @@ public class PlayerController : MonoBehaviour
     public bool holdTutorial = true;
     public bool useStamina = false;
     bool _canFly = true;
-    bool holdStatus = false;
-    bool holdKeyStatus = false;
-    bool holdCoolStatus = false;
     bool _isSpaceKeyDown = false;
 
     float _startTime, _endTime;
@@ -113,21 +123,36 @@ public class PlayerController : MonoBehaviour
 
     void Hold()
     {
-        if (!_didJump || holdStatus) return;
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        if (!_didJump) return;
+        switch (currentState)
+        {
+            case ShiftState.Idle:
+                _holdVelocity = _myRigidbody.velocity;
+                HandleIdleState();
+                break;
+            case ShiftState.Pressed:
+                HandlePressedState();
+                break;
+        }
+    }
+
+    void HandleIdleState()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             holdTutorial = false;
-            _playerAnimator.WingGlide();
-            _holdVelocity = _myRigidbody.velocity;
+            currentState = ShiftState.Pressed;
+            shiftHoldTime = 0f;
+        }else if(Input.GetKey(KeyCode.LeftShift)){
+            currentState = ShiftState.Pressed;
         }
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
+    }
 
-            if (!holdKeyStatus)
-            {
-                holdKeyStatus = true;
-                StartCoroutine(CheckHoldKey());
-            }
+    void HandlePressedState()
+    {
+        shiftHoldTime += Time.deltaTime;
+        
+        if(!delayActive){
             _playerAnimator.WingGlide();
             if (_myRigidbody.velocity.y > 0f)
             {
@@ -137,24 +162,40 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
-            if (!holdStatus)
+            Damage(Time.deltaTime * _holdCost);
+            useStamina = true;
+            if (shiftHoldTime >= maxShiftHoldTime)
             {
-                Damage(Time.deltaTime * _holdCost);
+                currentState = ShiftState.Delayed;
+                StartCoroutine(DelayCoroutine());
             }
         }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            if(!holdCoolStatus){
-            holdStatus = true;
-            holdKeyStatus = false;
-            StartCoroutine(HoldCoolDown());}else{
-                holdStatus = false;
-                holdKeyStatus = false;
-                holdCoolStatus = false;
+            // SHIFT 키를 뗀 경우
+            if (!delayActive && shiftHoldTime < maxShiftHoldTime)
+            {
+                // 최대 시간 미만으로 누르고 떼면 바로 딜레이 상태로 전환
+                currentState = ShiftState.Delayed;
                 useStamina = false;
+                StartCoroutine(DelayCoroutine());
+            }
+            else
+            {
+                // 딜레이가 활성화된 상태에서 떼면 기본 상태로 전환
+                currentState = ShiftState.Idle;
             }
         }
+    }
+
+    IEnumerator DelayCoroutine()
+    {
+        delayActive = true;
+        useStamina = false;
+        yield return new WaitForSeconds(delayTime);
+        delayActive = false;
+        shiftHoldTime = 0f;
+        currentState = ShiftState.Idle;
     }
 
     void JumpStart()
@@ -194,7 +235,7 @@ public class PlayerController : MonoBehaviour
 
     void Fly()
     {
-        Debug.Log(PlayerState._state);
+        //Debug.Log(PlayerState._state);
         if(hp < _flyCost || !_didJump || !_canFly) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -246,33 +287,6 @@ public class PlayerController : MonoBehaviour
         _didJump = true;
         jumpTutorial = false;
         Damage(jumpCost);
-    }
-
-    IEnumerator HoldCoolDown()
-    {
-        holdCoolStatus = true;
-        holdStatus = true;
-        Debug.Log("쿨다운 시작");
-        useStamina = false;
-        yield return new WaitForSeconds(1f);
-        if (holdKeyStatus)
-        {
-            useStamina = true;
-        }
-        holdCoolStatus = false;
-        holdStatus = false;
-        holdKeyStatus = false;
-    }
-    IEnumerator CheckHoldKey()
-    {
-        useStamina = true;
-        yield return new WaitForSeconds(3);
-        useStamina = false;
-
-        if (holdKeyStatus)
-        {
-            StartCoroutine(HoldCoolDown());
-        }
     }
 
     #endregion
