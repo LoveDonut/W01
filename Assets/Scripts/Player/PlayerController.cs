@@ -221,6 +221,53 @@ public class PlayerController : MonoBehaviour
         _playerAnimator.WingFly();
     }
 
+    void heightDown()
+    {
+        tempVector = _myRigidbody.velocity;
+        _myRigidbody.velocity = new Vector2(tempVector.x - 3f, tempVector.y - 12f);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (hp <= 0) return;
+        if (other.gameObject.CompareTag("Feather"))
+        {
+            feather++;
+        }
+
+        if (other.gameObject.CompareTag("Wind"))
+        {
+            windEffect.Play();
+            if (_myRigidbody.velocity.y > 0)
+            {
+                _myRigidbody.velocity += windPower;
+            }
+            else
+            {
+                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, windPower.y);
+            }
+        }
+
+        if (other.gameObject.CompareTag("HPup"))
+        {
+            hp += 10;
+            if (hp >= maxHP)
+            {
+                hp = maxHP;
+            }
+        }
+        if (other.gameObject.CompareTag("Comet"))
+        {
+            heightDown();
+        }
+
+        if (other.gameObject.CompareTag("Sun"))
+        {
+            _gameClear.EnterSun();
+
+        }
+    }
+
     IEnumerator FlyCoolDown()
     {
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
@@ -291,52 +338,4 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    void heightDown(){
-        tempVector = _myRigidbody.velocity;
-        _myRigidbody.velocity = new Vector2(tempVector.x-3f, tempVector.y-12f);
-    }
-
-    void OnTriggerEnter2D(Collider2D other){
-        if (hp <= 0) return;
-        if(other.gameObject.CompareTag("Feather")){
-            feather++;
-        }
-
-        if(other.gameObject.CompareTag("Wind")){
-            windEffect.Play();
-            if (_myRigidbody.velocity.y > 0)
-            {
-                _myRigidbody.velocity += windPower;
-            }
-            else
-            {
-                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, windPower.y);
-            }
-        }
-
-        if (other.gameObject.CompareTag("HPup")){
-            hp += 10;
-            if(hp >= maxHP){
-                hp = maxHP;
-            }
-        }
-
-        if(other.gameObject.CompareTag("HPdown")){
-            Damage(10);
-            if(hp<=0){
-                //gameover
-                hp = 0;
-            }
-        }
-
-        if(other.gameObject.CompareTag("Comet")){
-            heightDown();
-        }
-
-        if (other.gameObject.CompareTag("Sun"))
-        {
-            _gameClear.EnterSun();
-
-        }
-    }
 }

@@ -55,6 +55,9 @@ TagManager:
   - name: BackgroundObject
     uniqueID: 552859633
     locked: 0
+  - name: Sky Island
+    uniqueID: 2445340687
+    locked: 0
   - name: Player
     uniqueID: 394289223
     locked: 0
