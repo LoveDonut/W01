@@ -6,22 +6,29 @@ using UnityEngine.Playables;
 public class Comet : MonoBehaviour
 {
     [SerializeField] ParticleSystem deadParticleSystem;
+    [SerializeField] float _cometPower = 10f;
 
-    private Rigidbody2D cometRb;
-    private PlayerState playerState;
-    private FollowCamera followCamera;
+    Rigidbody2D cometRb;
+    PlayerState playerState;
+    FollowCamera followCamera;
+    HeightManager heightManager;
 
-    void Start()
+    void Awake()
     {
         playerState = FindObjectOfType<PlayerState>();
         followCamera = FindObjectOfType<FollowCamera>();
         cometRb = GetComponent<Rigidbody2D>();
+        heightManager = FindObjectOfType<HeightManager>();
+    }
+
+    void Start()
+    {
         float randomYSpeed = Random.Range(-5, -9);
         cometRb.AddForce(new Vector2(-2,randomYSpeed),ForceMode2D.Impulse);
     }
 
     void Update(){
-        if(transform.position.y <= 430.0f){
+        if(transform.position.y <= heightManager._spaceHeight){
             Destroy(gameObject);
         }
     }
@@ -32,7 +39,7 @@ public class Comet : MonoBehaviour
             Destroy(instance, instance.main.duration + instance.main.startLifetime.constantMax);
             followCamera.HitCameraEffect();
             cometRb.velocity = Vector2.zero;
-            cometRb.AddForce(Vector2.down*7, ForceMode2D.Impulse);
+            cometRb.AddForce(Vector2.down* _cometPower, ForceMode2D.Impulse);
             Destroy(gameObject);
         }
     }

@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
             Vector3 directionToSun = (_sunTransform.position - transform.position).normalized;
             _myRigidbody.velocity = directionToSun * speedMoveToSunAfterClear;
         }
-        else
+        else if (PlayerState._state != PlayerState.State.toSpace)
         {
             SetDirection();
             JumpStart();
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SetDirection()
+    void SetDirection()
     {
         transform.localScale = new Vector3(_direction, 1f, 1f);
 
@@ -146,10 +146,10 @@ public class PlayerController : MonoBehaviour
             _playerAnimator.WingGlide();
             _holdVelocity = _myRigidbody.velocity;
             _gravityBefore = _myRigidbody.gravityScale;
-            useStamina = true;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
+            useStamina = true;
             _playerAnimator.WingGlide();
             _holdCoolTime = 1f;
             if (_myRigidbody.velocity.y > 0f)
@@ -341,11 +341,9 @@ public class PlayerController : MonoBehaviour
         hp = Mathf.Clamp(hp - damage, 0f, maxHP);
     }
 
-    public void ReducePlayerXSpeed(float power)
+    public void ReducePlayerXSpeed(float powerRate)
     {
-        Debug.Log("before - " + _myRigidbody.velocity.x);
-        _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x / 2f, 0);
-        Debug.Log("after - "+ _myRigidbody.velocity.x);
+        _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x * powerRate, 0);
     }
     #endregion
 

@@ -9,13 +9,13 @@ public class HeightManager : MonoBehaviour
     #region PrivateVariables
 
 
-
+    [SerializeField] Transform _sunTransform;
     [SerializeField] float _damageByTimeInSpace = 2f;
 
-    public float _skyHeight = 50f;
-    public float _spaceHeight = 350f;
     public float _sunHeight;
-    public float _backPowerInSpace = 10f;
+    public float _skyIslandHeight = 250f;
+    public float _spaceHeight = 400f;
+    public float _backPowerInSpace = 0.5f;
 
 
     PlayerController _playerController;
@@ -36,20 +36,27 @@ public class HeightManager : MonoBehaviour
         _playerState = FindObjectOfType<PlayerState>();
     }
 
+    void Start()
+    {
+        _sunHeight = _sunTransform.position.y;
+    }
+
     void Update()
     {
-        if(_playerState.transform.position.y > _spaceHeight && !_isStageChanged)
+        if(_playerState.transform.position.y > _spaceHeight)
         {
-            EnterSpace();
+            if(!_isStageChanged)
+            {
+                EnterSpace();
+            }
+            _playerController.Damage(_damageDelta * Time.deltaTime);
         }
-        _playerController.Damage(_damageDelta * Time.deltaTime);
     }
 
     void EnterSpace()
     {
-        _playerController.ReducePlayerXSpeed(_backPowerInSpace);
-        _playerState.SetState(PlayerState.State.toSpace);
         _isStageChanged = true;
+        _playerState.SetState(PlayerState.State.toSpace);
         _damageDelta = _damageByTimeInSpace;
     }
 

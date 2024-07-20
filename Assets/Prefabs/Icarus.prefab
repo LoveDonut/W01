@@ -126,7 +126,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 394289223
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
@@ -210,7 +210,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 394289223
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -294,7 +294,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 394289223
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 0.8679245, g: 0.6765308, b: 0.19241722, a: 1}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 5157636425727128004}
   - component: {fileID: 2583857823422583995}
   - component: {fileID: 8657959479673111575}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Icarus
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -360,24 +360,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1aaf193518452647bebe50e112cfb47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpDirection: {x: 20, y: 40}
+  _jumpDirection: {x: 13, y: 23}
   _minPower: 1
   _maxPower: 3
   _backOffset: -6
   _backSpeed: 5
   _goSpeed: 20
   _jumpCostMultiply: 1.5
-  _flyPower: {x: 5, y: 40}
-  _flyCost: 10
+  _flyPower: {x: 5, y: 50}
+  _flyCost: 0
   _flyEffect: {fileID: 2401490763958257390}
   _holdDownSpeed: -5
-  _holdCost: 25
-  windPower: {x: 0, y: 0}
+  _gravityScale: 1.5
+  windPower: {x: 5, y: 20}
+  windEffect: {fileID: 0}
   _sunTransform: {fileID: 0}
   speedMoveToSunAfterClear: 10
-  maxHP: 1000
+  maxHP: 100
   feather: 0
+  _holdCoolTime: 1
   _didJump: 0
+  flyTutorial: 1
+  jumpTutorial: 1
+  holdTutorial: 1
+  useStamina: 0
   IsAlive: 1
   IsGameStart: 0
   hp: 0
@@ -494,7 +500,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.01
+  m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 0}
@@ -562,7 +568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6122569235248376908, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
       propertyPath: m_SortingLayer
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6122569235248376908, guid: 235dc493c211bf44c9befb36c7c83872, type: 3}
       propertyPath: m_SortingOrder
