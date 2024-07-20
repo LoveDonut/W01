@@ -70,7 +70,7 @@ public class FollowCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (PlayerState._state == PlayerState.State.water) return;
+        if (PlayerState._state == PlayerState.State.water || PlayerState._state == PlayerState.State.clear) return;
         MoveCamera();
     }
 

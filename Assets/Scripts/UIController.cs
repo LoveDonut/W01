@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     float addJumpPower;
     float currentJumpPower;
     float staminaTime = 3;
+    float _staminaValue;
 
     public GameObject heightManager;
     public GameObject spaceLongTutorial;
@@ -186,9 +187,16 @@ public class UIController : MonoBehaviour
         }
         else if (!_playerController.useStamina && _playerController._holdCoolTime <= 0)
         {
-            staminaTime += Time.deltaTime / 2f;
+            staminaTime = Mathf.Clamp(staminaTime + Time.deltaTime / 2f, 0f, 3f);
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
+
+        _staminaValue = staminaSlider.GetComponent<Slider>().value;
+    }
+
+    public float GetStamina()
+    {
+        return _staminaValue;
     }
 
     public void ChangeStateAfterRestart()

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Hold")]
     [SerializeField] float _holdDownSpeed = -5f;
-    [SerializeField] float _holdCost = 2f;
+    [SerializeField] float _gravityScale = 3f;
 
     [Header("Wind")]
     [SerializeField] Vector2 windPower;
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     PlayerState _playerState;
     PlayerAnimator _playerAnimator;
     GameClear _gameClear;
+    UIController _uiController;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -53,11 +54,10 @@ public class PlayerController : MonoBehaviour
     public bool holdTutorial = true;
     public bool useStamina = false;
     bool _canFly = true;
-    bool holdKeyStatus = false;
-    bool holdCoolStatus = false;
     bool _isSpaceKeyDown = false;
 
     float _startTime, _endTime;
+    float _gravityBefore;
     float _direction = 1f;
     #endregion
 
@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
         _playerState = GetComponent<PlayerState>();
         _playerAnimator = GetComponent<PlayerAnimator>();
         _gameClear = FindObjectOfType<GameClear>();
+        _uiController = FindObjectOfType<UIController>();
     }
 
     void Start()
@@ -134,12 +135,17 @@ public class PlayerController : MonoBehaviour
     void Hold()
     {
         _holdCoolTime = Mathf.Clamp(_holdCoolTime - Time.deltaTime, 0f, 1f);
-        if (!_didJump) return;
+        if (!_didJump || _uiController.GetStamina() <= 0f)
+        {
+            useStamina = false;
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             holdTutorial = false;
             _playerAnimator.WingGlide();
             _holdVelocity = _myRigidbody.velocity;
+            _gravityBefore = _myRigidbody.gravityScale;
             useStamina = true;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -148,16 +154,26 @@ public class PlayerController : MonoBehaviour
             _holdCoolTime = 1f;
             if (_myRigidbody.velocity.y > 0f)
             {
-                _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdVelocity.y);
+                _myRigidbody.gravityScale = _gravityScale;
             }
             else
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
+            if (_direction > 0f)
+            {
+                _myRigidbody.velocity = new Vector2(Mathf.Abs(_myRigidbody.velocity.x), _myRigidbody.velocity.y);
+            }
+            else
+            {
+                _myRigidbody.velocity = new Vector2(-Mathf.Abs(_myRigidbody.velocity.x), _myRigidbody.velocity.y);
+            }
+
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
         {
             useStamina = false;
+            _myRigidbody.gravityScale = _gravityBefore;
         }
     }
 
@@ -296,7 +312,7 @@ public class PlayerController : MonoBehaviour
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
         yield return new WaitForSeconds(flyCoolDown);
         _canFly = true;
-        if (PlayerState._state != PlayerState.State.toSpace)
+        if (PlayerState._state != PlayerState.State.toSpace || PlayerState._state != PlayerState.State.clear)
         {
             _playerState.SetState(PlayerState.State.recover);
         }
