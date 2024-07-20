@@ -46,25 +46,24 @@ public class PlayerController : MonoBehaviour
 
     public float maxHP = 100;
     public int feather = 0;
+    public float _holdCoolTime = 1f;
     public bool _didJump;
     public bool flyTutorial = true;
     public bool jumpTutorial = true;
     public bool holdTutorial = true;
     public bool useStamina = false;
     bool _canFly = true;
-    bool holdStatus = false;
     bool holdKeyStatus = false;
     bool holdCoolStatus = false;
     bool _isSpaceKeyDown = false;
 
     float _startTime, _endTime;
+    float _direction = 1f;
     #endregion
 
     #region PublicVariables
     public bool IsAlive = true;
-    // { get { return hp > 0; } set { } }
     public bool IsGameStart = false;
-    // { get { return _playerState._state != PlayerState.State.LookupSun; } }
     public float hp;
     #endregion
 
@@ -85,6 +84,7 @@ public class PlayerController : MonoBehaviour
             maxHP += StrengthenData.instance.maxHpUp;
             _jumpDirection += StrengthenData.instance.jumpPowerUp;
             feather = StrengthenData.instance.feather;
+            transform.position = StrengthenData.instance._position;
         }
         hp = maxHP;
     }
@@ -99,36 +99,53 @@ public class PlayerController : MonoBehaviour
         }
         else if (PlayerState._state == PlayerState.State.clear)
         {
-//            Debug.Log(PlayerState._state);
             Vector3 directionToSun = (_sunTransform.position - transform.position).normalized;
             _myRigidbody.velocity = directionToSun * speedMoveToSunAfterClear;
         }
         else
         {
+            SetDirection();
             JumpStart();
             Fly();
             Hold();
         }
     }
 
+    private void SetDirection()
+    {
+        transform.localScale = new Vector3(_direction, 1f, 1f);
+
+        if (!_didJump) return;
+
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            _direction = -1f;
+            _flyPower = new Vector2(-Mathf.Abs(_flyPower.x), _flyPower.y);
+            windPower = new Vector2(-Mathf.Abs(windPower.x), windPower.y);
+        }
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            _direction = 1f;
+            _flyPower = new Vector2(Mathf.Abs(_flyPower.x), _flyPower.y);
+            windPower = new Vector2(Mathf.Abs(windPower.x), windPower.y);
+        }
+    }
+
     void Hold()
     {
-        if (!_didJump || holdStatus) return;
+        _holdCoolTime = Mathf.Clamp(_holdCoolTime - Time.deltaTime, 0f, 1f);
+        if (!_didJump) return;
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             holdTutorial = false;
             _playerAnimator.WingGlide();
             _holdVelocity = _myRigidbody.velocity;
+            useStamina = true;
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-
-            if (!holdKeyStatus)
-            {
-                holdKeyStatus = true;
-                StartCoroutine(CheckHoldKey());
-            }
             _playerAnimator.WingGlide();
+            _holdCoolTime = 1f;
             if (_myRigidbody.velocity.y > 0f)
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdVelocity.y);
@@ -137,23 +154,10 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_holdVelocity.x, _holdDownSpeed);
             }
-            if (!holdStatus)
-            {
-                Damage(Time.deltaTime * _holdCost);
-            }
         }
-
         if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
         {
-            if(!holdCoolStatus){
-            holdStatus = true;
-            holdKeyStatus = false;
-            StartCoroutine(HoldCoolDown());}else{
-                holdStatus = false;
-                holdKeyStatus = false;
-                holdCoolStatus = false;
-                useStamina = false;
-            }
+            useStamina = false;
         }
     }
 
@@ -163,7 +167,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("hihi");
             _playerAnimator.BodyBack();
             _startTime = Time.time;
             _jumpPosition = transform.position;
@@ -188,28 +191,40 @@ public class PlayerController : MonoBehaviour
             _playerState.SetState(PlayerState.State.recover);
             _playerAnimator.BodyFly();
             _playerAnimator.WingJump();
-            Debug.Log(jumpCost);
         }
     }
 
     void Fly()
     {
-        Debug.Log(PlayerState._state);
         if(hp < _flyCost || !_didJump || !_canFly) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _playerAnimator.WingJumpReset();
             _flyEffect.Play();
-            if (_myRigidbody.velocity.y > 0)
+
+            // for x speed
+            if(_myRigidbody.velocity.x * _direction < 0)
             {
-                _myRigidbody.velocity += _flyPower;
+                _myRigidbody.velocity = new Vector2(-1f * _myRigidbody.velocity.x, _myRigidbody.velocity.y);
             }
             else
             {
-                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x + _flyPower.x, _flyPower.y);
+                _myRigidbody.velocity += new Vector2(_flyPower.x, 0f);
             }
+
+            // for y speed
+            if (_myRigidbody.velocity.y > 0)
+            {
+                _myRigidbody.velocity += new Vector2(_myRigidbody.velocity.x, _flyPower.y);
+            }
+            else
+            {
+                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, _flyPower.y);
+            }
+
             Damage(_flyCost);
+
             _canFly = false;
             flyTutorial = false;
             if (PlayerState._state != PlayerState.State.toSpace)
@@ -268,6 +283,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("SkyIsland"))
+        {
+            _didJump = false;
+        }
+    }
+
     IEnumerator FlyCoolDown()
     {
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
@@ -294,34 +317,6 @@ public class PlayerController : MonoBehaviour
         jumpTutorial = false;
         Damage(jumpCost);
     }
-
-    IEnumerator HoldCoolDown()
-    {
-        holdCoolStatus = true;
-        holdStatus = true;
-        Debug.Log("쿨다운 시작");
-        useStamina = false;
-        yield return new WaitForSeconds(1f);
-        if (holdKeyStatus)
-        {
-            useStamina = true;
-        }
-        holdCoolStatus = false;
-        holdStatus = false;
-        holdKeyStatus = false;
-    }
-    IEnumerator CheckHoldKey()
-    {
-        useStamina = true;
-        yield return new WaitForSeconds(3);
-        useStamina = false;
-
-        if (holdKeyStatus)
-        {
-            StartCoroutine(HoldCoolDown());
-        }
-    }
-
     #endregion
 
     #region PublicMethods

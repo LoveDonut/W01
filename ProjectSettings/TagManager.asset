@@ -12,6 +12,7 @@ TagManager:
   - Apollon
   - Wind
   - Sun
+  - SkyIsland
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - SkyIsland
   - 
   - 
   - 
@@ -55,6 +56,9 @@ TagManager:
   - name: BackgroundObject
     uniqueID: 552859633
     locked: 0
+  - name: Item
+    uniqueID: 1960272259
+    locked: 0
   - name: Sky Island
     uniqueID: 2445340687
     locked: 0
@@ -63,7 +67,4 @@ TagManager:
     locked: 0
   - name: Tower
     uniqueID: 3217122591
-    locked: 0
-  - name: Item
-    uniqueID: 1960272259
     locked: 0

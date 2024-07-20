@@ -15,6 +15,7 @@ public class StrengthenData : MonoBehaviour
     public int feather;
     public Vector2 jumpPowerUp;
     public float sliderValue;
+    public Vector3 _position;
 
     void Awake()
     {

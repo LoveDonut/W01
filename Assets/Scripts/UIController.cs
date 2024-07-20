@@ -6,7 +6,7 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    PlayerController playerController;
+    PlayerController _playerController;
     PlayerState _playerState;
     Vector2 jumpPowerUp;
     float playerHeight;
@@ -18,7 +18,6 @@ public class UIController : MonoBehaviour
     float currentJumpPower;
     float staminaTime = 3;
 
-    public GameObject player;
     public GameObject heightManager;
     public GameObject spaceLongTutorial;
     public GameObject spaceShortTutorial;
@@ -67,7 +66,7 @@ public class UIController : MonoBehaviour
         _playerState = GetComponent<PlayerState>();
         jumpPowerUp = GetComponent<Strengthen>()._jumpPowerUp;
         strengthen = FindObjectOfType<Strengthen>();
-        playerController = FindObjectOfType<PlayerController>();
+        _playerController = FindObjectOfType<PlayerController>();
 
         if (!StrengthenData.instance.isRestart)
         {
@@ -83,56 +82,55 @@ public class UIController : MonoBehaviour
     void Start()
     {
         sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
-        playerHeight = player.transform.position.y;
-        currentJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
+        playerHeight = _playerController.transform.position.y;
+        currentJumpPower = (_playerController._jumpDirection.x + _playerController._jumpDirection.y) / 2f;
         addJumpPower = currentJumpPower;
     }
 
 
     void Update()
     {
-        currentJumpPower = (playerController._jumpDirection.x + playerController._jumpDirection.y) / 2f;
+        currentJumpPower = (_playerController._jumpDirection.x + _playerController._jumpDirection.y) / 2f;
         addJumpPower = ((jumpPowerUp.x + jumpPowerUp.y) / 2) + currentJumpPower;
-        addMaxHP = player.GetComponent<PlayerController>().maxHP + GetComponent<Strengthen>()._maxHpUp;
-        playerHeight = player.transform.position.y;
+        addMaxHP = _playerController.maxHP + GetComponent<Strengthen>()._maxHpUp;
+        playerHeight = _playerController.transform.position.y;
 
-        // �����̴�
         heightSlider.value = playerHeight / sunHeight;
-        healthSlider.maxValue = player.GetComponent<PlayerController>().maxHP;
-        healthSlider.value = player.GetComponent<PlayerController>().hp;
+        healthSlider.maxValue = _playerController.maxHP;
+        healthSlider.value = _playerController.hp;
 
-        // text ���� ����
-        healthText.text = (int)player.GetComponent<PlayerController>().hp + " / " + player.GetComponent<PlayerController>().maxHP;
+        // text
+        healthText.text = (int)_playerController.hp + " / " + _playerController.maxHP;
         if(StrengthenData.instance != null)
         {
-            float powerUpOffset = ((playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).y + (playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).x) / 2f;
+            float powerUpOffset = ((_playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).y + (_playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).x) / 2f;
             jumpPowerText.text = "JumpPower : " + (StrengthenData.instance.defaultJumpPower.x + StrengthenData.instance.defaultJumpPower.y) / 2 + " ( + " + powerUpOffset + " )";
         }
         else
         {
             jumpPowerText.text = "JumpPower : " + currentJumpPower + " ( + 0 )";
         }
-        featherText.text = "" + player.GetComponent<PlayerController>().feather;
+        featherText.text = "" + _playerController.feather;
 
 
 
         jumpPowerUpText.text = "" + addJumpPower;
         addMaxHPText.text = "" + addMaxHP;
-        featherInfoText.text = "" + player.GetComponent<PlayerController>().feather;
+        featherInfoText.text = "" + _playerController.feather;
 
         
         currentJumpPowerText.text = "" + currentJumpPower;
-        currentMaxHPText.text = "" + player.GetComponent<PlayerController>().maxHP;
+        currentMaxHPText.text = "" + _playerController.maxHP;
 
 
 
 
-        // UI Ȯ�ο�
+        // UI
         if (Input.GetKeyDown(KeyCode.Space))
         {
             titleUI.SetActive(false);
         }
-        if (player.GetComponent<PlayerController>().IsGameStart)
+        if (_playerController.IsGameStart)
         {
             gameUI.SetActive(true);
             if (!StrengthenData.instance.isRestart)
@@ -142,23 +140,23 @@ public class UIController : MonoBehaviour
                 SpaceLongArrow.SetBool("IsGameStart", true);
             }
         }
-        if (!player.GetComponent<PlayerController>().jumpTutorial && !StrengthenData.instance.isRestart)
+        if (!_playerController.jumpTutorial && !StrengthenData.instance.isRestart)
         {
             spaceLongTutorial.SetActive(false);
             spaceShortTutorial.SetActive(true);
         }
-        if (!player.GetComponent<PlayerController>().flyTutorial && !StrengthenData.instance.isRestart)
+        if (!_playerController.flyTutorial && !StrengthenData.instance.isRestart)
         {
             spaceShortTutorial.SetActive(false);
             shiftTutorial.SetActive(true);
             ShiftKey.SetBool("IsGameStart", true);
             ShiftArrow.SetBool("IsGameStart", true);
         }
-        if (!player.GetComponent<PlayerController>().holdTutorial && !StrengthenData.instance.isRestart)
+        if (!_playerController.holdTutorial && !StrengthenData.instance.isRestart)
         {
             shiftTutorial.SetActive(false);
         }
-        if (!player.GetComponent<PlayerController>().IsAlive)
+        if (!_playerController.IsAlive)
         {
             spaceLongTutorial.SetActive(false);
             spaceShortTutorial.SetActive(false);
@@ -166,7 +164,7 @@ public class UIController : MonoBehaviour
             gameOverUI.SetActive(true);
             gameUI.SetActive(false);
         }
-        if (player.GetComponent<PlayerController>().feather <= 0)
+        if (_playerController.feather <= 0)
         {
             jumpPowerUpBtn.GetComponent<Button>().interactable = false;
             addMaxHPBtn.GetComponent<Button>().interactable = false;
@@ -181,16 +179,14 @@ public class UIController : MonoBehaviour
             bestHeightSlider.GetComponent<Slider>().value = heightSlider.GetComponent<Slider>().value;
             StrengthenData.instance.sliderValue = bestHeightSlider.GetComponent<Slider>().value;
         }
-        if (player.GetComponent<PlayerController>().useStamina)
+        if (_playerController.useStamina)
         {
-            staminaObject.SetActive(true);
             staminaTime -= Time.deltaTime;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
-        else if (!player.GetComponent<PlayerController>().useStamina)
+        else if (!_playerController.useStamina && _playerController._holdCoolTime <= 0)
         {
-            staminaObject.SetActive(false);
-            staminaTime = 3f;
+            staminaTime += Time.deltaTime / 2f;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
     }

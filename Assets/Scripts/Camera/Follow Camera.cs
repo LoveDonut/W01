@@ -17,7 +17,7 @@ public class FollowCamera : MonoBehaviour
     #region PrivateVariables
     [Header("When Ground")]
     [SerializeField] float _backSize = 5f;
-    [SerializeField] float _defaultSize = 7f;
+    [SerializeField] float _defaultSize = 10f;
     [SerializeField] float _downSizeSpeed = -2.5f;
 
     [Header("When Space")]
@@ -64,7 +64,6 @@ public class FollowCamera : MonoBehaviour
     void Start()
     {
         sizeReductionWhenDash = 1f;
-        _sunBelowPosition += _sunTransform.position;
         _followPosition = new Vector3(7f, 0f, -10f);
         upSizeSpeed = _downSizeSpeed * -2f;
     }
@@ -93,13 +92,13 @@ public class FollowCamera : MonoBehaviour
         }
         else if (cameraState == CameraState.moveToSun)
         {
-            if (isCameraNear(_sunBelowPosition))
+            if (isCameraNear(_sunBelowPosition + _sunTransform.position))
             {
                 StartCoroutine(CameraStateChangeDelay(_lookUpSunDuration, CameraState.moveToPlayer));
             }
             else
             {
-                MoveTo(_sunBelowPosition);
+                MoveTo(_sunBelowPosition + _sunTransform.position);
             }
         }
         else if (cameraState == CameraState.moveToPlayer)

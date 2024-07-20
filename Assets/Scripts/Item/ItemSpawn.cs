@@ -17,7 +17,7 @@ public class ItemSpawn : MonoBehaviour
     int maxX = 0;
 
     public float sunHeight = 930;
-    public float spaceHeight = 430;
+    public float spaceHeight = 400;
     public float minCloudHeight = 10;
     public float maxCloudHeight = 400;
     public float starHeight = 430;
