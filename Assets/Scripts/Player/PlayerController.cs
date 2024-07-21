@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform _sunTransform;
     [SerializeField] float speedMoveToSunAfterClear = 10f;
     [SerializeField] float _maxXSpeed = 30f;
+    [SerializeField] Transform _skyIslandTransform;
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
@@ -112,7 +113,6 @@ public class PlayerController : MonoBehaviour
             JumpStart();
             Fly();
             Hold();
-            CheckOnSkyIsland();
             LimitSpeed();
         }
     }
@@ -122,14 +122,28 @@ public class PlayerController : MonoBehaviour
         _myRigidbody.velocity = new Vector2(Mathf.Clamp(_myRigidbody.velocity.x, -_maxXSpeed, _maxXSpeed), _myRigidbody.velocity.y);
     }
 
-    private void CheckOnSkyIsland()
-    {
-        if(GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("SkyIsland")))
-        {
-            _selectItem = true;
 
-            _heightManager._enteringSpace = true;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // when land on SkyIsland
+        if (collision.gameObject.CompareTag("SkyIsland") && collision.GetContact(0).normal.y > 0)
+        {
+            _uiController.TurnOnActiveItemUI();
+            _selectItem = true;
             _didJump = false;
+            _heightManager._enteringSpace = true;
+
+            // set direction not to fall during move back
+            if(_skyIslandTransform.position.x > transform.position.x)
+            {
+                Debug.Log("to watch back");
+                _direction = -1f;
+            }
+            else
+            {
+                Debug.Log("to watch front");
+                _direction = 1f;
+            }
         }
     }
 
@@ -214,7 +228,7 @@ public class PlayerController : MonoBehaviour
         {
             if(transform.position.x > _jumpPosition.x + _backOffset)
             {
-                transform.position -= new Vector3(_backSpeed * Time.deltaTime, 0);
+                transform.position -= new Vector3(_backSpeed * _direction * Time.deltaTime, 0);
             }
         }
         if (Input.GetKeyUp(KeyCode.Space) && _isSpaceKeyDown)

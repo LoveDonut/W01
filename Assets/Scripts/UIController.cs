@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     PlayerController _playerController;
     PlayerState _playerState;
     Strengthen strengthen;
+    FollowCamera _followCamera;
     Vector2 jumpPowerUp;
     float playerHeight;
     float firstJumpPower;
@@ -46,6 +47,7 @@ public class UIController : MonoBehaviour
 
     [Header("Text")]
     public TMP_Text featherText;
+    public TMP_Text featherTextInActiveItem;
     public TMP_Text healthText;
     public TMP_Text jumpPowerText;
     public TMP_Text currentJumpPowerText;
@@ -69,6 +71,7 @@ public class UIController : MonoBehaviour
         _playerState = GetComponent<PlayerState>();
         jumpPowerUp = strengthen._jumpPowerUp;
         _playerController = FindObjectOfType<PlayerController>();
+        _followCamera = FindObjectOfType<FollowCamera>();
 
         if (!StrengthenData.instance.isRestart)
         {
@@ -102,7 +105,7 @@ public class UIController : MonoBehaviour
 
         // text
         healthText.text = (int)_playerController.hp + " / " + _playerController.maxHP;
-        if(StrengthenData.instance != null)
+        if (StrengthenData.instance != null)
         {
             float powerUpOffset = ((_playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).y + (_playerController._jumpDirection - StrengthenData.instance.defaultJumpPower).x) / 2f;
             jumpPowerText.text = "JumpPower : " + (StrengthenData.instance.defaultJumpPower.x + StrengthenData.instance.defaultJumpPower.y) / 2 + " ( + " + powerUpOffset + " )";
@@ -112,7 +115,10 @@ public class UIController : MonoBehaviour
             jumpPowerText.text = "JumpPower : " + currentJumpPower + " ( + 0 )";
         }
         featherText.text = "" + _playerController.feather;
-
+        if (featherTextInActiveItem != null)
+        {
+            featherTextInActiveItem.text = "" + _playerController.feather;
+        }
 
 
         jumpPowerUpText.text = "" + addJumpPower;
@@ -193,14 +199,6 @@ public class UIController : MonoBehaviour
 
         _staminaValue = staminaSlider.GetComponent<Slider>().value;
 
-        if (_playerController._selectItem)
-        {
-            ActiveItemUI.SetActive(true);
-        }
-        else
-        {
-            ActiveItemUI.SetActive(false);
-        }
     }
 
     public float GetStamina()
@@ -218,5 +216,11 @@ public class UIController : MonoBehaviour
     {
         _playerController._selectItem = false;
         ActiveItemUI.SetActive(false);
+        _followCamera.cameraState = FollowCamera.CameraState.moveToSun;
+    }
+
+    public void TurnOnActiveItemUI()
+    {
+        ActiveItemUI.SetActive(true);
     }
 }

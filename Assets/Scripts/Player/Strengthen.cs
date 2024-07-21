@@ -48,12 +48,14 @@ public class Strengthen : MonoBehaviour
     public void SetShield()
     {
         if (_playerController.feather < 5) return;
+        _playerController.feather -= 5;
         _shield.SetActive(true);
     }
 
     public void SetOxygenTank()
     {
         if (_playerController.feather < 5) return;
+        _playerController.feather -= 5;
         _oxygenTank.SetActive(true);
     }
 

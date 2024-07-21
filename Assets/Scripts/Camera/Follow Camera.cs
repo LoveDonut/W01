@@ -6,7 +6,7 @@ using UnityEngine;
 // By Daehee
 public class FollowCamera : MonoBehaviour
 {
-    enum CameraState
+    public enum CameraState
     {
         notStart,
         moveToSun,
@@ -28,8 +28,10 @@ public class FollowCamera : MonoBehaviour
     [Header("When Dash")]
     [SerializeField] float _downSizeSpeedWhenDash = -5f;
 
-    [Header("When Look up Sun")]
-    [SerializeField] Vector3 _sunBelowPosition = new Vector3(0f, -30f);
+    [Header("When Look up Sun / SkyIsland")]
+    [SerializeField] Vector3 _sunBelowPosition = new Vector3(-25f, -30f);
+    [SerializeField] Vector3 _skyIslandUpPosition = new Vector3(0, 10f);
+    [SerializeField] Transform _skyIslandTransform;
     [SerializeField] float _startDelay = 0.5f;
     [SerializeField] float _lookUpSunDuration = 2f;
 
@@ -41,7 +43,6 @@ public class FollowCamera : MonoBehaviour
     PlayerState _playerState;
     HeightManager _heightManager;
     Vector3 _followPosition, _followDashPosition;
-    CameraState cameraState = CameraState.notStart;
 
     float sizeReductionWhenDash;
     float upSizeSpeed;
@@ -53,6 +54,7 @@ public class FollowCamera : MonoBehaviour
     #region PublicVariables
 
     public Transform _sunTransform;
+    public CameraState cameraState = CameraState.notStart;
 
     #endregion
 
@@ -95,13 +97,14 @@ public class FollowCamera : MonoBehaviour
         }
         else if (cameraState == CameraState.moveToSun)
         {
-            if (isCameraNear(_sunBelowPosition + _sunTransform.position))
+            Vector3 followPosition = !_heightManager._enteringSpace ? _skyIslandTransform.position + _skyIslandUpPosition : _sunBelowPosition + _sunTransform.position;
+            if (isCameraNear(followPosition))
             {
                 StartCoroutine(CameraStateChangeDelay(_lookUpSunDuration, CameraState.moveToPlayer));
             }
             else
             {
-                MoveTo(_sunBelowPosition + _sunTransform.position);
+                MoveTo(followPosition);
             }
         }
         else if (cameraState == CameraState.moveToPlayer)

@@ -356,18 +356,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1563927046}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 666616515}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: AfterSelectItem
@@ -11426,11 +11414,14 @@ MonoBehaviour:
   _sizeReductionInSpace: 5
   _downSizeSpeedInSpace: -10
   _downSizeSpeedWhenDash: -5
-  _sunBelowPosition: {x: 0, y: -40, z: 0}
+  _sunBelowPosition: {x: -25, y: -30, z: 0}
+  _skyIslandUpPosition: {x: 0, y: 10, z: 0}
+  _skyIslandTransform: {fileID: 1282309258}
   _startDelay: 0.5
   _lookUpSunDuration: 1
   _cameraMoveSpeed: 0.05
   _sunTransform: {fileID: 1103844772}
+  cameraState: 0
 --- !u!114 &178096495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14617,6 +14608,7 @@ MonoBehaviour:
   healthSlider: {fileID: 596893451}
   staminaSlider: {fileID: 834290422}
   featherText: {fileID: 1514559343}
+  featherTextInActiveItem: {fileID: 192877289}
   healthText: {fileID: 1352973803}
   jumpPowerText: {fileID: 1352379933}
   currentJumpPowerText: {fileID: 676943371}
@@ -17961,6 +17953,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261425728}
   m_CullTransparentMesh: 1
+--- !u!1 &1282309257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5097147039194546089, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
+  m_PrefabInstance: {fileID: 149192848}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1282309258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6269876813821736556, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
+  m_PrefabInstance: {fileID: 149192848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1291524939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17983,15 +17985,23 @@ PrefabInstance:
       objectReference: {fileID: 1408205713}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _gravityScale
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _sunTransform
       value: 
       objectReference: {fileID: 1103844772}
+    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: _skyIslandTransform
+      value: 
+      objectReference: {fileID: 1282309258}
     - target: {fileID: 8657959479673111575, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LinearDrag
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20590,11 +20600,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sunTransform: {fileID: 1103844772}
+  _skyIsland: {fileID: 1282309257}
   _damageByTimeInSpace: 2
   _sunHeight: 900
   _skyIslandHeight: 300
   _spaceHeight: 100
-  _backPowerInSpace: 0.5
   _enteringSpace: 0
   _inSpace: 0
 --- !u!4 &1815505644
