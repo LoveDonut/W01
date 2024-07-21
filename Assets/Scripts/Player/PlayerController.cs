@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speedMoveToSunAfterClear = 10f;
     [SerializeField] float _maxXSpeed = 30f;
     [SerializeField] Transform _skyIslandTransform;
+    [SerializeField] GameObject LandingTutorial;
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
@@ -132,9 +133,10 @@ public class PlayerController : MonoBehaviour
             _selectItem = true;
             _didJump = false;
             _heightManager._enteringSpace = true;
+            LandingTutorial.SetActive(false);
 
             // set direction not to fall during move back
-            if(_skyIslandTransform.position.x > transform.position.x)
+            if (_skyIslandTransform.position.x > transform.position.x)
             {
                 Debug.Log("to watch back");
                 _direction = -1f;
@@ -357,7 +359,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
+        _myRigidbody.AddForce(elapsedTime * _jumpDirection * new Vector2(_direction, 1f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.3f);
         _playerState.SetState(PlayerState.State.recover);
         _didJump = true;
