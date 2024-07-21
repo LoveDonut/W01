@@ -16,21 +16,20 @@ public class FollowCamera : MonoBehaviour
 
     #region PrivateVariables
     [Header("When Ground")]
-    [SerializeField] float _backSize = 5f;
+    [SerializeField] float _backSize = 8f;
     [SerializeField] float _defaultSize = 10f;
     [SerializeField] float _downSizeSpeed = -2.5f;
 
     [Header("When Space")]
-    [SerializeField] float _spaceSize = 15f;
-    [SerializeField] float _sizeReductionInSpace = 3f;
+    [SerializeField] float _spaceSize = 25f;
+    [SerializeField] float _sizeReductionInSpace = 5f;
     [SerializeField] float _downSizeSpeedInSpace = -10f;
 
     [Header("When Dash")]
     [SerializeField] float _downSizeSpeedWhenDash = -5f;
 
     [Header("When Look up Sun")]
-    [SerializeField] Vector3 _sunBelowPosition = new Vector3(-15f, -15f);
-    [SerializeField] Transform _sunTransform;
+    [SerializeField] Vector3 _sunBelowPosition = new Vector3(0f, -30f);
     [SerializeField] float _startDelay = 0.5f;
     [SerializeField] float _lookUpSunDuration = 2f;
 
@@ -40,6 +39,7 @@ public class FollowCamera : MonoBehaviour
     Camera _camera;
     PlayerController _player;
     PlayerState _playerState;
+    HeightManager _heightManager;
     Vector3 _followPosition, _followDashPosition;
     CameraState cameraState = CameraState.notStart;
 
@@ -51,6 +51,9 @@ public class FollowCamera : MonoBehaviour
     #endregion
 
     #region PublicVariables
+
+    public Transform _sunTransform;
+
     #endregion
 
     #region PrivateMethods
@@ -59,6 +62,7 @@ public class FollowCamera : MonoBehaviour
         _camera = GetComponent<Camera>();
         _player = FindObjectOfType<PlayerController>();
         _playerState = FindObjectOfType<PlayerState>();
+        _heightManager = FindObjectOfType<HeightManager>();
     }
 
     void Start()
@@ -86,7 +90,6 @@ public class FollowCamera : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                Debug.Log("i'm in MoveCamera");
                 StartCoroutine(CameraStateChangeDelay(_startDelay, CameraState.moveToSun));
             }
         }
@@ -156,6 +159,7 @@ public class FollowCamera : MonoBehaviour
                     DownSize(_backSize, _downSizeSpeed * Time.deltaTime);
                     break;
                 case PlayerState.State.dash:
+                    if (_heightManager._enteringSpace) break;
                     DownSize(_defaultSize - sizeReductionWhenDash, _downSizeSpeedWhenDash * Time.deltaTime);
                     break;
                 case PlayerState.State.recover:
@@ -217,6 +221,7 @@ public class FollowCamera : MonoBehaviour
 
         if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)
         {
+            _heightManager._enteringSpace = false;
             _playerState.SetState(PlayerState.State.follow);
         }
     }
@@ -229,5 +234,11 @@ public class FollowCamera : MonoBehaviour
         _playerState.SetState(PlayerState.State.shake);
         elapsedShakeTime = 0;
     }
+
+    public void SetDefualtSize(float size)
+    {
+        _defaultSize = size;
+    }
+
     #endregion
 }

@@ -8,9 +8,9 @@ public class UIController : MonoBehaviour
 {
     PlayerController _playerController;
     PlayerState _playerState;
+    Strengthen strengthen;
     Vector2 jumpPowerUp;
     float playerHeight;
-    float sunHeight;
     float firstJumpPower;
     float addingJumpPower;
     float addMaxHP;
@@ -24,7 +24,7 @@ public class UIController : MonoBehaviour
     public GameObject spaceShortTutorial;
     public GameObject shiftTutorial;
     public GameObject staminaObject;
-    public Strengthen strengthen;
+    public float sunHeight;
 
     [Header("Animator")]
     public Animator SpaceLongKey;
@@ -61,12 +61,13 @@ public class UIController : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject subtitleUI;
     public GameObject statusUI;
+    public GameObject ActiveItemUI;
 
     void Awake()
     {
-        _playerState = GetComponent<PlayerState>();
-        jumpPowerUp = GetComponent<Strengthen>()._jumpPowerUp;
         strengthen = FindObjectOfType<Strengthen>();
+        _playerState = GetComponent<PlayerState>();
+        jumpPowerUp = strengthen._jumpPowerUp;
         _playerController = FindObjectOfType<PlayerController>();
 
         if (!StrengthenData.instance.isRestart)
@@ -82,7 +83,6 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
-        sunHeight = heightManager.GetComponent<HeightManager>()._sunHeight;
         playerHeight = _playerController.transform.position.y;
         currentJumpPower = (_playerController._jumpDirection.x + _playerController._jumpDirection.y) / 2f;
         addJumpPower = currentJumpPower;
@@ -93,7 +93,7 @@ public class UIController : MonoBehaviour
     {
         currentJumpPower = (_playerController._jumpDirection.x + _playerController._jumpDirection.y) / 2f;
         addJumpPower = ((jumpPowerUp.x + jumpPowerUp.y) / 2) + currentJumpPower;
-        addMaxHP = _playerController.maxHP + GetComponent<Strengthen>()._maxHpUp;
+        addMaxHP = _playerController.maxHP + strengthen._maxHpUp;
         playerHeight = _playerController.transform.position.y;
 
         heightSlider.value = playerHeight / sunHeight;
@@ -192,6 +192,15 @@ public class UIController : MonoBehaviour
         }
 
         _staminaValue = staminaSlider.GetComponent<Slider>().value;
+
+        if (_playerController._selectItem)
+        {
+            ActiveItemUI.SetActive(true);
+        }
+        else
+        {
+            ActiveItemUI.SetActive(false);
+        }
     }
 
     public float GetStamina()
@@ -203,5 +212,11 @@ public class UIController : MonoBehaviour
     {
         PlayerState._state = PlayerState.State.NotStart;
         gameUI.SetActive(true);
+    }
+
+    public void AfterSelectItem()
+    {
+        _playerController._selectItem = false;
+        ActiveItemUI.SetActive(false);
     }
 }

@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _backOffset = -6f;
     [SerializeField] float _backSpeed = 5f;
     [SerializeField] float _goSpeed = 20f;
-    [SerializeField] float _jumpCostMultiply = 1.5f;
 
     [Header("Fly")]
     [SerializeField] Vector2 _flyPower = new Vector2(1.5f, 25f);
@@ -33,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("Others")]
     [SerializeField] Transform _sunTransform;
     [SerializeField] float speedMoveToSunAfterClear = 10f;
+    [SerializeField] float _maxXSpeed = 30f;
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     PlayerAnimator _playerAnimator;
     GameClear _gameClear;
     UIController _uiController;
+    HeightManager _heightManager;
 
     Vector2 _holdVelocity;
     Vector2 _jumpPosition;
@@ -53,12 +54,14 @@ public class PlayerController : MonoBehaviour
     public bool jumpTutorial = true;
     public bool holdTutorial = true;
     public bool useStamina = false;
+    public bool _selectItem = false;
     bool _canFly = true;
     bool _isSpaceKeyDown = false;
 
     float _startTime, _endTime;
     float _gravityBefore;
     float _direction = 1f;
+
     #endregion
 
     #region PublicVariables
@@ -76,6 +79,7 @@ public class PlayerController : MonoBehaviour
         _playerAnimator = GetComponent<PlayerAnimator>();
         _gameClear = FindObjectOfType<GameClear>();
         _uiController = FindObjectOfType<UIController>();
+        _heightManager = FindObjectOfType<HeightManager>();
     }
 
     void Start()
@@ -92,8 +96,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
-        if (!IsGameStart) return;
+        if (!IsGameStart || _selectItem) return;
         if (PlayerState._state == PlayerState.State.water)
         {
             _myRigidbody.velocity = new Vector2(1f, -3f);
@@ -109,6 +112,24 @@ public class PlayerController : MonoBehaviour
             JumpStart();
             Fly();
             Hold();
+            CheckOnSkyIsland();
+            LimitSpeed();
+        }
+    }
+
+    private void LimitSpeed()
+    {
+        _myRigidbody.velocity = new Vector2(Mathf.Clamp(_myRigidbody.velocity.x, -_maxXSpeed, _maxXSpeed), _myRigidbody.velocity.y);
+    }
+
+    private void CheckOnSkyIsland()
+    {
+        if(GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("SkyIsland")))
+        {
+            _selectItem = true;
+
+            _heightManager._enteringSpace = true;
+            _didJump = false;
         }
     }
 
@@ -201,10 +222,13 @@ public class PlayerController : MonoBehaviour
             _playerAnimator.BodyRun();
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
-            int jumpCost = Mathf.RoundToInt(-(transform.position.x + 6) * _jumpCostMultiply);
 
-            StartCoroutine(GoJump(elapsedTime, jumpCost));
-            _playerState.SetState(PlayerState.State.recover);
+            if(_heightManager._enteringSpace)
+            {
+                _heightManager.EnterSpace();
+                _heightManager._inSpace = true;
+            }
+            StartCoroutine(GoJump(elapsedTime));
             _playerAnimator.BodyFly();
             _playerAnimator.WingJump();
         }
@@ -299,14 +323,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("SkyIsland"))
-        {
-            _didJump = false;
-        }
-    }
-
     IEnumerator FlyCoolDown()
     {
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
@@ -318,7 +334,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator GoJump(float elapsedTime, int jumpCost)
+    IEnumerator GoJump(float elapsedTime)
     {
         while (transform.position.x < _jumpPosition.x)
         {
@@ -329,9 +345,9 @@ public class PlayerController : MonoBehaviour
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.3f);
+        _playerState.SetState(PlayerState.State.recover);
         _didJump = true;
         jumpTutorial = false;
-        Damage(jumpCost);
     }
     #endregion
 

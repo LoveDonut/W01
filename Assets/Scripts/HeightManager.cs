@@ -16,17 +16,15 @@ public class HeightManager : MonoBehaviour
     public float _skyIslandHeight = 250f;
     public float _spaceHeight = 400f;
     public float _backPowerInSpace = 0.5f;
+    public bool _enteringSpace = false;
+    public bool _inSpace = false;
 
 
     PlayerController _playerController;
     PlayerState _playerState;
 
     float _damageDelta;
-    bool _isStageChanged = false;
 
-    #endregion
-
-    #region PublicVariables
     #endregion
 
     #region PrivateMethods
@@ -38,31 +36,23 @@ public class HeightManager : MonoBehaviour
 
     void Start()
     {
-        _sunHeight = _sunTransform.position.y;
     }
 
     void Update()
     {
-        if(_playerState.transform.position.y > _spaceHeight)
+        if(_inSpace)
         {
-            if(!_isStageChanged)
-            {
-                EnterSpace();
-            }
             _playerController.Damage(_damageDelta * Time.deltaTime);
         }
-    }
-
-    void EnterSpace()
-    {
-        _isStageChanged = true;
-        _playerState.SetState(PlayerState.State.toSpace);
-        _damageDelta = _damageByTimeInSpace;
     }
 
     #endregion
 
     #region PublicMethods
+    public void EnterSpace()
+    {
+        _playerState.SetState(PlayerState.State.toSpace);
+        _damageDelta = _damageByTimeInSpace;
+    }
     #endregion
-
 }

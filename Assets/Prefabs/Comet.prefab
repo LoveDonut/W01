@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadParticleSystem: {fileID: 6212625720311760639, guid: f95df847c4c6eba49b6c76b7ef2700f5, type: 3}
+  _cometPower: 30
 --- !u!95 &7472715402719990990
 Animator:
   serializedVersion: 5
