@@ -8,6 +8,11 @@ public class PlayerAnimator : MonoBehaviour
     public Animator bodyAnim;
     public Animator wingAnim;
 
+    public void BodyIdle()
+    {
+        bodyAnim.Play("Idle");
+        wingAnim.Play("Idle");
+    }
     public void BodyBack()
     {
         bodyAnim.SetTrigger("_readyToJump");

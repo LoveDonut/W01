@@ -10,12 +10,13 @@ public class HeightManager : MonoBehaviour
 
 
     [SerializeField] Transform _sunTransform;
-    [SerializeField] GameObject _skyIsland;
+    [SerializeField] Transform _skyIslandTransform;
     [SerializeField] float _damageByTimeInSpace = 2f;
 
-    public float _sunHeight;
-    public float _skyIslandHeight = 250f;
-    public float _spaceHeight = 400f;
+    [HideInInspector] public float _sunHeight;
+    [HideInInspector] public float _skyIslandHeight;
+    [HideInInspector] public float _spaceHeight;
+    
     public bool _enteringSpace = false;
     public bool _inSpace = false;
 
@@ -36,6 +37,9 @@ public class HeightManager : MonoBehaviour
 
     void Start()
     {
+        _sunHeight = _sunTransform.position.y;
+        _skyIslandHeight = _skyIslandTransform.position.y;
+        _spaceHeight = _skyIslandTransform.position.y + 100f;
     }
 
     void Update()
@@ -51,7 +55,6 @@ public class HeightManager : MonoBehaviour
     #region PublicMethods
     public void EnterSpace()
     {
-        _skyIsland.GetComponent<BoxCollider2D>().enabled = false;
         _playerState.SetState(PlayerState.State.toSpace);
         _damageDelta = _damageByTimeInSpace;
     }

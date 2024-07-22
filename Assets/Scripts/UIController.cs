@@ -217,6 +217,7 @@ public class UIController : MonoBehaviour
         _playerController._selectItem = false;
         ActiveItemUI.SetActive(false);
         _followCamera.cameraState = FollowCamera.CameraState.moveToSun;
+        _playerController.MovePlayerToCenterofSkyIsland();
     }
 
     public void TurnOnActiveItemUI()

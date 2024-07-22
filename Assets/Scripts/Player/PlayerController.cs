@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform _sunTransform;
     [SerializeField] float speedMoveToSunAfterClear = 10f;
     [SerializeField] float _maxXSpeed = 30f;
-    [SerializeField] Transform _skyIslandTransform;
+    [SerializeField] GameObject _skyIsland;
     [SerializeField] GameObject LandingTutorial;
 
     Rigidbody2D _myRigidbody;
@@ -111,16 +111,32 @@ public class PlayerController : MonoBehaviour
         else if (PlayerState._state != PlayerState.State.toSpace)
         {
             SetDirection();
-            JumpStart();
+            if(_followCamera.cameraState == FollowCamera.CameraState.follow)
+            {
+                JumpStart();
+            }
             Fly();
             Hold();
-            LimitSpeed();
         }
+        LimitMove();
     }
 
-    private void LimitSpeed()
+    void LimitMove()
     {
         _myRigidbody.velocity = new Vector2(Mathf.Clamp(_myRigidbody.velocity.x, -_maxXSpeed, _maxXSpeed), _myRigidbody.velocity.y);
+
+        // No Move On SkyIsland
+        if (GetComponent<CapsuleCollider2D>().IsTouchingLayers(LayerMask.GetMask("SkyIsland")))
+        {
+            if (_skyIsland.transform.position.x + _skyIsland.transform.localScale.x * 0.49f < transform.position.x)
+            {
+                transform.position = new Vector2(_skyIsland.transform.position.x + _skyIsland.transform.localScale.x * 0.49f, transform.position.y);
+            }
+            else if (transform.position.x < _skyIsland.transform.position.x - _skyIsland.transform.localScale.x * 0.49f)
+            {
+                transform.position = new Vector2(_skyIsland.transform.position.x - _skyIsland.transform.localScale.x * 0.49f, transform.position.y);
+            }
+        }
     }
 
 
@@ -134,18 +150,10 @@ public class PlayerController : MonoBehaviour
             _didJump = false;
             _heightManager._enteringSpace = true;
             LandingTutorial.SetActive(false);
+            _playerAnimator.BodyIdle();
 
-            // set direction not to fall during move back
-            if (_skyIslandTransform.position.x > transform.position.x)
-            {
-                Debug.Log("to watch back");
-                _direction = -1f;
-            }
-            else
-            {
-                Debug.Log("to watch front");
-                _direction = 1f;
-            }
+            // set direction to front
+            _direction = 1f;
         }
     }
 
@@ -230,8 +238,17 @@ public class PlayerController : MonoBehaviour
         {
             if(transform.position.x > _jumpPosition.x + _backOffset)
             {
-                transform.position -= new Vector3(_backSpeed * _direction * Time.deltaTime, 0);
+                transform.position -= new Vector3(_backSpeed * Time.deltaTime, 0);
+//                Debug.Log($"position : {transform.position} / adder : {_backSpeed * Time.deltaTime}");
             }
+            //if (_direction > 0 && transform.position.x > _jumpPosition.x + _backOffset)
+            //{
+            //    transform.position -= new Vector3(_backSpeed * _direction * Time.deltaTime, 0);
+            //}
+            //else if (_direction < 0 && transform.position.x < _jumpPosition.x - _backOffset)
+            //{
+            //    transform.position -= new Vector3(_backSpeed * _direction * Time.deltaTime, 0);
+            //}
         }
         if (Input.GetKeyUp(KeyCode.Space) && _isSpaceKeyDown)
         {
@@ -239,11 +256,6 @@ public class PlayerController : MonoBehaviour
             _endTime = Time.time;
             float elapsedTime = Mathf.Clamp(_endTime - _startTime, _minPower, _maxPower);
 
-            if(_heightManager._enteringSpace)
-            {
-                _heightManager.EnterSpace();
-                _heightManager._inSpace = true;
-            }
             StartCoroutine(GoJump(elapsedTime));
             _playerAnimator.BodyFly();
             _playerAnimator.WingJump();
@@ -315,7 +327,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, windPower.y);
+                _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, windPower.y * 1.5f);
             }
         }
 
@@ -358,6 +370,31 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
+            //if (_direction > 0)
+            //{
+            //    while (transform.position.x < _jumpPosition.x)
+            //    {
+            //        transform.position += new Vector3(_goSpeed * Time.deltaTime, 0);
+
+            //        yield return new WaitForEndOfFrame();
+            //    }
+            //}
+            //else
+            //{
+            //    while (transform.position.x > _jumpPosition.x)
+            //    {
+            //        transform.position += new Vector3(_goSpeed * Time.deltaTime, 0);
+
+            //        yield return new WaitForEndOfFrame();
+            //    }
+            //}
+
+        if (_heightManager._enteringSpace)
+        {
+            _heightManager.EnterSpace();
+            _heightManager._inSpace = true;
+            _skyIsland.GetComponent<BoxCollider2D>().enabled = false;
+        }
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection * new Vector2(_direction, 1f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.3f);
@@ -376,6 +413,11 @@ public class PlayerController : MonoBehaviour
     public void ReducePlayerXSpeed(float powerRate)
     {
         _myRigidbody.velocity -= new Vector2(_myRigidbody.velocity.x * powerRate, 0);
+    }
+
+    public void MovePlayerToCenterofSkyIsland()
+    {
+        transform.position = new Vector2(_skyIsland.transform.position.x, transform.position.y);
     }
     #endregion
 
