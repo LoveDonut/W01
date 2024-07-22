@@ -35,8 +35,8 @@ public class SpawnItem : MonoBehaviour
 
     void SpawnItems()
     {
-        float startX = _backgroundObject.transform.position.x - _backgroundSize.x / 2;
-        float endX = _backgroundObject.transform.position.x + _backgroundSize.x / 2;
+        float startX = _backgroundObject.transform.position.x - _backgroundSize.x * 0.3f;
+        float endX = _backgroundObject.transform.position.x + _backgroundSize.x * 0.3f;
         float startY = _backgroundObject.transform.position.y - _backgroundSize.y / 2 + 50f;
         float endY = _backgroundObject.transform.position.y + _backgroundSize.y / 2;
 

@@ -14,6 +14,7 @@ public class PlayerState : MonoBehaviour
         dash,
         recover,
         toSpace,
+        cometEvent,
         shake,
         water,
         clear

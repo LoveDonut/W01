@@ -8,7 +8,7 @@ public class HeightManager : MonoBehaviour
 {
     #region PrivateVariables
 
-
+    [SerializeField] GameObject _oxygenTank;
     [SerializeField] Transform _sunTransform;
     [SerializeField] Transform _skyIslandTransform;
     [SerializeField] float _damageByTimeInSpace = 2f;
@@ -16,7 +16,8 @@ public class HeightManager : MonoBehaviour
     [HideInInspector] public float _sunHeight;
     [HideInInspector] public float _skyIslandHeight;
     [HideInInspector] public float _spaceHeight;
-    
+
+    public float _cometSpawnY = 800f;
     public bool _enteringSpace = false;
     public bool _inSpace = false;
 
@@ -35,15 +36,9 @@ public class HeightManager : MonoBehaviour
         _playerState = FindObjectOfType<PlayerState>();
     }
 
-    void Start()
-    {
-        _skyIslandHeight = _skyIslandTransform.position.y;
-        _spaceHeight = _skyIslandTransform.position.y + 100f;
-    }
-
     void Update()
     {
-        if(_inSpace)
+        if(_inSpace && !_oxygenTank.activeInHierarchy)
         {
             _playerController.Damage(_damageDelta * Time.deltaTime);
         }
@@ -61,6 +56,12 @@ public class HeightManager : MonoBehaviour
     public void SetSunHeight(float y)
     {
         _sunHeight = y;
+    }
+
+    public void SetSkyIslandHeight(float y)
+    {
+        _skyIslandHeight = y;
+        _spaceHeight = y + 100f;
     }
     #endregion
 }

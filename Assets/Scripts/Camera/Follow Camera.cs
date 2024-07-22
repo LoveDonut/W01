@@ -35,6 +35,10 @@ public class FollowCamera : MonoBehaviour
     [SerializeField] float _startDelay = 0.5f;
     [SerializeField] float _lookUpSunDuration = 2f;
 
+    [Header("When Big Comet Event")]
+    [SerializeField] float _lookUpDurationWhenBigCometEvent = 2f;
+    [SerializeField] float _sizeWhenCometEvent = 100f;
+
     [Header("Others")]
     [SerializeField] float _cameraMoveSpeed = 0.7f;
 
@@ -97,7 +101,9 @@ public class FollowCamera : MonoBehaviour
         }
         else if (cameraState == CameraState.moveToSun)
         {
-            Vector3 followPosition = !_heightManager._enteringSpace ? _skyIslandTransform.position + _skyIslandUpPosition : _sunBelowPosition + _sunTransform.position;
+            Vector3 followPosition = !_heightManager._enteringSpace ? 
+                     _skyIslandTransform.position + _skyIslandUpPosition : _sunBelowPosition + _sunTransform.position;
+
             if (isCameraNear(followPosition))
             {
                 StartCoroutine(CameraStateChangeDelay(_lookUpSunDuration, CameraState.moveToPlayer));
@@ -166,12 +172,15 @@ public class FollowCamera : MonoBehaviour
                     DownSize(_defaultSize - sizeReductionWhenDash, _downSizeSpeedWhenDash * Time.deltaTime);
                     break;
                 case PlayerState.State.recover:
-                    RecoverSize(upSizeSpeed * Time.deltaTime);
+                    RecoverSize(upSizeSpeed * Time.deltaTime, 0.1f);
                     break;
                 case PlayerState.State.toSpace:
                     sizeReductionWhenDash = _sizeReductionInSpace;
                     _downSizeSpeedWhenDash = _downSizeSpeedInSpace;
-                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime);
+                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime, 0.1f);
+                    break;
+                case PlayerState.State.cometEvent:
+                    UpSize(_sizeWhenCometEvent, upSizeSpeed * Time.deltaTime, 1f);
                     break;
                 default:
                     break;
@@ -205,13 +214,13 @@ public class FollowCamera : MonoBehaviour
         }
     }
 
-    void UpSize(float targetSize, float delta)
+    void UpSize(float targetSize, float delta, float diff)
     {
         _defaultSize = targetSize;
-        RecoverSize(delta);
+        RecoverSize(delta, diff);
     }
 
-    void RecoverSize(float delta)
+    void RecoverSize(float delta, float diff)
     {
         if(_camera.orthographicSize < _defaultSize)
         {
@@ -222,12 +231,16 @@ public class FollowCamera : MonoBehaviour
             _camera.orthographicSize -= delta;
         }
 
-        if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < 0.1f)
+        if(Mathf.Abs(_camera.orthographicSize - _defaultSize) < diff)
         {
+            if(_heightManager._inSpace)
+            {
+                _defaultSize = _spaceSize;
+            }
             _heightManager._enteringSpace = false;
             _playerState.SetState(PlayerState.State.follow);
         }
-    }
+    }   
     #endregion
 
     #region PublicMethods

@@ -42,11 +42,14 @@ public class Dead : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Water"))
+        if (collision.CompareTag("Water") || (collision.CompareTag("SkyIsland")) && _playerController.hp <= 0)
         {
             _playerState.GameOver();
 
-            FallInWaterEffect(collision);
+            if(collision.CompareTag("Water"))
+            {
+                FallInWaterEffect(collision);
+            }
             StartCoroutine(Restart());
         }
     }

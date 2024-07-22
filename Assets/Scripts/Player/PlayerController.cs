@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     Vector2 _jumpPosition;
     Vector2 tempVector;
 
+    [HideInInspector] public Vector3 _fixedPosition, _fixedVelocity;
     public float maxHP = 100;
     public int feather = 0;
     public float _holdCoolTime = 1f;
@@ -96,8 +97,16 @@ public class PlayerController : MonoBehaviour
         hp = maxHP;
     }
 
+    PlayerState.State beforeState = PlayerState.State.NotStart;
+
     void Update()
     {
+        if(beforeState != PlayerState._state)
+        {
+            Debug.Log($"{beforeState} -> {PlayerState._state}");
+        }
+        beforeState = PlayerState._state;
+
         if (!IsGameStart || _selectItem) return;
         if (PlayerState._state == PlayerState.State.water)
         {
@@ -123,31 +132,18 @@ public class PlayerController : MonoBehaviour
 
     void LimitMove()
     {
-        float skyIslandHalfOfX = _skyIsland.GetComponent<BoxCollider2D>().bounds.size.x / 2f;
+        float skyIslandHalfOfX = _skyIsland.GetComponent<BoxCollider2D>().bounds.size.x * 0.45f;
         _myRigidbody.velocity = new Vector2(Mathf.Clamp(_myRigidbody.velocity.x, -_maxXSpeed, _maxXSpeed), _myRigidbody.velocity.y);
 
-        // No Move On SkyIsland
-        if (GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("SkyIsland")))
-        {
-            if (_skyIsland.transform.position.x + skyIslandHalfOfX < transform.position.x)
-            {
-                transform.position = new Vector2(_skyIsland.transform.position.x + skyIslandHalfOfX, transform.position.y);
-                Debug.Log("right over!");
-            }
-            else if (transform.position.x < _skyIsland.transform.position.x - skyIslandHalfOfX)
-            {
-                transform.position = new Vector2(_skyIsland.transform.position.x - skyIslandHalfOfX, transform.position.y);
-                Debug.Log("left over!");
-            }
-        }
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // when land on SkyIsland
-        if (collision.gameObject.CompareTag("SkyIsland") && collision.GetContact(0).normal.y > 0)
+        if (collision.gameObject.CompareTag("SkyIsland") && collision.GetContact(0).normal.y > 0 && hp > 0)
         {
+            transform.position = new Vector2(_skyIsland.transform.position.x, transform.position.y);
             _uiController.TurnOnActiveItemUI();
             _selectItem = true;
             _didJump = false;
@@ -242,16 +238,7 @@ public class PlayerController : MonoBehaviour
             if(transform.position.x > _jumpPosition.x + _backOffset)
             {
                 transform.position -= new Vector3(_backSpeed * Time.deltaTime, 0);
-//                Debug.Log($"position : {transform.position} / adder : {_backSpeed * Time.deltaTime}");
             }
-            //if (_direction > 0 && transform.position.x > _jumpPosition.x + _backOffset)
-            //{
-            //    transform.position -= new Vector3(_backSpeed * _direction * Time.deltaTime, 0);
-            //}
-            //else if (_direction < 0 && transform.position.x < _jumpPosition.x - _backOffset)
-            //{
-            //    transform.position -= new Vector3(_backSpeed * _direction * Time.deltaTime, 0);
-            //}
         }
         if (Input.GetKeyUp(KeyCode.Space) && _isSpaceKeyDown)
         {
@@ -298,19 +285,13 @@ public class PlayerController : MonoBehaviour
 
             _canFly = false;
             flyTutorial = false;
-            if (PlayerState._state != PlayerState.State.toSpace)
+            if (PlayerState._state != PlayerState.State.toSpace && PlayerState._state != PlayerState.State.cometEvent)
             {
                 _playerState.SetState(PlayerState.State.dash);
             }
             StartCoroutine(FlyCoolDown());
         }
         _playerAnimator.WingFly();
-    }
-
-    void heightDown()
-    {
-        tempVector = _myRigidbody.velocity;
-        _myRigidbody.velocity = new Vector2(tempVector.x - 3f, tempVector.y - 12f);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -342,10 +323,6 @@ public class PlayerController : MonoBehaviour
                 hp = maxHP;
             }
         }
-        if (other.gameObject.CompareTag("Comet"))
-        {
-            heightDown();
-        }
 
         if (other.gameObject.CompareTag("Sun"))
         {
@@ -359,7 +336,7 @@ public class PlayerController : MonoBehaviour
         float flyCoolDown = _flyEffect.main.duration + _flyEffect.main.startLifetime.constantMax;
         yield return new WaitForSeconds(flyCoolDown);
         _canFly = true;
-        if (PlayerState._state != PlayerState.State.toSpace || PlayerState._state != PlayerState.State.clear)
+        if (PlayerState._state != PlayerState.State.toSpace && PlayerState._state != PlayerState.State.clear && PlayerState._state != PlayerState.State.cometEvent)
         {
             _playerState.SetState(PlayerState.State.recover);
         }
@@ -373,24 +350,6 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-            //if (_direction > 0)
-            //{
-            //    while (transform.position.x < _jumpPosition.x)
-            //    {
-            //        transform.position += new Vector3(_goSpeed * Time.deltaTime, 0);
-
-            //        yield return new WaitForEndOfFrame();
-            //    }
-            //}
-            //else
-            //{
-            //    while (transform.position.x > _jumpPosition.x)
-            //    {
-            //        transform.position += new Vector3(_goSpeed * Time.deltaTime, 0);
-
-            //        yield return new WaitForEndOfFrame();
-            //    }
-            //}
 
         if (_heightManager._enteringSpace)
         {

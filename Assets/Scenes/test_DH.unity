@@ -1027,6 +1027,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8132861288964705848, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1640777801}
+    - target: {fileID: 8132861288964705848, guid: 1ff64a02301eb654a96533777c6d223f, type: 3}
+      propertyPath: _cometSpawnY
+      value: 800
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1169,7 +1177,7 @@ Transform:
   m_GameObject: {fileID: 178096490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 7, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1200,6 +1208,8 @@ MonoBehaviour:
   _skyIslandTransform: {fileID: 1282309258}
   _startDelay: 0.5
   _lookUpSunDuration: 1
+  _lookUpDurationWhenBigCometEvent: 2
+  _sizeWhenCometEvent: 40
   _cameraMoveSpeed: 0.05
   _sunTransform: {fileID: 1103844772}
   cameraState: 0
@@ -5810,7 +5820,7 @@ Transform:
   m_GameObject: {fileID: 857954109}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -581.3187, y: 251.77032, z: -3.7846048}
+  m_LocalPosition: {x: 0, y: 850, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7187,10 +7197,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: _maxXSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _skyIsland
       value: 
       objectReference: {fileID: 1282309257}
@@ -7199,10 +7205,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1408205713}
     - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: _gravityScale
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: _sunTransform
       value: 
       objectReference: {fileID: 1103844772}
@@ -7210,18 +7212,6 @@ PrefabInstance:
       propertyPath: LandingTutorial
       value: 
       objectReference: {fileID: 1145178791}
-    - target: {fileID: 6450769031913113351, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: _skyIslandTransform
-      value: 
-      objectReference: {fileID: 1282309258}
-    - target: {fileID: 8657959479673111575, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: m_LinearDrag
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8686576739983331737, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.74
@@ -9085,6 +9075,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624532128}
   m_CullTransparentMesh: 1
+--- !u!1 &1640777801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5305612198432411384, guid: a1c20308c599ba341819574f1bf623aa, type: 3}
+  m_PrefabInstance: {fileID: 1291524939}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672030314
 GameObject:
   m_ObjectHideFlags: 0
@@ -9824,6 +9819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d9a0ff000fd1f43876676961e40d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _oxygenTank: {fileID: 0}
   _sunTransform: {fileID: 1103844772}
   _skyIslandTransform: {fileID: 1282309258}
   _damageByTimeInSpace: 2
