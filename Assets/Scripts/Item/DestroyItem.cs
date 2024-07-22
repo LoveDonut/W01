@@ -6,6 +6,7 @@ public class DestroyItem : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.CompareTag("Player")){
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }

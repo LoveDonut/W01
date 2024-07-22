@@ -485,17 +485,18 @@ MonoBehaviour:
   _backOffset: -6
   _backSpeed: 5
   _goSpeed: 20
-  _flyPower: {x: 2, y: 25}
-  _flyCost: 0
+  _flyPower: {x: 2, y: 30}
+  _flyCost: 5
   _flyEffect: {fileID: 2401490763958257390}
   _holdDownSpeed: -5
   _gravityScale: 2
-  windPower: {x: 5, y: 20}
+  windPower: {x: 3, y: 30}
   windEffect: {fileID: 0}
   _sunTransform: {fileID: 0}
   speedMoveToSunAfterClear: 10
   _maxXSpeed: 30
   _skyIsland: {fileID: 0}
+  _landingYPosition: 270
   LandingTutorial: {fileID: 0}
   _fixedPosition: {x: 0, y: 0, z: 0}
   _fixedVelocity: {x: 0, y: 0, z: 0}
@@ -813,6 +814,10 @@ PrefabInstance:
     - target: {fileID: 2139405957859374309, guid: 2fb793f54f367be4e9c86dbc20c427cc, type: 3}
       propertyPath: m_Name
       value: shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 2139405957859374309, guid: 2fb793f54f367be4e9c86dbc20c427cc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector2 _flyPower = new Vector2(1.5f, 25f);
     [SerializeField] float _flyCost = 10f;
     [SerializeField] ParticleSystem _flyEffect;
+    [SerializeField] float _minX = 2f;
 
     [Header("Hold")]
     [SerializeField] float _holdDownSpeed = -5f;
@@ -34,7 +35,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speedMoveToSunAfterClear = 10f;
     [SerializeField] float _maxXSpeed = 30f;
     [SerializeField] GameObject _skyIsland;
+    [SerializeField] float _landingYPosition = 256f;
     [SerializeField] GameObject LandingTutorial;
+
 
     Rigidbody2D _myRigidbody;
     FollowCamera _followCamera;
@@ -60,6 +63,7 @@ public class PlayerController : MonoBehaviour
     public bool _selectItem = false;
     bool _canFly = true;
     bool _isSpaceKeyDown = false;
+    bool _alreadyLand;
 
     float _startTime, _endTime;
     float _gravityBefore;
@@ -141,9 +145,11 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // when land on SkyIsland
-        if (collision.gameObject.CompareTag("SkyIsland") && collision.GetContact(0).normal.y > 0 && hp > 0)
+        if (collision.gameObject.CompareTag("SkyIsland") && hp > 0 && !_alreadyLand)
         {
-            transform.position = new Vector2(_skyIsland.transform.position.x, transform.position.y);
+            _alreadyLand = true;
+            transform.position = new Vector2(_skyIsland.transform.position.x, _landingYPosition);
+            _myRigidbody.velocity = new Vector3(0f, 0f);
             _uiController.TurnOnActiveItemUI();
             _selectItem = true;
             _didJump = false;
@@ -280,6 +286,17 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, _flyPower.y);
             }
+            if(-_minX < _myRigidbody.velocity.x && _myRigidbody.velocity.x < _minX)
+            {
+                if(-_minX < _myRigidbody.velocity.x)
+                {
+                    _myRigidbody.velocity = new Vector3(-_minX, _myRigidbody.velocity.y);
+                }
+                else
+                {
+                    _myRigidbody.velocity = new Vector3(_minX, _myRigidbody.velocity.y);
+                }
+            }
 
             Damage(_flyCost);
 
@@ -296,7 +313,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (hp <= 0) return;
+        if (hp < 0.5f) return;
         if (other.gameObject.CompareTag("Feather"))
         {
             feather++;
@@ -313,11 +330,23 @@ public class PlayerController : MonoBehaviour
             {
                 _myRigidbody.velocity = new Vector2(_myRigidbody.velocity.x, windPower.y * 1.5f);
             }
+            if (-_minX < _myRigidbody.velocity.x && _myRigidbody.velocity.x < _minX)
+            {
+                if (-_minX < _myRigidbody.velocity.x)
+                {
+                    _myRigidbody.velocity = new Vector3(-_minX, _myRigidbody.velocity.y);
+                }
+                else
+                {
+                    _myRigidbody.velocity = new Vector3(_minX, _myRigidbody.velocity.y);
+                }
+            }
         }
 
         if (other.gameObject.CompareTag("HPup"))
         {
             hp += 10;
+            other.gameObject.SetActive(false);
             if (hp >= maxHP)
             {
                 hp = maxHP;
@@ -356,6 +385,7 @@ public class PlayerController : MonoBehaviour
             _heightManager.EnterSpace();
             _heightManager._inSpace = true;
             _skyIsland.GetComponent<BoxCollider2D>().enabled = false;
+            StartCoroutine(TurnOffEnteringSpace());
         }
 
         _myRigidbody.AddForce(elapsedTime * _jumpDirection * new Vector2(_direction, 1f), ForceMode2D.Impulse);
@@ -363,6 +393,12 @@ public class PlayerController : MonoBehaviour
         _playerState.SetState(PlayerState.State.recover);
         _didJump = true;
         jumpTutorial = false;
+    }
+
+    IEnumerator TurnOffEnteringSpace()
+    {
+        yield return new WaitForSeconds(4f);
+        _heightManager._enteringSpace = false;
     }
     #endregion
 

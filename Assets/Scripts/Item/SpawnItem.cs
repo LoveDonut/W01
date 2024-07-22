@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class SpawnItem : MonoBehaviour
@@ -37,10 +36,11 @@ public class SpawnItem : MonoBehaviour
     {
         float startX = _backgroundObject.transform.position.x - _backgroundSize.x * 0.3f;
         float endX = _backgroundObject.transform.position.x + _backgroundSize.x * 0.3f;
-        float startY = _backgroundObject.transform.position.y - _backgroundSize.y / 2 + 50f;
-        float endY = _backgroundObject.transform.position.y + _backgroundSize.y / 2;
+        float startY = _backgroundObject.transform.position.y - _backgroundSize.y / 2 + 120f;
+        float endY = _backgroundObject.transform.position.y + _backgroundSize.y / 2 + 100f;
 
         Debug.Log($"start : ({startX} , {startY}) / end : ({endX} , {endY})");
+        Debug.Log($"({_backgroundObject.transform.position.y} , {_backgroundSize.y})");
 
         // spawn under space
         SpawnByHeight(_itemSpacing, startX, endX, startY, endY / 2);

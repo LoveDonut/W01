@@ -33,6 +33,8 @@ public class UIController : MonoBehaviour
     public Animator SpaceShortKey;
     public Animator SpaceShortArrow;
     public Animator ShiftKey;
+    public Animator AKey;
+    public Animator DKey;
     public Animator ShiftArrow;
 
     [Header("Button")]
@@ -157,6 +159,8 @@ public class UIController : MonoBehaviour
             spaceShortTutorial.SetActive(false);
             shiftTutorial.SetActive(true);
             ShiftKey.SetBool("IsGameStart", true);
+            AKey.SetBool("IsGameStart", true);
+            DKey.SetBool("IsGameStart", true);
             ShiftArrow.SetBool("IsGameStart", true);
         }
         if (!_playerController.holdTutorial && !StrengthenData.instance.isRestart)
@@ -188,7 +192,7 @@ public class UIController : MonoBehaviour
         }
         if (_playerController.useStamina)
         {
-            staminaTime -= Time.deltaTime;
+            staminaTime -= Time.deltaTime * 0.75f;
             staminaSlider.GetComponent<Slider>().value = staminaTime;
         }
         else if (!_playerController.useStamina && _playerController._holdCoolTime <= 0)
@@ -217,6 +221,7 @@ public class UIController : MonoBehaviour
         _playerController._selectItem = false;
         ActiveItemUI.SetActive(false);
         _followCamera.cameraState = FollowCamera.CameraState.moveToSun;
+        Debug.Log(heightManager.GetComponent<HeightManager>()._enteringSpace);
         _playerController.MovePlayerToCenterofSkyIsland();
     }
 

@@ -172,12 +172,12 @@ public class FollowCamera : MonoBehaviour
                     DownSize(_defaultSize - sizeReductionWhenDash, _downSizeSpeedWhenDash * Time.deltaTime);
                     break;
                 case PlayerState.State.recover:
-                    RecoverSize(upSizeSpeed * Time.deltaTime, 0.1f);
+                    RecoverSize(upSizeSpeed * Time.deltaTime, 0.2f);
                     break;
                 case PlayerState.State.toSpace:
                     sizeReductionWhenDash = _sizeReductionInSpace;
                     _downSizeSpeedWhenDash = _downSizeSpeedInSpace;
-                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime, 0.1f);
+                    UpSize(_spaceSize, upSizeSpeed * Time.deltaTime, 0.2f);
                     break;
                 case PlayerState.State.cometEvent:
                     UpSize(_sizeWhenCometEvent, upSizeSpeed * Time.deltaTime, 1f);
@@ -237,7 +237,6 @@ public class FollowCamera : MonoBehaviour
             {
                 _defaultSize = _spaceSize;
             }
-            _heightManager._enteringSpace = false;
             _playerState.SetState(PlayerState.State.follow);
         }
     }   
