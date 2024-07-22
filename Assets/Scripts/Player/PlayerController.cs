@@ -123,18 +123,21 @@ public class PlayerController : MonoBehaviour
 
     void LimitMove()
     {
+        float skyIslandHalfOfX = _skyIsland.GetComponent<BoxCollider2D>().bounds.size.x / 2f;
         _myRigidbody.velocity = new Vector2(Mathf.Clamp(_myRigidbody.velocity.x, -_maxXSpeed, _maxXSpeed), _myRigidbody.velocity.y);
 
         // No Move On SkyIsland
-        if (GetComponent<CapsuleCollider2D>().IsTouchingLayers(LayerMask.GetMask("SkyIsland")))
+        if (GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("SkyIsland")))
         {
-            if (_skyIsland.transform.position.x + _skyIsland.transform.localScale.x * 0.49f < transform.position.x)
+            if (_skyIsland.transform.position.x + skyIslandHalfOfX < transform.position.x)
             {
-                transform.position = new Vector2(_skyIsland.transform.position.x + _skyIsland.transform.localScale.x * 0.49f, transform.position.y);
+                transform.position = new Vector2(_skyIsland.transform.position.x + skyIslandHalfOfX, transform.position.y);
+                Debug.Log("right over!");
             }
-            else if (transform.position.x < _skyIsland.transform.position.x - _skyIsland.transform.localScale.x * 0.49f)
+            else if (transform.position.x < _skyIsland.transform.position.x - skyIslandHalfOfX)
             {
-                transform.position = new Vector2(_skyIsland.transform.position.x - _skyIsland.transform.localScale.x * 0.49f, transform.position.y);
+                transform.position = new Vector2(_skyIsland.transform.position.x - skyIslandHalfOfX, transform.position.y);
+                Debug.Log("left over!");
             }
         }
     }

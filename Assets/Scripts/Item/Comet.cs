@@ -11,14 +11,14 @@ public class Comet : MonoBehaviour
     Rigidbody2D cometRb;
     PlayerState playerState;
     FollowCamera followCamera;
-    HeightManager heightManager;
+    HeightManager _heightManager;
 
     void Awake()
     {
         playerState = FindObjectOfType<PlayerState>();
         followCamera = FindObjectOfType<FollowCamera>();
         cometRb = GetComponent<Rigidbody2D>();
-        heightManager = FindObjectOfType<HeightManager>();
+        _heightManager = FindObjectOfType<HeightManager>();
     }
 
     void Start()
@@ -28,7 +28,7 @@ public class Comet : MonoBehaviour
     }
 
     void Update(){
-        if(transform.position.y <= heightManager._spaceHeight){
+        if(transform.position.y <= _heightManager._spaceHeight){
             Destroy(gameObject);
         }
     }

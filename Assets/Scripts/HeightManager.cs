@@ -37,7 +37,6 @@ public class HeightManager : MonoBehaviour
 
     void Start()
     {
-        _sunHeight = _sunTransform.position.y;
         _skyIslandHeight = _skyIslandTransform.position.y;
         _spaceHeight = _skyIslandTransform.position.y + 100f;
     }
@@ -57,6 +56,11 @@ public class HeightManager : MonoBehaviour
     {
         _playerState.SetState(PlayerState.State.toSpace);
         _damageDelta = _damageByTimeInSpace;
+    }
+
+    public void SetSunHeight(float y)
+    {
+        _sunHeight = y;
     }
     #endregion
 }

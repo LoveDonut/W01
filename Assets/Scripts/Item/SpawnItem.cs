@@ -16,16 +16,10 @@ public class SpawnItem : MonoBehaviour
     Vector2 _backgroundSize;
     #endregion
 
-    #region PublicVariables
-    #endregion
-
     #region PrivateMethods
-    #endregion
-
-
     void Awake()
     {
-        _heightManager = FindObjectOfType<HeightManager>();    
+        _heightManager = FindObjectOfType<HeightManager>();
     }
 
 
@@ -43,16 +37,16 @@ public class SpawnItem : MonoBehaviour
     {
         float startX = _backgroundObject.transform.position.x - _backgroundSize.x / 2;
         float endX = _backgroundObject.transform.position.x + _backgroundSize.x / 2;
-        float startY = _backgroundObject.transform.position.y - _backgroundSize.y / 2;
+        float startY = _backgroundObject.transform.position.y - _backgroundSize.y / 2 + 50f;
         float endY = _backgroundObject.transform.position.y + _backgroundSize.y / 2;
 
         Debug.Log($"start : ({startX} , {startY}) / end : ({endX} , {endY})");
 
         // spawn under space
-        SpawnByHeight(_itemSpacing, startX, endX, startY, endY/2);
+        SpawnByHeight(_itemSpacing, startX, endX, startY, endY / 2);
 
         // spawn on space
-        SpawnByHeight(_itemSpacing / _spawnRateInSpace, startX, endX, endY/2, endY);
+        SpawnByHeight(_itemSpacing / _spawnRateInSpace, startX, endX, endY / 2, endY);
     }
 
     private void SpawnByHeight(float itemSpacing, float startX, float endX, float startY, float endY)
@@ -76,4 +70,8 @@ public class SpawnItem : MonoBehaviour
             }
         }
     }
+    #endregion
+
+
+
 }

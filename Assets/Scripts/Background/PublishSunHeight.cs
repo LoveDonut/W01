@@ -8,6 +8,7 @@ public class PublishSunHeight : MonoBehaviour
 
     FollowCamera _followCamera;
     UIController _uiController;
+    HeightManager _heightManager;
 
     #endregion
 
@@ -16,13 +17,15 @@ public class PublishSunHeight : MonoBehaviour
     void Awake()
     {
         _followCamera = FindObjectOfType<FollowCamera>();
-        _uiController = FindObjectOfType<UIController>();    
+        _uiController = FindObjectOfType<UIController>();   
+        _heightManager = FindObjectOfType<HeightManager>();
     }
 
     void Start()
     {
         _followCamera._sunTransform = transform;
         _uiController.sunHeight = transform.position.y;
+        _heightManager.SetSunHeight(transform.position.y);
     }
 
     #endregion
