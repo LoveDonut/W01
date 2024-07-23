@@ -317,6 +317,8 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Feather"))
         {
             feather++;
+            other.gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            other.gameObject.SetActive(false);
         }
 
         if (other.gameObject.CompareTag("Wind"))
@@ -346,6 +348,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("HPup"))
         {
             hp += 10;
+            other.gameObject.GetComponent<CircleCollider2D>().enabled=false;
             other.gameObject.SetActive(false);
             if (hp >= maxHP)
             {
